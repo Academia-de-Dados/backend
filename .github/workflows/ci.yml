@@ -7,7 +7,7 @@ on:
   push:
 
 jobs:
-  tox:
+  ci:
     runs-on: ubuntu-latest
     steps:
       - name: Perform checkout
