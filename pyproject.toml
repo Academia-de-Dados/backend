@@ -1,0 +1,80 @@
+[tool.poetry]
+name = "backend"
+version = "0.1.0"
+description = ""
+authors = [
+    "taconi <igor.taconi@protonmail.com>",
+]
+packages = [
+    {include = "**/*.py"},
+]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+
+## Extras
+# test
+pytest = { version =  "^7.1.2", optional = true }
+coverage = {extras = ["toml"], version = "^6.3.2", optional = true }
+ipdb = { version = "^0.13.9", optional = true }
+
+# dev
+pre-commit = { version = "^2.18.1", optional = true }
+gitlint = { version = "^0.17.0", optional = true }
+
+# lint
+blue = { version = "^0.8.0", optional = true }
+isort = { version = "^5.10.1", optional = true }
+flake8 = { version = "^4.0.1", optional = true }
+xenon = { version = "^0.9.0", optional = true }
+pydocstyle = {extras = ["toml"], version = "^6.1.1", optional = true }
+mypy = { version = "^0.942", optional = true }
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.extras]
+test = [
+    "pytest",
+    "coverage[toml]",
+    "ipdb",
+]
+
+dev = [
+    "pre-commit",
+    "gitlint",
+]
+
+lint = [
+    "blue",
+    "isort",
+    "flake8",
+    "xenon",
+    "pydocstyle[toml]",
+    "mypy",
+]
+
+[tool.isort]
+multi_line_output = 3
+line_length = 79
+include_trailing_comma = true
+
+[tool.coverage.run]
+omit = [
+  "contextos_de_negocio/settings.py"
+]
+
+[tool.pydocstyle]
+convention = "pep257"
+match_dir = "src"
+add-ignore = "D100,D104,D106,D107"
+
+[tool.mypy]
+python_version = "3.10"
+disallow_untyped_defs = true
+check_untyped_defs = true
+ignore_missing_imports = true
+exclude = "contextos_de_negocio/settings.py"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"

@@ -11,22 +11,25 @@ ambos ainda vão ser uma prova.
 """
 
 from dataclasses import dataclass
-from typing import Optional, Set
+from typing import Set
 
-from contextos_de_negocio.estrutura_de_provas.dominio.objeto_de_valor.objeto_de_valor import Exercicio
+from ..objeto_de_valor.objeto_de_valor import Exercicio
+
 
 @dataclass
 class Prova:
     """
     O metodo magico eq define o comportamento de igualdade.
     """
-    
-    def __init__(self, data: Optional[str]):
+
+    def __init__(self, data: str | None = None):
         self._exercicios: Set[Exercicio] = set()
-    
+
     @property
-    def exercicios(self):
+    def exercicios(self) -> Set[Exercicio]:
         return self._exercicios
 
-    def __eq__(self, other):
+    def __eq__(self, other: object) -> bool:
+        if not isinstance(other, Prova):
+            return NotImplemented
         return self.exercicios == other.exercicios

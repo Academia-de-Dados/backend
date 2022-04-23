@@ -1,0 +1,31 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+    branches:
+      - main
+  push:
+
+jobs:
+  tox:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Perform checkout
+        uses: actions/checkout@v2
+
+      - name: Install Python 3.10.4
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.10.4
+
+      - name: Install dependencies
+        run: make install
+
+      - name: Run lint
+        run: make lint
+
+      - name: Run cyclomatic complexity
+        run: make cc
+
+      - name: Run tests
+        run: make test

@@ -10,7 +10,7 @@ Exemplo: Duas provas com as mesmas questões são iguais
 """
 
 from dataclasses import dataclass
-from typing import Optional
+
 
 @dataclass(unsafe_hash=True)
 class Exercicio:
@@ -18,8 +18,9 @@ class Exercicio:
     Dois exercicios com os mesmos dados são iguais.
     unsafe_hash implementa a igualdade por todos os atributos.
     """
+
     materia: str
     assunto: str
     dificuldade: str
-    origem: Optional[str]
-    data_lancamento: Optional[str]
+    origem: str | None = None
+    data_lancamento: str | None = None
