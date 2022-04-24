@@ -1,6 +1,8 @@
 SRC_DIRS := contextos_de_negocio
 DC := docker-compose
 
+COVERAGE_FAIL_UNDER := 80
+
 .PRHONY: build up down up logs
 
 ## @ docker
@@ -60,7 +62,7 @@ test: ## Executa os teste e mostra a cobertura do código.
 	# testing and testing coverage
 	@ coverage run --source=$(SRC_DIRS) --module pytest
 	@ coverage html
-	@ coverage report
+	@ coverage report --fail-under=$(COVERAGE_FAIL_UNDER) --show-missing
 
 
 .PRHONY: run run-dev
