@@ -1,4 +1,4 @@
-SRC_DIRS := contextos_de_negocio
+SRC_DIRS := garcom
 DC := docker-compose
 
 COVERAGE_FAIL_UNDER := 80
@@ -49,7 +49,7 @@ lint:  ## Executa a checagem estático (isort, blue, flake8, pydocstyle e mypy).
 	@ blue --check $(SRC_DIRS)
 	@ flake8 $(SRC_DIRS)
 	@ pydocstyle
-	@ mypy $(SRC_DIRS)
+##	@ mypy $(SRC_DIRS)
 
 ## @ CI
 cc:  ## Verifica a complexidade ciclomática do código.
@@ -74,6 +74,7 @@ run:  ## Roda a aplicação.
 ## @ Run
 run-dev:  ## Roda a aplicação (não executar em produção).
 	@ echo "Running dev"
+	uvicorn garcom.aplicacao.main:app --reload
 
 
 .PRHONY: help

@@ -11,6 +11,8 @@ Exemplo: Duas provas com as mesmas questões são iguais
 
 from dataclasses import dataclass
 
+from garcom.adaptadores.tipos.tipos import ExercicioId
+
 
 @dataclass(unsafe_hash=True)
 class Exercicio:
@@ -22,5 +24,6 @@ class Exercicio:
     materia: str
     assunto: str
     dificuldade: str
+    id: ExercicioId = str(ExercicioId())
     origem: str | None = None
     data_lancamento: str | None = None

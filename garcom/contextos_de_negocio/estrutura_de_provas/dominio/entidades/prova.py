@@ -9,27 +9,44 @@ ambos ainda vão ser uma prova.
 * Tornamos explicito que se trata de uma entidade implementando os métodos
 * mágicos __eq__ e __hash__
 """
-
 from dataclasses import dataclass
 from typing import Set
 
-from ..objeto_de_valor.objeto_de_valor import Exercicio
+from dataclass_type_validator import dataclass_validate
+
+from garcom.adaptadores.tipos.tipos import ExercicioId, ProvaId
 
 
+@dataclass_validate
 @dataclass
 class Prova:
     """
     O metodo magico eq define o comportamento de igualdade.
     """
 
-    def __init__(self, data: str | None = None):
-        self._exercicios: Set[Exercicio] = set()
+    id: ProvaId
+    titulo: str
+    responsavel: str
+    exercicios: Set[ExercicioId]
 
-    @property
-    def exercicios(self) -> Set[Exercicio]:
-        return self._exercicios
+    def __hash__(self) -> int:
+        return hash(self.id)
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, Prova):
             return NotImplemented
         return self.exercicios == other.exercicios
+
+    def __repr__(self) -> str:
+        return f'<Prova {self.titulo}>'
+
+    @classmethod
+    def criar_novo(
+        cls, titulo: str, responsavel: str, exercicios: Set[ExercicioId]
+    ) -> 'Prova':
+        return cls(
+            id=ProvaId(),
+            titulo=titulo,
+            responsavel=responsavel,
+            exercicios=exercicios,
+        )

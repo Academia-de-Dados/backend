@@ -6,4 +6,15 @@ services:
     env_file: '.env'
     command: 'make run'
     ports:
-      - '5000:5000'
+      - '8000:8000'
+    depends_on:
+      - postgres
+  
+  postgres:
+    image: 'postgres:14'
+    env_file: '.env'
+    volumes:
+      - 'postgres_data:/var/lib/postgresql/data/'
+
+volumes:
+  postgres_data:
