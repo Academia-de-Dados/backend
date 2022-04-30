@@ -66,12 +66,11 @@ include_trailing_comma = true
 
 [tool.coverage.run]
 omit = [
-  "contextos_de_negocio/settings.py"
+  "garcom/config.py"
 ]
 
 [tool.pydocstyle]
 convention = "pep257"
-match_dir = "src"
 add-ignore = "D100,D104,D106,D107"
 
 [tool.mypy]
@@ -79,7 +78,7 @@ python_version = "3.10"
 disallow_untyped_defs = true
 check_untyped_defs = true
 ignore_missing_imports = true
-exclude = "contextos_de_negocio/settings.py"
+exclude = "garcom/config.py"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
