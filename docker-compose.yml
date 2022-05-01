@@ -9,7 +9,7 @@ services:
       - '8000:8000'
     depends_on:
       - postgres
-  
+
   postgres:
     image: 'postgres:14'
     env_file: '.env'
