@@ -17,10 +17,6 @@ from garcom.adaptadores.tipos.tipos import ExercicioId, ProvaId
 @dataclass_validate
 @dataclass
 class Prova:
-    """
-    O metodo magico eq define o comportamento de igualdade.
-    """
-
     id: ProvaId = field(
         default_factory=ProvaId, init=False, repr=False, hash=True
     )
