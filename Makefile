@@ -69,12 +69,12 @@ test: ## Executa os teste e mostra a cobertura do código.
 
 ## @ Run
 run:  ## Roda a aplicação.
-	@echo "Running"
+	@ gunicorn $(SRC_DIRS).aplicacao.main:app
+
 
 ## @ Run
 run-dev:  ## Roda a aplicação (não executar em produção).
-	@ echo "Running dev"
-	uvicorn garcom.aplicacao.main:app --reload
+	@ uvicorn $(SRC_DIRS).aplicacao.main:app --reload
 
 
 .PRHONY: help
