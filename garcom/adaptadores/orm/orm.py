@@ -1,5 +1,6 @@
 import uuid
 from datetime import datetime
+from typing import Any
 
 from sqlalchemy import Column, DateTime, MetaData, Table, func
 from sqlalchemy.dialects.postgresql import UUID
@@ -8,16 +9,21 @@ metadata = MetaData()
 
 
 class DbColumn(Column):
-    def __init__(self, *args, **kwargs) -> None:
-        # Sqlalchemy define como padrão nullable = True,
-        # ou seja, permite campos nulos
-        if 'nullable' not in kwargs:
-            kwargs['nullable'] = False
+    """
+    Classe coluna.
 
-        super().__init__(*args, **kwargs)
+    Herda da Column do sqlalchemy e implementa
+    um método estático para id do tipo uuid.
+    """
 
     @staticmethod
     def uuid_primary_key(field_name: str) -> Column:
+        """
+        Método de chave primária.
+
+        Cria uma coluna de chave primária com
+        uuid do tipo hash.
+        """
         return Column(
             field_name,
             UUID(as_uuid=True),
@@ -29,14 +35,19 @@ class DbColumn(Column):
 
 
 class DbTable(Table):
-    def __init__(
-        self, *args, herda_do_public: 'DbTable' = None, **kwargs
+    """
+    Classe tabela.
+
+    Herda de Table do sqlalchemy e implementa
+    colunas padrão de data de criação.
+    """
+
+    def _init(
+        cls,
+        *args: tuple[Any],
+        herda_do_public: bool = False,
+        **kwargs: dict[Any, Any]
     ) -> None:
-
-        self.herda_do_public = herda_do_public
-        super().__init__(*args, **kwargs)
-
-    def _init(cls, *args, herda_do_public: bool = False, **kwargs) -> None:
         super()._init(
             *args,
             DbColumn(

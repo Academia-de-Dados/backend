@@ -1,15 +1,5 @@
-"""
-Objeto de valor é qualquer objeto de domínio identificado
-exclusivamente pelos dados que contém.
-
-Exemplo: Duas provas com as mesmas questões são iguais
-
-* fronzen=True, implementa: __setattr__ e __delattr__
-- setattr implementa: exercicio.foo = bar
-* Para alterar o id: setattr(Pedido, 'id', 'Novo_id')
-"""
-
 from dataclasses import dataclass
+from datetime import datetime
 
 from garcom.adaptadores.tipos.tipos import ExercicioId
 
@@ -17,13 +7,18 @@ from garcom.adaptadores.tipos.tipos import ExercicioId
 @dataclass(unsafe_hash=True)
 class Exercicio:
     """
-    Dois exercicios com os mesmos dados são iguais.
-    unsafe_hash implementa a igualdade por todos os atributos.
+    Modelo de exercicio.
+
+    Representado como um objeto de valor,
+    para que seja identificado por seus atributos.
     """
 
     materia: str
     assunto: str
     dificuldade: str
-    id: ExercicioId = str(ExercicioId())
+    enunciado: str
+    alternativas: list[str] | None
     origem: str | None = None
-    data_lancamento: str | None = None
+    multipla_escolha: bool = False
+    id: ExercicioId = ExercicioId()
+    data_lancamento: datetime | None = None

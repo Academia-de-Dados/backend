@@ -15,13 +15,20 @@ def adicionar_exercicio(
     exercicio_model: ExercicioModelDominio,
     unidade_de_trabalho: UnidadeDeTrabalhoAbstrata,
 ) -> ExercicioId:
+    """
+    Função executora de adicionar exericicio.
 
+    Essa função se comunica com a aplicação web,
+    recebendo os dados e adicionando eles no banco.
+    """
     exercicio = Exercicio(
         materia=exercicio_model.materia,
         assunto=exercicio_model.assunto,
         dificuldade=exercicio_model.dificuldade,
         origem=exercicio_model.origem,
         data_lancamento=exercicio_model.data_lancamento,
+        enunciado=exercicio_model.enunciado,
+        alternativas=exercicio_model.alternativas,
     )
 
     exercicio_id = exercicio.id

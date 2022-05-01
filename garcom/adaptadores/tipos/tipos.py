@@ -6,28 +6,46 @@ from sqlalchemy.types import TypeDecorator
 
 
 class BaseUUID(UUID):
+    """
+    Classe base uuid.
+
+    Criada para que o uuid se comporte como
+    um ObjectId do pymongo. Qualquer instância
+    dessa classe possui um id do tipo uuid4.
+    """
+
     def __init__(self) -> None:
         _id = str(uuid4())
         super().__init__(_id)
 
 
 class ExercicioId(BaseUUID):
+    """Criado para usar como tipo do id de exericios."""
+
     pass
 
 
 class ProvaId(BaseUUID):
+    """Criado para usar como tipo do id de provas."""
+
     pass
 
 
 class SET(TypeDecorator):
-    """SQL Array type decorado para transformar list em set e vice-versa"""
+    """
+    Método de conversão.
+
+    Converte um tipo sqlalchemy ARRAY para um tipo SET
+    e vise-versa.
+    """
 
     impl = ARRAY
 
-    def __init__(self, field_type: Union[list, set]) -> None:
+    def __init__(self, field_type: Union[list[str], set[str]]) -> None:
         TypeDecorator.__init__(self, field_type)
 
-    def process_bind_param(self, value: set) -> Union[list, None]:
+    def process_bind_param(self, value: set[str]) -> Union[list[str], None]:
+        """Usado para converter de set para lista."""
         if value is None:
             return None
 
@@ -35,9 +53,10 @@ class SET(TypeDecorator):
             return list(value)
 
         raise TypeError(
-            f'Coleção de tipo inválido. Esperava {set} e obteve {value}.'
+            f'Coleção de tipo inválido. Esperava {set[str]} e obteve {value}.'
         )
 
     def process_result_value(self, value: list) -> Union[set, None]:
+        """Cria um set dos dados de entrada."""
         if value is not None:
             return set(value)
