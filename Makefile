@@ -49,7 +49,7 @@ lint:  ## Executa a checagem estático (isort, blue, flake8, pydocstyle e mypy).
 	@ blue --check $(SRC_DIRS)
 	@ flake8 $(SRC_DIRS)
 	@ pydocstyle
-##	@ mypy $(SRC_DIRS)
+	@ mypy $(SRC_DIRS)
 
 ## @ CI
 cc:  ## Verifica a complexidade ciclomática do código.

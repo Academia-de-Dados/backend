@@ -1,21 +1,6 @@
-"""
-Padrão de projeto Unidade de Trabalho: permite desacoplar
-a camada de serviço da camada de dados. Sem o pradão unidade
-de trabalho a api se comunica com três camadas: com o banco
-de dados para iniciar uma sessão, com a camada repositório para
-inicializar o repositorio sqlalchemy e com a camada de serviço
-para fazer solicitações.
-
-A ideia é fazer com que a unidade de trabalho gerencie o estado
-do banco de dados, deixando a api flask livre dessa responsabilidade.
-Com isso, o flask vai ter apenas duas obrigações:
-inicializar uma unidade de trabalho e invocar um serviço.
-"""
-
-
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Type
+from typing import Any, Type, TypeVar
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
@@ -26,8 +11,19 @@ from garcom.adaptadores.orm.repositorio import (
 )
 from garcom.config import get_postgres_uri
 
+TypeUnidadeAbstrata = TypeVar(
+    'TypeUnidadeAbstrata', bound='UnidadeDeTrabalhoAbstrata'  # noqa: F821
+)
+TypeUnidade = TypeVar('TypeUnidade', bound='UnidadeDeTrabalho')   # noqa: F821
+
 
 class UnidadeDeTrabalhoAbstrata(ABC):
+    """
+    Interface da Unidade de Trabalho.
+
+    Utilizada para definir os métodos que
+    a classe concreta deve implementar.
+    """
 
     comitado: bool
     repo_consulta: RepositorioConsulta
@@ -35,14 +31,36 @@ class UnidadeDeTrabalhoAbstrata(ABC):
     classe_consulta_repo: Type[RepositorioConsulta]
     classe_dominio_repo: Type[RepositorioDominio]
 
-    def __enter__(self) -> 'UnidadeDeTrabalho':
+    def __enter__(self: TypeUnidadeAbstrata) -> TypeUnidadeAbstrata:
+        """
+        Método mágico dunder enter.
+
+        Utilizado para entrar em um
+        gerenciador de contexto.
+        """
         self.comitado = False
         return self
 
-    def __exit__(self, *args) -> None:
+    def __exit__(self, *args: tuple[Any]) -> None:
+        """
+        Método mágico dunder exit.
+
+        Utilizado para sair de um
+        gerenciador de contexto.
+        """
         self.close()
 
-    def __call__(self, dominio: Enum):
+    def __call__(
+        self: TypeUnidadeAbstrata, dominio: Enum
+    ) -> TypeUnidadeAbstrata:
+        """
+        Método mágico dunder call.
+
+        Utilizado para implementar o operador
+        de chamada de função. Atribui aos atributos
+        de consulta e dominio o tipo de repositório
+        correspondente.
+        """
         if not dominio:
             raise ValueError(
                 'O dominio deve ser passado para usar a unidade de trabalho'
@@ -55,14 +73,33 @@ class UnidadeDeTrabalhoAbstrata(ABC):
 
     @abstractmethod
     def commit(self) -> None:
+        """
+        Método para salvar no banco de dados.
+
+        Encerra a transação salvando
+        todas as alterações realizadas durante a
+        transação no banco de dados.
+        """
         raise NotImplementedError
 
     @abstractmethod
     def rollback(self) -> None:
+        """
+        Método para cancelar uma operação.
+
+        Encerra a transação descartando
+        todas as alterações realizados durante
+        a transação.
+        """
         raise NotImplementedError
 
     @abstractmethod
     def close(self) -> None:
+        """
+        Método utilizado sair da conexão.
+
+        Fecha a conexão com o banco de dados.
+        """
         raise NotImplementedError
 
 
@@ -73,14 +110,35 @@ DEFAULT_SESSION_FACTORY = sessionmaker(
 
 
 class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
+    """
+    Unidade de trabalho concreta.
+
+    Implementa principalmente a sessão com
+    o banco de dados.
+    """
 
     repo_consulta: RepositorioConsulta
     repo_dominio: RepositorioDominio
 
-    def __init__(self, session_factory=DEFAULT_SESSION_FACTORY) -> None:
+    def __init__(
+        self, session_factory: sessionmaker = DEFAULT_SESSION_FACTORY
+    ) -> None:
+        """
+        Método dunder init.
+
+        Define uma sessão padrão para se conectar
+        com o banco de dados (no caso, postgres).
+        """
         self.session_factory = session_factory
 
-    def __enter__(self):
+    def __enter__(self: TypeUnidade) -> TypeUnidade:
+        """
+        Método dunder enter.
+
+        Inicia a sessão do banco de dados e
+        instância os repositório de consulta
+        e dominio para utilizar a sessão.
+        """
         self.comitado = False
         self.session = self.session_factory()
         self.repo_consulta: RepositorioConsulta = self.classe_consulta_repo(
@@ -93,15 +151,43 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
         return super().__enter__()
 
     def close(self) -> None:
+        """
+        Método para fechar a conexão.
+
+        Utiliza o método close da sesssão
+        para fechar a conexão com o banco
+        de dados.
+        """
         self.session.close()
 
     def commit(self) -> None:
+        """
+        Método para salvar no banco.
+
+        Utiliza o commit da sessão para
+        encerrar a transação e salvar
+        as modificações no banco de dados.
+        """
         self.session.commit()
         self.comitado = True
 
     def rollback(self) -> None:
+        """
+        Método para cancelar uma transação.
+
+        Utiliza o método rollback da sessão
+        encerrar a transação e descartar as
+        alterações iniciado durante a transação.
+        """
         self.session.rollback()
 
 
 class UnidadeDeTrabalhoFake(UnidadeDeTrabalhoAbstrata):
+    """
+    Unidade de Trabalho Fake.
+
+    Classe criada para utilizar nos
+    testes.
+    """
+
     pass

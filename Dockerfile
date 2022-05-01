@@ -7,4 +7,4 @@ RUN pip install /code
 
 WORKDIR /code
 
-CMD ["make", "install", "run"]
+CMD ["install", "run"]

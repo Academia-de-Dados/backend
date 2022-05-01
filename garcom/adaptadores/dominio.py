@@ -15,6 +15,13 @@ from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.repo_dominio.do
 
 
 class Dominio(Enum):
+    """
+    Modelo de repositorios.
+
+    Contém os repositorios das entidades e objetos de valor,
+    necessários estar aqui para poder ser passados para a
+    unidade de trabalho
+    """
 
     exericios = (ExercicioRepoConsulta, ExercicioRepoDominio)
     prova = (ProvaRepoConsulta, ProvaRepoDominio)
