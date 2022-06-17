@@ -4,6 +4,7 @@ from typing import Set
 from dataclass_type_validator import dataclass_validate
 
 from garcom.adaptadores.tipos.tipos import ProvaId
+
 from ..objeto_de_valor.exercicio import Exercicio
 
 

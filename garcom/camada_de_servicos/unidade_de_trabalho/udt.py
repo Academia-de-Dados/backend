@@ -180,14 +180,3 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
         alterações iniciado durante a transação.
         """
         self.session.rollback()
-
-
-class UnidadeDeTrabalhoFake(UnidadeDeTrabalhoAbstrata):
-    """
-    Unidade de Trabalho Fake.
-
-    Classe criada para utilizar nos
-    testes.
-    """
-
-    pass

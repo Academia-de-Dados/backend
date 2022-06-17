@@ -18,7 +18,7 @@ class ExercicioModelConsulta(BaseModel):
     assunto: str
     dificuldade: str
     enunciado: str
-    alternativas: list[str]
+    alternativas: list[str] | None
     origem: str | None
     data_lancamento: datetime | None
 
@@ -35,6 +35,6 @@ class ExercicioModelDominio(BaseModel):
     assunto: str
     dificuldade: str
     enunciado: str
-    alternativas: list[str]
+    alternativas: list[str] | None
     origem: str | None
     data_lancamento: datetime | None

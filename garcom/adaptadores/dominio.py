@@ -23,5 +23,5 @@ class Dominio(Enum):
     unidade de trabalho
     """
 
-    exericios = (ExercicioRepoConsulta, ExercicioRepoDominio)
+    exercicios = (ExercicioRepoConsulta, ExercicioRepoDominio)
     prova = (ProvaRepoConsulta, ProvaRepoDominio)

@@ -33,7 +33,7 @@ def adicionar_exercicio(
 
     exercicio_id = exercicio.id
 
-    with unidade_de_trabalho(Dominio.exericios) as uow:
+    with unidade_de_trabalho(Dominio.exercicios) as uow:
         try:
             exercicio = uow.repo_dominio.adicionar(exercicio)
             uow.commit()

@@ -11,7 +11,7 @@ app = FastAPI()
 @app.on_event('startup')
 def on_startup() -> None:
     """Inicializa o banco de dados."""
-    # orm.init_database()
+    orm.init_database()
     orm.start_mappers()
 
 

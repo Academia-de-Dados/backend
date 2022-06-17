@@ -15,5 +15,7 @@ def consultar_exercicios(
     Se comunica com a aplicação web, retornando os
     exercicios cadastrados no banco de dados.
     """
-    with unidade_de_trabalho(Dominio.exericios) as uow:
-        return uow.repo_consulta.consultar_todos()
+    with unidade_de_trabalho(Dominio.exercicios) as uow:
+        exercicios = uow.repo_consulta.consultar_todos()
+
+    return exercicios
