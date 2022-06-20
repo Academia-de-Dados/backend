@@ -64,6 +64,9 @@ test: ## Executa os teste e mostra a cobertura do código.
 	@ coverage html
 	@ coverage report --fail-under=$(COVERAGE_FAIL_UNDER) --show-missing
 
+test-env:
+	docker-compose -f docker_compose_testes.yml up
+
 
 .PRHONY: run run-dev
 

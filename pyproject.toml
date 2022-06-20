@@ -37,6 +37,7 @@ xenon = { version = "^0.9.0", optional = true }
 pydocstyle = {extras = ["toml"], version = "^6.1.1", optional = true }
 mypy = { version = "^0.942", optional = true }
 pydotenv = "^0.0.7"
+SQLAlchemy-Utils = "^0.38.2"
 
 [tool.poetry.dev-dependencies]
 
