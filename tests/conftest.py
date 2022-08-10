@@ -5,19 +5,19 @@ from sqlalchemy.orm import sessionmaker, clear_mappers
 from garcom.config import get_postgres_tests
 from garcom.adaptadores.orm.orm import metadata
 from tests.mocks import UnidadeDeTrabalhoFake
-from tests.testes_unitarios.exercicios.mocks import RepoExercicioFake
+from tests.testes_unitarios.mocks import RepoFake
 from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.orm.orm import start_mappers
 
 
 @fixture
-def mock_uow_exercicio():
+def mock_uow():
     """
     Mock unidade de trabalho.
     
     Cria uma unidade de trabalho fake com
-    o repositorio de exercicios fake.
+    o repositorio fake.
     """
-    uow = UnidadeDeTrabalhoFake(RepoExercicioFake())
+    uow = UnidadeDeTrabalhoFake(RepoFake())
     yield uow
 
 

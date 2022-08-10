@@ -1,38 +1,57 @@
-from sqlalchemy import ARRAY, Boolean, DateTime, String, Text, create_engine
-from sqlalchemy.dialects.postgresql import UUID
-from sqlalchemy.orm import mapper
+from sqlalchemy import (
+    ARRAY,
+    Boolean,
+    DateTime,
+    Enum,
+    ForeignKey,
+    String,
+    Text,
+    create_engine,
+)
+from sqlalchemy.orm import relationship
 
-from garcom.adaptadores.orm.orm import DbColumn, DbTable, metadata
-from garcom.adaptadores.tipos.tipos import SET
+from garcom.adaptadores.orm.orm import DbColumn, DbTable, mapper, metadata
 from garcom.config import get_postgres_uri
-from garcom.contextos_de_negocio.estrutura_de_provas.dominio.entidades.prova import (  # noqa
-    Prova,
+
+from .....adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
+from .....adaptadores.tipos_nao_primitivos.exercicio import (
+    Dificuldade,
+    Materia,
 )
-from garcom.contextos_de_negocio.estrutura_de_provas.dominio.objeto_de_valor.exercicio import (  # noqa
-    Exercicio,
-)
+from ...dominio.agregados.avaliacao import Avaliacao
+from ...dominio.agregados.exercicio import Exercicio
 
 exercicios = DbTable(
     'exercicio',
     metadata,
     DbColumn.uuid_primary_key('id'),
-    DbColumn('materia', String(length=255), nullable=False, index=True),
+    DbColumn('materia', Enum(Materia), nullable=False, index=True),
     DbColumn('assunto', String(length=255), nullable=False, index=True),
     DbColumn('enunciado', Text, nullable=False),
     DbColumn('multipla_escolha', Boolean, nullable=False),
+    DbColumn('dificuldade', Enum(Dificuldade), nullable=False),
+    DbColumn('resposta', Text, nullable=False),
     DbColumn('alternativas', ARRAY(String), nullable=True),
-    DbColumn('dificuldade', String(length=255), nullable=False),
     DbColumn('origem', String(length=255), nullable=True),
     DbColumn('data_lancamento', DateTime, nullable=True),
+    DbColumn('imagem_enunciado', String(length=255), nullable=True),
+    DbColumn('imagem_resposta', String(length=255), nullable=True),
 )
 
-prova = DbTable(
-    'prova',
+avaliacao = DbTable(
+    'avaliacao',
     metadata,
     DbColumn.uuid_primary_key('id'),
     DbColumn('titulo', String(length=255), nullable=False, index=True),
     DbColumn('responsavel', String(length=255), nullable=False, index=True),
-    DbColumn('id_dos_exercicios', SET(UUID()), nullable=False),
+    DbColumn('tipo_de_avaliacao', Enum(TipoDeAvaliacao), nullable=False),
+)
+
+exercicios_prova = DbTable(
+    'exercicios_prova',
+    metadata,
+    DbColumn('id_avaliacao', ForeignKey('avaliacao.id'), primary_key=True),
+    DbColumn('id_exercicio', ForeignKey('exercicio.id'), primary_key=True),
 )
 
 
@@ -53,5 +72,16 @@ def start_mappers() -> None:
     Este método deveria iniciar o mapeamento do banco de dados,
     atualmente ele não faz isso e eu ainda não descobri o porque.
     """
-    prova_mapper = mapper(Prova, prova)   # noqa
-    exericios_mapper = mapper(Exercicio, exercicios)   # noqa
+    mapper.map_imperatively(Exercicio, exercicios)
+    mapper.map_imperatively(
+        Avaliacao,
+        avaliacao,
+        properties={
+            'exercicios': relationship(
+                Exercicio,
+                secondary=exercicios_prova,
+                lazy='subquery',
+                collection_class=set,
+            )
+        },
+    )

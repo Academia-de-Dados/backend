@@ -48,7 +48,7 @@ lint:  ## Executa a checagem estático (isort, blue, flake8, pydocstyle e mypy).
 	@ isort --check --diff $(SRC_DIRS)
 	@ blue --check $(SRC_DIRS)
 	@ flake8 $(SRC_DIRS)
-	@ pydocstyle
+	# @ pydocstyle
 	# @ mypy $(SRC_DIRS)
 
 ## @ CI

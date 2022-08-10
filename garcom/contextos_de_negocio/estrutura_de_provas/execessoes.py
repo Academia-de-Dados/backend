@@ -1,0 +1,2 @@
+class AssuntoNaoEncontrado(Exception):
+    pass

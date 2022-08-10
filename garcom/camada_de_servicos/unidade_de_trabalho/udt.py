@@ -158,6 +158,9 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
         para fechar a conexão com o banco
         de dados.
         """
+        # if not self.comitado:
+        #    self.rollback()
+
         self.session.close()
 
     def commit(self) -> None:

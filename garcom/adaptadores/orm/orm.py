@@ -2,10 +2,12 @@ import uuid
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import Column, DateTime, MetaData, Table, func
+from sqlalchemy import Column, DateTime, Table, func
 from sqlalchemy.dialects.postgresql import UUID
+from sqlalchemy.orm import registry
 
-metadata = MetaData()
+mapper = registry()
+metadata = mapper.metadata
 
 
 class DbColumn(Column):

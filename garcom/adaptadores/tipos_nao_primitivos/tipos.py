@@ -1,8 +1,22 @@
+from enum import Enum, EnumMeta
 from typing import Union
 from uuid import UUID, uuid4
 
 from sqlalchemy import ARRAY
 from sqlalchemy.types import TypeDecorator
+
+
+class MetaEnum(EnumMeta):
+    def __contains__(cls, item):
+        try:
+            cls(item)
+        except ValueError:
+            return False
+        return True
+
+
+class EnumBase(Enum, metaclass=MetaEnum):
+    pass
 
 
 class BaseUUID(UUID):
@@ -25,9 +39,13 @@ class ExercicioId(BaseUUID):
     pass
 
 
-class ProvaId(BaseUUID):
+class AvaliacaoId(BaseUUID):
     """Criado para usar como tipo do id de provas."""
 
+    pass
+
+
+class UsuarioId(BaseUUID):
     pass
 
 

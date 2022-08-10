@@ -3,8 +3,8 @@ from abc import abstractmethod
 from sqlalchemy.future import select
 
 from garcom.adaptadores.orm.repositorio import RepositorioConsulta
-from garcom.adaptadores.tipos.tipos import ExercicioId
-from garcom.contextos_de_negocio.estrutura_de_provas.dominio.objeto_de_valor.exercicio import (  # noqa
+from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
+from garcom.contextos_de_negocio.estrutura_de_provas.dominio.agregados.exercicio import (  # noqa
     Exercicio,
 )
 
@@ -39,8 +39,7 @@ class ExercicioRepoConsulta(ExercicioAbstratoConsulta):
     def consultar_todos(self) -> list[Exercicio]:
         """Implementa uma query de todos os exercicios."""
         query = self.session.execute(select(Exercicio))
-        result = query.scalars().all()
-        return result
+        return query.scalars().all()
 
     def consultar_por_id(self, id: ExercicioId) -> Exercicio:
         """Implementa uma query de exercicio por id."""

@@ -1,5 +1,10 @@
 # backend
 
+## Rodando o banco de dados para testes
+
+make test-env: sobe dois banco de dados postgres um na porta 5431 e outro
+na porta 5432, utilizo um para testes de integração e outro to usando pra testar a api.
+
 ## Instalando bibliotecas novas
 
 Para instalar as bibliotecas utilize o poetry, desse jeito as dependências

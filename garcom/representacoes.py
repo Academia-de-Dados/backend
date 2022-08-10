@@ -1,11 +1,33 @@
 from datetime import datetime
+from typing import List, Optional, Set
 
 from pydantic import BaseModel
 
-from garcom.adaptadores.tipos.tipos import ExercicioId
+from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
+from garcom.adaptadores.tipos_nao_primitivos.tipos import (
+    AvaliacaoId,
+    ExercicioId,
+)
+
+from .adaptadores.tipos_nao_primitivos.exercicio import Dificuldade, Materia
 
 
-class ExercicioModelConsulta(BaseModel):
+class MyBaseModel(BaseModel):
+    def __hash__(self):
+        return hash((type(self),) + tuple(self.__dict__.values()))
+
+    class Config:
+        """
+        O pydantic espera um objeto do tipo dicionario e SQLAlchmey
+        retorna um objeto do tipo sqlalchemy sendo incopativel com
+        o pydantic. Essa clase configura o modo orm para o pydantic
+        aceitar os modelos do sqlalchemy.
+        """
+
+        orm_mode = True
+
+
+class ExercicioModelConsulta(MyBaseModel):
     """
     Modelo do objeto Exercicio.
 
@@ -13,17 +35,21 @@ class ExercicioModelConsulta(BaseModel):
     nas rotas do FastAPI.
     """
 
-    id: ExercicioId
-    materia: str
+    materia: Materia
     assunto: str
-    dificuldade: str
+    dificuldade: Dificuldade
     enunciado: str
-    alternativas: list[str] | None
-    origem: str | None
-    data_lancamento: datetime | None
+    resposta: str
+    alternativas: Optional[list[str]] = None
+    multipla_escolha: bool = False
+    imagem_enunciado: Optional[str] = None
+    imagem_resposta: Optional[str] = None
+    origem: Optional[str] = None
+    data_lancamento: Optional[datetime] = None
+    id: Optional[ExercicioId] = None
 
 
-class ExercicioModelDominio(BaseModel):
+class ExercicioModelDominio(MyBaseModel):
     """
     Modelo do objeto Exercicio.
 
@@ -31,10 +57,36 @@ class ExercicioModelDominio(BaseModel):
     rotas do FastAPI.
     """
 
-    materia: str
     assunto: str
-    dificuldade: str
+    resposta: str
     enunciado: str
-    alternativas: list[str] | None
-    origem: str | None
-    data_lancamento: datetime | None
+    materia: Materia
+    dificuldade: Dificuldade
+    alternativas: Optional[list[str]] = None
+    multipla_escolha: bool = False
+    imagem_enunciado: Optional[str] = None
+    imagem_resposta: Optional[str] = None
+    origem: Optional[str] = None
+    data_lancamento: Optional[datetime] = None
+
+
+class AvaliacaoModelConsulta(MyBaseModel):
+    """
+    Por algum motivo o pydantic não aceita que exercicios
+    seja um Set, talvez pelo motivo de um json não destinguir
+    entre set e dicionario.
+    """
+
+    titulo: str
+    responsavel: str
+    tipo_de_avaliacao: TipoDeAvaliacao
+    exercicios: List[ExercicioModelConsulta]
+    id: Optional[AvaliacaoId] = None
+
+
+class AvaliacaoModelDominio(MyBaseModel):
+
+    titulo: str
+    responsavel: str
+    tipo_avaliacao: TipoDeAvaliacao
+    exercicios: Set[ExercicioId]

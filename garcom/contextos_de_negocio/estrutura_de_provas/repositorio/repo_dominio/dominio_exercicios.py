@@ -1,9 +1,8 @@
 from abc import abstractmethod
 
 from garcom.adaptadores.orm.repositorio import RepositorioDominio
-from garcom.contextos_de_negocio.estrutura_de_provas.dominio.objeto_de_valor.exercicio import (  # noqa
-    Exercicio,
-)
+
+from ...dominio.agregados.exercicio import Exercicio
 
 
 class ExercicioAbstratoDominio(RepositorioDominio):

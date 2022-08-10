@@ -3,9 +3,9 @@ from sqlite3 import IntegrityError
 from sqlalchemy.future import select
 from sqlalchemy.orm import sessionmaker
 from garcom.adaptadores.dominio import Dominio
-from garcom.adaptadores.tipos.tipos import ExercicioId
+from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import UnidadeDeTrabalho
-from garcom.contextos_de_negocio.estrutura_de_provas.dominio.objeto_de_valor.exercicio import (  # noqa
+from garcom.contextos_de_negocio.estrutura_de_provas.dominio.agregados.exercicio import (  # noqa
     Exercicio,
 )
 
