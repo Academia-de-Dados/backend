@@ -1,20 +1,31 @@
+version: '3.5'
+
 services:
   api:
-    build: '.'
+    build:
+      context: .
+      dockerfile: Dockerfile
     volumes:
-      - '.:/code'
+      - '.:/app'
     env_file: '.env'
     command: 'make run'
     ports:
       - '8000:8000'
     depends_on:
       - postgres
-
+    networks:
+      - app
   postgres:
-    image: 'postgres:14'
-    env_file: '.env'
+    image: postgres:14
+    env_file: .env
     volumes:
-      - 'postgres_data:/var/lib/postgresql/data/'
-
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+    - 5432:5432
+    networks:
+      - app
 volumes:
   postgres_data:
+
+networks:
+  app:
