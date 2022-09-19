@@ -1,4 +1,4 @@
-SRC_DIRS := contextos_de_negocio
+SRC_DIRS := garcom
 DC := docker-compose
 
 COVERAGE_FAIL_UNDER := 80
@@ -48,8 +48,8 @@ lint:  ## Executa a checagem estático (isort, blue, flake8, pydocstyle e mypy).
 	@ isort --check --diff $(SRC_DIRS)
 	@ blue --check $(SRC_DIRS)
 	@ flake8 $(SRC_DIRS)
-	@ pydocstyle
-	@ mypy $(SRC_DIRS)
+	# @ pydocstyle
+	# @ mypy $(SRC_DIRS)
 
 ## @ CI
 cc:  ## Verifica a complexidade ciclomática do código.
@@ -64,16 +64,20 @@ test: ## Executa os teste e mostra a cobertura do código.
 	@ coverage html
 	@ coverage report --fail-under=$(COVERAGE_FAIL_UNDER) --show-missing
 
+test-env:
+	docker-compose -f docker_compose_testes.yml up
+
 
 .PRHONY: run run-dev
 
 ## @ Run
 run:  ## Roda a aplicação.
-	@echo "Running"
+	@ gunicorn $(SRC_DIRS).aplicacao.main:app
+
 
 ## @ Run
 run-dev:  ## Roda a aplicação (não executar em produção).
-	@ echo "Running dev"
+	@ uvicorn $(SRC_DIRS).aplicacao.main:app --reload
 
 
 .PRHONY: help

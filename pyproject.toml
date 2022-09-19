@@ -11,6 +11,13 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
+fastapi = "^0.75.2"
+dataclass-type-validator = "^0.1.2"
+SQLAlchemy = "^1.4.35"
+psycopg2-binary = "^2.9.3"
+python-dotenv = "^0.20.0"
+uvicorn = "^0.17.6"
+gunicorn = "^20.1.0"
 
 ## Extras
 # test
@@ -29,6 +36,8 @@ flake8 = { version = "^4.0.1", optional = true }
 xenon = { version = "^0.9.0", optional = true }
 pydocstyle = {extras = ["toml"], version = "^6.1.1", optional = true }
 mypy = { version = "^0.942", optional = true }
+pydotenv = "^0.0.7"
+SQLAlchemy-Utils = "^0.38.2"
 
 [tool.poetry.dev-dependencies]
 
@@ -60,12 +69,11 @@ include_trailing_comma = true
 
 [tool.coverage.run]
 omit = [
-  "contextos_de_negocio/settings.py"
+  "garcom/config.py"
 ]
 
 [tool.pydocstyle]
 convention = "pep257"
-match_dir = "src"
 add-ignore = "D100,D104,D106,D107"
 
 [tool.mypy]
@@ -73,7 +81,7 @@ python_version = "3.10"
 disallow_untyped_defs = true
 check_untyped_defs = true
 ignore_missing_imports = true
-exclude = "contextos_de_negocio/settings.py"
+exclude = "garcom/config.py"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
