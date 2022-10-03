@@ -6,8 +6,7 @@ from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
 from garcom.adaptadores.orm.repositorio import (
-    RepositorioConsulta,
-    RepositorioDominio,
+    RepositorioAbstrato,
 )
 from garcom.config import get_postgres_uri
 
@@ -26,10 +25,10 @@ class UnidadeDeTrabalhoAbstrata(ABC):
     """
 
     comitado: bool
-    repo_consulta: RepositorioConsulta
-    repo_dominio: RepositorioDominio
-    classe_consulta_repo: Type[RepositorioConsulta]
-    classe_dominio_repo: Type[RepositorioDominio]
+    repo_consulta: RepositorioAbstrato
+    repo_dominio: RepositorioAbstrato
+    classe_consulta_repo: Type[RepositorioAbstrato]
+    classe_dominio_repo: Type[RepositorioAbstrato]
 
     def __enter__(self: TypeUnidadeAbstrata) -> TypeUnidadeAbstrata:
         """
@@ -117,8 +116,8 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
     o banco de dados.
     """
 
-    repo_consulta: RepositorioConsulta
-    repo_dominio: RepositorioDominio
+    repo_consulta: RepositorioAbstrato
+    repo_dominio: RepositorioAbstrato
 
     def __init__(
         self, session_factory: sessionmaker = DEFAULT_SESSION_FACTORY
@@ -141,10 +140,10 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
         """
         self.comitado = False
         self.session = self.session_factory()
-        self.repo_consulta: RepositorioConsulta = self.classe_consulta_repo(
+        self.repo_consulta: RepositorioAbstrato = self.classe_consulta_repo(
             self.session
         )
-        self.repo_dominio: RepositorioDominio = self.classe_dominio_repo(
+        self.repo_dominio: RepositorioAbstrato = self.classe_dominio_repo(
             self.session
         )
 

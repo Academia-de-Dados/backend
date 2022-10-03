@@ -3,13 +3,13 @@ from uuid import UUID
 
 from sqlalchemy.future import select
 
-from garcom.adaptadores.orm.repositorio import RepositorioConsulta
+from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
 from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
 
 from ...dominio.agregados.avaliacao import Avaliacao
 
 
-class AvaliacaoAbstratoConsulta(RepositorioConsulta):
+class AvaliacaoAbstratoConsulta(RepositorioAbstrato):
     """
     Repositorio abstrato de consulta.
 
