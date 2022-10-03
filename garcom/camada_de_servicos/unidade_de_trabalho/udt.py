@@ -5,9 +5,7 @@ from typing import Any, Type, TypeVar
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from garcom.adaptadores.orm.repositorio import (
-    RepositorioAbstrato,
-)
+from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
 from garcom.config import get_postgres_uri
 
 TypeUnidadeAbstrata = TypeVar(
