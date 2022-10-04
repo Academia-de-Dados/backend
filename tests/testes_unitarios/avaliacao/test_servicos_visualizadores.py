@@ -17,6 +17,7 @@ def test_consultar_todos_avaliacoes(mock_uow):
                 assunto='geometria',
                 dificuldade='facil',
                 enunciado='Quanto é dois mais dois?',
+                resposta='4',
             )
         )
     

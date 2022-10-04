@@ -1,11 +1,11 @@
 from abc import abstractmethod
 
-from garcom.adaptadores.orm.repositorio import RepositorioDominio
+from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
 
 from ...dominio.agregados.avaliacao import Avaliacao
 
 
-class AvaliacaoAbstratoDominio(RepositorioDominio):
+class AvaliacaoAbstratoDominio(RepositorioAbstrato):
     """
     Repositorio abstrato de dominio.
 
