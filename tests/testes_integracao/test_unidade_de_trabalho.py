@@ -15,15 +15,17 @@ def inserir_exercicio(
     assunto: str,
     dificuldade:str,
     enunciado: str,
+    resposta: str,
 ) -> str:
 
     exercicio_id = ExercicioId()
     session.execute(
-        "INSERT INTO exercicio (id, materia, assunto, enunciado, dificuldade, multipla_escolha, criado_em, ultima_modificacao)"
-        "VALUES (:id, :materia, :assunto, :enunciado, :dificuldade, :multipla_escolha, :criado_em, :ultima_modificacao)",
+        "INSERT INTO exercicio (id, materia, assunto, enunciado, dificuldade, resposta, multipla_escolha, criado_em, ultima_modificacao)"
+        "VALUES (:id, :materia, :assunto, :enunciado, :dificuldade, :resposta, :multipla_escolha, :criado_em, :ultima_modificacao)",
         dict(
             id=exercicio_id, materia=materia, assunto=assunto, 
-            dificuldade=dificuldade, enunciado=enunciado, multipla_escolha=False,
+            dificuldade=dificuldade, enunciado=enunciado, 
+            resposta=resposta, multipla_escolha=False,
             criado_em=datetime.now(), ultima_modificacao=datetime.now()
         )
     )
@@ -49,26 +51,33 @@ def buscar_exercicio_e_retornar_objeto(session: sessionmaker):
 def test_inserir_e_buscar_dados_utilizando_query_sql(session: sessionmaker):
 
     exercicio_id = inserir_exercicio(
-        session, 'Fisica', 'Mecanica', 'Qual a primeira Lei de Newton', 'Facil'
+        session = session, 
+        materia = 'fisica', 
+        assunto = 'Mecanica', 
+        dificuldade = 'facil',
+        enunciado = 'Qual a primeira Lei de Newton', 
+        resposta = 'Lei da inernica',
     )
     session.commit()
 
-    exercicio = buscar_id_do_exercicio(session,'Fisica', 'Mecanica')
+    exercicio = buscar_id_do_exercicio(session,'fisica', 'Mecanica')
 
-    assert exercicio == exercicio_id
+    assert str(exercicio) == str(exercicio_id)
 
 
 def test_uow_pode_recuperar_um_exercicio_do_banco_de_dados(
     session, session_factory
 ):
-    materia = 'Fisica'
+    materia = 'fisica'
     assunto = 'Quântica'
-    dificuldade = 'Média'
+    dificuldade = 'media'
     enunciado = 'Qual o primeiro esferico harmonico de um eletron?'
+    resposta = 'Esfera simples.'
 
     # Inserindo exercicio
-    exericio_id = inserir_exercicio(session, materia, assunto, dificuldade, 
-        enunciado,
+    exericio_id = inserir_exercicio(
+        session=session, materia=materia, assunto=assunto, 
+        dificuldade=dificuldade, enunciado=enunciado, resposta=resposta
     )
     session.commit()
 
@@ -78,9 +87,9 @@ def test_uow_pode_recuperar_um_exercicio_do_banco_de_dados(
         exercicio = uow.repo_consulta.consultar_por_id(exericio_id)
     
     assert exercicio.id == exericio_id
-    assert exercicio.materia == materia
+    assert exercicio.materia == 'Física'
     assert exercicio.assunto == assunto
-    assert exercicio.dificuldade == dificuldade
+    assert exercicio.dificuldade == 'Média'
     assert exercicio.enunciado == enunciado
 
 
@@ -88,16 +97,18 @@ def test_uow_pode_inserir_um_exercicio_no_banco_de_dados(
     session, session_factory
 ):
     # criando um exercicio
-    materia = 'Fisica'
+    materia = 'Física'
     assunto = 'Quântica'
     dificuldade = 'Média'
     enunciado = 'Qual o primeiro esferico harmonico de um eletron?'
+    resposta = 'Esferico simples'
 
     exercicio = Exercicio(
         materia=materia,
         assunto=assunto,
         dificuldade=dificuldade,
-        enunciado=enunciado
+        enunciado=enunciado,
+        resposta=resposta
     )
     exercicio_id = exercicio.id
 

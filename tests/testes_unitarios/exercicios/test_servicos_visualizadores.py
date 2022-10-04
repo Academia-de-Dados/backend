@@ -16,6 +16,7 @@ def test_consultar_todos_exercicios(mock_uow):
                 assunto='geometria',
                 dificuldade='facil',
                 enunciado='Quanto é dois mais dois?',
+                resposta='4',
             )
         )
         mock_uow.repo_consulta._adicionar(
@@ -23,7 +24,8 @@ def test_consultar_todos_exercicios(mock_uow):
                 materia='Portugues',
                 assunto='gramatica',
                 dificuldade='facil',
-                enunciado='Qual o nome do acento ?',
+                enunciado="Qual o nome do ponto: '?' ?",
+                resposta='Interrogação',
             )               
         )
     
@@ -43,6 +45,7 @@ def test_consultar_exercicio_por_id(mock_uow):
             assunto='geometria',
             dificuldade='facil',
             enunciado='Quanto é dois mais dois?',
+            resposta='4',
         )
         exercicio_id = exercicio.id
 
@@ -68,13 +71,15 @@ def test_consultar_exercicios_por_id(mock_uow):
             assunto='geometria',
             dificuldade='facil',
             enunciado='Quanto é dois mais dois?',
+            resposta='4',
         )
 
         exercicio_portugues = Exercicio(
             materia='Portugues',
             assunto='gramatica',
             dificuldade='facil',
-            enunciado='Qual o nome do acento ?',
+            enunciado="Qual o nome do ponto: '?' ?",
+            resposta='Interrogação',
         )
 
         exercicio_matematica_id = exercicio_matematica.id

@@ -1,11 +1,11 @@
 from abc import abstractmethod
 
-from garcom.adaptadores.orm.repositorio import RepositorioDominio
+from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
 
 from ...dominio.agregados.exercicio import Exercicio
 
 
-class ExercicioAbstratoDominio(RepositorioDominio):
+class ExercicioAbstratoDominio(RepositorioAbstrato):
     """
     Repositorio abstrato de dominio.
 

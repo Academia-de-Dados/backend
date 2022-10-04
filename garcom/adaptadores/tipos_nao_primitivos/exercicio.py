@@ -12,6 +12,7 @@ class Materia(str, EnumBase):
 
     matematica: str = 'Matemática'
     portugues: str = 'Português'
+    fisica: str = 'Física'
 
 
 class AssuntosMatematica(str, EnumBase):

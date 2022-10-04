@@ -2,14 +2,14 @@ from abc import abstractmethod
 
 from sqlalchemy.future import select
 
-from garcom.adaptadores.orm.repositorio import RepositorioConsulta
+from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
 from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
 from garcom.contextos_de_negocio.estrutura_de_provas.dominio.agregados.exercicio import (  # noqa
     Exercicio,
 )
 
 
-class ExercicioAbstratoConsulta(RepositorioConsulta):
+class ExercicioAbstratoConsulta(RepositorioAbstrato):
     """
     Abstração do Repositorio.
 
