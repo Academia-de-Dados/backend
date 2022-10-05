@@ -8,10 +8,15 @@ from ..contextos_de_negocio.estrutura_de_provas.repositorio.orm import orm
 app = FastAPI()
 
 
+@app.get('/')
+def rota_hellow():
+    return {"mensagem": "Olá Pessoas!"}
+
+
 @app.on_event('startup')
 def on_startup() -> None:
     """Inicializa o banco de dados."""
-    orm.init_database()
+    #orm.init_database()
     orm.start_mappers()
 
 

@@ -17,7 +17,7 @@ configs = Configuracoes()
 
 
 def get_postgres_uri() -> str:
-    """- Pega a uri do postgres."""
+    """Pega a uri do postgres."""
     return configs.database_uri
 
 
