@@ -27,9 +27,7 @@ router_estrutura_de_provas = APIRouter()
 
 
 @router_estrutura_de_provas.get(
-    '/exercicios', 
-    response_model=List[ExercicioModelConsulta],
-    status_code=200
+    '/exercicios', response_model=List[ExercicioModelConsulta], status_code=200
 )
 def consultar_todos_exercicios(response: Response) -> List[Exercicio]:
     """
@@ -40,17 +38,15 @@ def consultar_todos_exercicios(response: Response) -> List[Exercicio]:
     """
     unidade_de_trabalho = UnidadeDeTrabalho()
     exercicios = consultar_exercicios(unidade_de_trabalho)
-    
+
     if not exercicios:
-        response.status_code=204
+        response.status_code = 204
 
     return exercicios
 
 
 @router_estrutura_de_provas.post(
-    '/exercicios', 
-    response_model=ExercicioId,
-    status_code=201
+    '/exercicios', response_model=ExercicioId, status_code=201
 )
 def cadastrar_novo_exercicio(exercicio: ExercicioModelDominio) -> ExercicioId:
     """

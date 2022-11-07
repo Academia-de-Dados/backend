@@ -8,9 +8,10 @@ from ..contextos_de_negocio.estrutura_de_provas.repositorio.orm import orm
 app = FastAPI()
 app.include_router(router_estrutura_de_provas)
 
+
 @app.get('/')
 def rota_hellow():
-    return {"mensagem": "Olá Pessoas!"}
+    return {'mensagem': 'Olá Pessoas!'}
 
 
 @app.on_event('startup')
