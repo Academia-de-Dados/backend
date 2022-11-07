@@ -11,9 +11,12 @@ from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.orm.orm import 
 
 
 @fixture
-def cliente() -> TestClient:
+def cliente(session_factory) -> TestClient:
     """Cria um cliente de testes."""
-    return TestClient(app)
+    session_factory()
+    cliente = TestClient(app)
+
+    yield cliente
 
 
 @fixture

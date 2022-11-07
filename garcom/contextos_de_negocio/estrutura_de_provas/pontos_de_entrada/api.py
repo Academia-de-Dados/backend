@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 
 from garcom.adaptadores.tipos_nao_primitivos.tipos import (
     AvaliacaoId,
@@ -27,9 +27,11 @@ router_estrutura_de_provas = APIRouter()
 
 
 @router_estrutura_de_provas.get(
-    '/exercicios', response_model=List[ExercicioModelConsulta]
+    '/exercicios', 
+    response_model=List[ExercicioModelConsulta],
+    status_code=200
 )
-def consultar_todos_exercicios() -> List[Exercicio]:
+def consultar_todos_exercicios(response: Response) -> List[Exercicio]:
     """
     Rota para consulta de exercicios.
 
@@ -37,11 +39,19 @@ def consultar_todos_exercicios() -> List[Exercicio]:
     retornando todos os exercicios salvos no banco de dados.
     """
     unidade_de_trabalho = UnidadeDeTrabalho()
+    exercicios = consultar_exercicios(unidade_de_trabalho)
+    
+    if not exercicios:
+        response.status_code=204
 
-    return consultar_exercicios(unidade_de_trabalho)
+    return exercicios
 
 
-@router_estrutura_de_provas.post('/exercicios', response_model=ExercicioId)
+@router_estrutura_de_provas.post(
+    '/exercicios', 
+    response_model=ExercicioId,
+    status_code=201
+)
 def cadastrar_novo_exercicio(exercicio: ExercicioModelDominio) -> ExercicioId:
     """
     Rota de cadastro de exercicios.

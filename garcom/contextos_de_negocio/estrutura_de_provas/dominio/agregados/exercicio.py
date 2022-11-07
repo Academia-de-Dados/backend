@@ -4,7 +4,7 @@ from typing import Any, Dict, List, Optional
 
 from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
 
-from .....adaptadores.agregado import Agregado
+from ....agregado import Agregado
 from .....adaptadores.tipos_nao_primitivos.exercicio import (
     Dificuldade,
     Materia,

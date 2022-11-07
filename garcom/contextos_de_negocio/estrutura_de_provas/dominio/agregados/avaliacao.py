@@ -4,7 +4,7 @@ from typing import Optional
 from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
 from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
 
-from .....adaptadores.agregado import Agregado
+from ....agregado import Agregado
 from ..agregados.exercicio import Exercicio
 from ..comandos.avaliacao import CriarAvaliacao
 
