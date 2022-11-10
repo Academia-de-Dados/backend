@@ -1,6 +1,10 @@
 from fastapi.testclient import TestClient
 from sqlalchemy.orm import sessionmaker
-from tests.testes_integracao.test_unidade_de_trabalho import inserir_exercicio
+from tests.testes_integracao.test_unidade_de_trabalho import (
+    inserir_exercicio,
+    inserir_avaliacao
+)
+from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
 
 
 def test_cadastrar_novo_exercicio_retorna_200(
@@ -140,3 +144,19 @@ def test_consultar_avaliacao_retorna_200(
         resposta='4',
     )
     session.commit()
+    
+    avaliacao_id = cliente.post(
+        '/avaliacao',
+        json={
+            'titulo': 'Prova de matematica',
+            'responsavel': 'Othon',
+            'tipo_avaliacao': 'Avaliação Ensino Médio',
+            'exercicios': [str(exercicio_id)]
+        }
+    )
+
+    # testar o get
+    requisicao = cliente.get('/avaliacao')
+
+    assert requisicao.status_code == 200
+    assert requisicao.json()[0].get('id') == avaliacao_id.json()
