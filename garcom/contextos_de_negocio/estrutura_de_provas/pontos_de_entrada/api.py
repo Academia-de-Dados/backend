@@ -74,17 +74,21 @@ def cadastrar_novo_exercicio(exercicio: ExercicioModelDominio) -> ExercicioId:
 
 
 @router_estrutura_de_provas.get(
-    '/avaliacao', response_model=List[AvaliacaoModelConsulta]
+    '/avaliacao', response_model=List[AvaliacaoModelConsulta], status_code=200
 )
-def consultar_todas_avaliacoes() -> List[Avaliacao]:
+def consultar_todas_avaliacoes(response: Response) -> List[Avaliacao]:
 
     unidade_de_trabalho = UnidadeDeTrabalho()
     avaliacoes = consultar_avaliacoes(unidade_de_trabalho)
+    if not avaliacoes:
+        response.status_code = 204
 
     return avaliacoes
 
 
-@router_estrutura_de_provas.post('/avaliacao', response_model=AvaliacaoId)
+@router_estrutura_de_provas.post(
+    '/avaliacao', response_model=AvaliacaoId, status_code=201
+)
 def cadastrar_nova_avaliacao(avaliacao: AvaliacaoModelDominio) -> AvaliacaoId:
 
     unidade_de_trabalho = UnidadeDeTrabalho()
