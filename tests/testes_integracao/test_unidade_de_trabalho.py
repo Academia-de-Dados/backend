@@ -32,6 +32,25 @@ def inserir_exercicio(
     return exercicio_id
 
 
+def inserir_avaliacao(
+    session: sessionmaker,
+    titulo,
+    responsavel,
+    tipo_de_avaliacao,
+):
+    avaliacao_id = ExercicioId()
+    session.execute(
+        "INSERT INTO avaliacao (id, titulo, responsavel, tipo_de_avaliacao, criado_em, ultima_modificacao)"
+        "VALUES (:id, :titulo, :responsavel, :tipo_de_avaliacao, :criado_em, :ultima_modificacao)",
+        dict(
+            id=avaliacao_id, titulo=titulo, responsavel=responsavel,
+            tipo_de_avaliacao=tipo_de_avaliacao, criado_em=datetime.now(),
+            ultima_modificacao=datetime.now()
+        )
+    )
+    
+    return avaliacao_id
+
 def buscar_id_do_exercicio(
     session: sessionmaker, materia: str, assunto: str
 ) -> ExercicioId:
