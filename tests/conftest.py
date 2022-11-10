@@ -1,12 +1,22 @@
-import contextlib
 from pytest import fixture
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, clear_mappers
+from fastapi.testclient import TestClient
 from garcom.config import get_postgres_tests
+from garcom.aplicacao.main import app
 from garcom.adaptadores.orm.orm import metadata
 from tests.mocks import UnidadeDeTrabalhoFake
 from tests.testes_unitarios.mocks import RepoFake
 from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.orm.orm import start_mappers
+
+
+@fixture
+def cliente(session_factory) -> TestClient:
+    """Cria um cliente de testes."""
+    session_factory()
+    cliente = TestClient(app)
+
+    yield cliente
 
 
 @fixture

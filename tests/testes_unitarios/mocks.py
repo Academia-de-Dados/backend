@@ -1,6 +1,6 @@
 from typing import Type
 from uuid import UUID
-from garcom.adaptadores.agregado import Agregado
+from garcom.contextos_de_negocio.agregado import Agregado
 
 from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.repo_consulta.consulta_exercicios import (
     ExercicioAbstratoConsulta

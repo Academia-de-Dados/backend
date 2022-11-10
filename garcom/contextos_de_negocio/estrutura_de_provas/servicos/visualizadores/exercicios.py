@@ -30,7 +30,9 @@ def consultar_exercicio_por_id(
     """Consulta um exercicio pelo seu id."""
 
     with unidade_de_trabalho(Dominio.exercicios) as uow:
-        return uow.repo_consulta.consultar_por_id(exercicio_id)
+        exercicio = uow.repo_consulta.consultar_por_id(exercicio_id)
+
+    return exercicio
 
 
 def consultar_exercicios_por_id(

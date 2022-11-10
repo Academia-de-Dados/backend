@@ -4,11 +4,11 @@ from typing import Any, Dict, List, Optional
 
 from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
 
-from .....adaptadores.agregado import Agregado
 from .....adaptadores.tipos_nao_primitivos.exercicio import (
     Dificuldade,
     Materia,
 )
+from ....agregado import Agregado
 from ..comandos.exercicio import CriarExercicio
 
 # from ..regras_de_negocio.exercicio import verificar_qual_o_tipo_enum_do_assunto # noqa
