@@ -7,6 +7,7 @@ from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
 from ...dominio.agregados.avaliacao import Avaliacao
 from ...dominio.comandos.avaliacao import CriarAvaliacao
 from ..visualizadores.exercicios import consultar_exercicios_por_id
+from ...dominio.eventos.estrutura_de_provas import EnviarEmail
 
 
 def adicionar_avaliacao(
@@ -35,3 +36,12 @@ def adicionar_avaliacao(
             raise e
 
     return avaliacao_id
+
+
+def enviar_email(
+    evento: EnviarEmail, unidade_de_trabalho: UnidadeDeTrabalhoAbstrata
+):
+    """
+    Implementar envio de emails
+    """
+    ...
