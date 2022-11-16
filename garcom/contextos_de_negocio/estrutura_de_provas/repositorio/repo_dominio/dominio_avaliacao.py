@@ -3,7 +3,7 @@ from abc import abstractmethod
 from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
 
 from ...dominio.agregados.avaliacao import Avaliacao
-
+from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
 
 class AvaliacaoAbstratoDominio(RepositorioAbstrato):
     """
@@ -12,14 +12,36 @@ class AvaliacaoAbstratoDominio(RepositorioAbstrato):
     Implementa os métodos que alteram o banco de dados.
     """
 
+    def __init__(self):
+        super().__init__()
+        self.agregados = set()
+
+    def adicionar(self, agregado):
+        self._adicionar(agregado)
+        self.agregados.add(agregado)
+
+    def remover(self, agregado):
+        self._remover(agregado)
+        self.agregados.add(agregado)
+
+    def buscar_por_id(self, avaliacao_id: AvaliacaoId):
+        agregado = self._buscar_por_id(avaliacao_id)
+        if agregado:
+            self.agregados.add(agregado)
+        return agregado
+
     @abstractmethod
-    def adicionar(self) -> None:
+    def _adicionar(self) -> None:
         """Adiciona uma nova avaliacao no banco."""
         raise NotImplementedError
 
     @abstractmethod
-    def remover(self) -> None:
+    def _remover(self) -> None:
         """Remove uma avaliacao do banco."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def _buscar_por_id(self, avaliacao_id: AvaliacaoId) -> None:
         raise NotImplementedError
 
 
@@ -31,9 +53,12 @@ class AvaliacaoRepoDominio(AvaliacaoAbstratoDominio):
     métodos abstratos.
     """
 
-    def adicionar(self, avaliacao: Avaliacao) -> None:
+    def _adicionar(self, avaliacao: Avaliacao) -> None:
         """Adiciona uma avaliacao ao banco de dados."""
-        return self.session.add(avaliacao)
+        self.session.add(avaliacao)
 
-    def remover(self) -> None:
+    def _remover(self) -> None:
+        pass
+
+    def __buscar_por_id(self, avaliacao_id: AvaliacaoId) -> None:
         pass

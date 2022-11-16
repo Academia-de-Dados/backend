@@ -3,6 +3,7 @@ from abc import abstractmethod
 from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
 
 from ...dominio.agregados.exercicio import Exercicio
+from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
 
 
 class ExercicioAbstratoDominio(RepositorioAbstrato):
@@ -22,17 +23,31 @@ class ExercicioAbstratoDominio(RepositorioAbstrato):
         self.agregados = set()
 
     def adicionar(self, agregado):
-        self.add(agregado)
+        self._adicionar(agregado)
         self.agregados.add(agregado)
 
+    def remover(self, agregado):
+        self._remover(agregado)
+        self.agregados.add(agregado)
+
+    def buscar_por_id(self, exercicio_id: ExercicioId):
+        agregado = self._buscar_por_id(exercicio_id)
+        if agregado:
+            self.agregados.add(agregado)
+        return agregado
+
     @abstractmethod
-    def add(self, exercicio: Exercicio) -> None:
+    def _adicionar(self, exercicio: Exercicio) -> None:
         """Adiciona um novo exercicio ao banco."""
         raise NotImplementedError
 
     @abstractmethod
-    def remover(self) -> None:
+    def _remover(self) -> None:
         """Remove um exercicio do banco."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def _buscar_por_id(self, exercicio_id: ExercicioId) -> None:
         raise NotImplementedError
 
 
@@ -44,10 +59,13 @@ class ExercicioRepoDominio(ExercicioAbstratoDominio):
     utilizando a sessão do sqlalchemy.
     """
 
-    def add(self, exercicio: Exercicio) -> None:
+    def _adicionar(self, exercicio: Exercicio) -> None:
         """Adiciona um exercicio ao banco de dados."""
-        return self.session.add(exercicio)
+        self.session.add(exercicio)
 
-    def remover(self) -> None:
+    def _remover(self) -> None:
         """Remove um exercicio do banco de dados."""
+        pass
+
+    def __buscar_por_id(self, exercicio_id: ExercicioId) -> None:
         pass
