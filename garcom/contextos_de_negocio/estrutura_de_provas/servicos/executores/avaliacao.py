@@ -7,7 +7,7 @@ from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
 from ...dominio.agregados.avaliacao import Avaliacao
 from ...dominio.comandos.avaliacao import CriarAvaliacao
 from ..visualizadores.exercicios import consultar_exercicios_por_id
-from ...dominio.eventos.estrutura_de_provas import EnviarEmail
+from ...dominio.eventos.estrutura_de_provas import EnviarEmail, AvaliacaoCriada
 
 
 def adicionar_avaliacao(
@@ -27,9 +27,10 @@ def adicionar_avaliacao(
     avaliacao_id = avaliacao.id
 
     with unidade_de_trabalho(Dominio.avaliacao) as uow:
-        uow.repo_dominio.adicionar(avaliacao)
         try:
+            uow.repo_dominio.adicionar(avaliacao)
             uow.commit()
+            avaliacao.adicionar_evento(AvaliacaoCriada(avaliacao_id))
         except Exception as e:
             # Adicionar logs
             uow.rollback()
