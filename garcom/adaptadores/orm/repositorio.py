@@ -5,7 +5,7 @@ from sqlalchemy.orm.session import Session
 
 class RepositorioAbstrato(ABC):
     """
-    Interface do repositorio de consulta.
+    Interface do repositorio.
 
     Esta classe se comporta como uma interface entre a
     unidade de trabalho e a camada de repositorio.

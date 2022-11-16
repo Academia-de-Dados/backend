@@ -68,6 +68,10 @@ class UnidadeDeTrabalhoAbstrata(ABC):
 
         return self
 
+    def coletar_novos_eventos(self):
+        ...
+        
+
     @abstractmethod
     def commit(self) -> None:
         """

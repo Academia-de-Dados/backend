@@ -36,24 +36,28 @@ class BarramentoDeMensagens:
     def manipulador(self, mensagem: Mensagem):
         
         self.resultado_do_comando = None
-        
-        if isinstance(mensagem, Evento):
-            self.manipulador_de_eventos(mensagem)
-        
-        elif isinstance(mensagem, Comando):
-            self.resultado_do_comando = self.manipulador_de_comandos(mensagem)
-        
-        else:
-            raise self.NaoEUmEventoOuComando(
-                'O Objeto não é um evento ou comando.'
+        self.fila = [mensagem]
+        while self.fila:
+            mensagem = self.fila.pop(0)
+
+            if isinstance(mensagem, Evento):
+                self.manipulador_de_eventos(mensagem)
+            
+            elif isinstance(mensagem, Comando):
+                self.resultado_do_comando = self.manipulador_de_comandos(mensagem)
+            
+            else:
+                raise self.NaoEUmEventoOuComando(
+                    'O Objeto não é um evento ou comando.'
             )
-        
+
         return self.resultado_do_comando
     
     
     def manipulador_de_eventos(self, evento: Evento):
         for manipulador in self.manipuladores_de_eventos.get(type(evento), []):
             manipulador(evento, unidade_de_trabalho=self.unidade_de_trabalho)
+            self.fila.extend(self.unidade_de_trabalho.coletar_novos_eventos())
     
     
     def manipulador_de_comandos(self, comando: Comando):

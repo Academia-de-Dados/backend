@@ -11,10 +11,22 @@ class ExercicioAbstratoDominio(RepositorioAbstrato):
 
     Classe utilizada para implementar os métodos
     que alteram o banco de dados.
+    
+    O atributo 'agregados' é utilizado para adicionar as instancias
+    dos agregados iniciados, para poder coletar os eventos emitidos
+    por eles. Apenas repositorio de dominio emitir eventos, não usar
+    no de consulta.
     """
+    def __init__(self):
+        super().__init__()
+        self.agregados = set()
+
+    def adicionar(self, agregado):
+        self.add(agregado)
+        self.agregados.add(agregado)
 
     @abstractmethod
-    def adicionar(self, exercicio: Exercicio) -> None:
+    def add(self, exercicio: Exercicio) -> None:
         """Adiciona um novo exercicio ao banco."""
         raise NotImplementedError
 
@@ -32,7 +44,7 @@ class ExercicioRepoDominio(ExercicioAbstratoDominio):
     utilizando a sessão do sqlalchemy.
     """
 
-    def adicionar(self, exercicio: Exercicio) -> None:
+    def add(self, exercicio: Exercicio) -> None:
         """Adiciona um exercicio ao banco de dados."""
         return self.session.add(exercicio)
 
