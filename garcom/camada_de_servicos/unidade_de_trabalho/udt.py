@@ -5,7 +5,7 @@ from typing import Any, Type, TypeVar, Iterator
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
+from garcom.adaptadores.orm.repositorio import RepositorioAbstrato, RepositorioAbstratoDominio
 from garcom.config import get_postgres_uri
 from garcom.barramento import Evento
 
@@ -26,9 +26,9 @@ class UnidadeDeTrabalhoAbstrata(ABC):
 
     comitado: bool
     repo_consulta: RepositorioAbstrato
-    repo_dominio: RepositorioAbstrato
+    repo_dominio: RepositorioAbstratoDominio
     classe_consulta_repo: Type[RepositorioAbstrato]
-    classe_dominio_repo: Type[RepositorioAbstrato]
+    classe_dominio_repo: Type[RepositorioAbstratoDominio]
 
     def __enter__(self: TypeUnidadeAbstrata) -> TypeUnidadeAbstrata:
         """
@@ -69,11 +69,6 @@ class UnidadeDeTrabalhoAbstrata(ABC):
         self.classe_dominio_repo = dominio.value[1]
 
         return self
-
-    def coletar_novos_eventos(self) -> Iterator[Evento]:
-        for agregado in self.classe_dominio_repo.agregados:
-            while agregado.eventos:
-                yield agregado.eventos.pop(0)
 
     @abstractmethod
     def commit(self) -> None:
@@ -122,7 +117,7 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
     """
 
     repo_consulta: RepositorioAbstrato
-    repo_dominio: RepositorioAbstrato
+    repo_dominio: RepositorioAbstratoDominio
 
     def __init__(
         self, session_factory: sessionmaker = DEFAULT_SESSION_FACTORY
@@ -148,11 +143,24 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
         self.repo_consulta: RepositorioAbstrato = self.classe_consulta_repo(
             self.session
         )
-        self.repo_dominio: RepositorioAbstrato = self.classe_dominio_repo(
+        self.repo_dominio: RepositorioAbstratoDominio = self.classe_dominio_repo(
             self.session
         )
 
         return super().__enter__()
+
+    def coletar_novos_eventos(self) -> Iterator[Evento]:
+        
+        repos = []
+        if self.repo_dominio:
+            repos.append(self.repo_dominio)
+
+        for repo in repos:
+            for agregado in repo.agregados:
+                
+                while agregado.eventos:
+                    yield agregado.eventos.pop(0)
+
 
     def close(self) -> None:
         """
