@@ -1,12 +1,12 @@
 from abc import abstractmethod
 
-from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
+from garcom.adaptadores.orm.repositorio import RepositorioAbstratoDominio
 
 from ...dominio.agregados.exercicio import Exercicio
 from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
 
 
-class ExercicioAbstratoDominio(RepositorioAbstrato):
+class ExercicioAbstratoDominio(RepositorioAbstratoDominio):
     """
     Repositorio abstrato de dominio.
 
@@ -18,9 +18,6 @@ class ExercicioAbstratoDominio(RepositorioAbstrato):
     por eles. Apenas repositorio de dominio emitir eventos, não usar
     no de consulta.
     """
-    def __init__(self):
-        super().__init__()
-        self.agregados = set()
 
     def adicionar(self, agregado):
         self._adicionar(agregado)
@@ -58,7 +55,7 @@ class ExercicioRepoDominio(ExercicioAbstratoDominio):
     Possui a implementação dos métodos abstratos,
     utilizando a sessão do sqlalchemy.
     """
-
+    
     def _adicionar(self, exercicio: Exercicio) -> None:
         """Adiciona um exercicio ao banco de dados."""
         self.session.add(exercicio)
@@ -67,5 +64,5 @@ class ExercicioRepoDominio(ExercicioAbstratoDominio):
         """Remove um exercicio do banco de dados."""
         pass
 
-    def __buscar_por_id(self, exercicio_id: ExercicioId) -> None:
+    def _buscar_por_id(self, exercicio_id: ExercicioId) -> None:
         pass

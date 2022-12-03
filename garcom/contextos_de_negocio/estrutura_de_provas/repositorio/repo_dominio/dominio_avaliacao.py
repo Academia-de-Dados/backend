@@ -1,20 +1,16 @@
 from abc import abstractmethod
 
-from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
+from garcom.adaptadores.orm.repositorio import RepositorioAbstratoDominio
 
 from ...dominio.agregados.avaliacao import Avaliacao
 from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
 
-class AvaliacaoAbstratoDominio(RepositorioAbstrato):
+class AvaliacaoAbstratoDominio(RepositorioAbstratoDominio):
     """
     Repositorio abstrato de dominio.
 
     Implementa os métodos que alteram o banco de dados.
     """
-
-    def __init__(self):
-        super().__init__()
-        self.agregados = set()
 
     def adicionar(self, agregado):
         self._adicionar(agregado)
