@@ -13,3 +13,10 @@ class RepositorioAbstrato(ABC):
 
     def __init__(self, session: Session) -> None:
         self.session = session
+
+
+class RepositorioAbstratoDominio(ABC):
+    
+    def __init__(self, session: Session):
+        self.agregados = set()
+        self.session = session
