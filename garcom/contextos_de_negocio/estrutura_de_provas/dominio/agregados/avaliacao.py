@@ -9,7 +9,7 @@ from ..agregados.exercicio import Exercicio
 from ..comandos.avaliacao import CriarAvaliacao
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Avaliacao(Agregado):
 
     titulo: str

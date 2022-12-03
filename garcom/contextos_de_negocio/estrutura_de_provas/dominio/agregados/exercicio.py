@@ -10,11 +10,10 @@ from .....adaptadores.tipos_nao_primitivos.exercicio import (
 )
 from ....agregado import Agregado
 from ..comandos.exercicio import CriarExercicio
-
 # from ..regras_de_negocio.exercicio import verificar_qual_o_tipo_enum_do_assunto # noqa
 
 
-@dataclass
+@dataclass(kw_only=True)
 class Exercicio(Agregado):
     """
     Modelo de exercicio.
