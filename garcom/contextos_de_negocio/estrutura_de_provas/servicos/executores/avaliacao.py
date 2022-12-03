@@ -3,11 +3,10 @@ from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
     UnidadeDeTrabalhoAbstrata,
 )
-
 from ...dominio.agregados.avaliacao import Avaliacao
 from ...dominio.comandos.avaliacao import CriarAvaliacao
 from ..visualizadores.exercicios import consultar_exercicios_por_id
-from ...dominio.eventos.estrutura_de_provas import EnviarEmail, AvaliacaoCriada
+from ...dominio.eventos.estrutura_de_provas import AvaliacaoCriada
 
 
 def adicionar_avaliacao(
@@ -23,26 +22,17 @@ def adicionar_avaliacao(
     )
 
     avaliacao = Avaliacao.criar_avaliacao(comando, exercicios)
-
     avaliacao_id = avaliacao.id
 
     with unidade_de_trabalho(Dominio.avaliacao) as uow:
         try:
+            avaliacao.adicionar_evento(AvaliacaoCriada(avaliacao_id))
             uow.repo_dominio.adicionar(avaliacao)
             uow.commit()
-            avaliacao.adicionar_evento(AvaliacaoCriada(avaliacao_id))
+
         except Exception as e:
             # Adicionar logs
             uow.rollback()
             raise e
 
     return avaliacao_id
-
-
-def enviar_email(
-    evento: EnviarEmail, unidade_de_trabalho: UnidadeDeTrabalhoAbstrata
-):
-    """
-    Implementar envio de emails
-    """
-    ...
