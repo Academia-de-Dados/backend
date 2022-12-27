@@ -1,7 +1,8 @@
-from typing import Any
+from typing import Any, Iterator
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
     UnidadeDeTrabalhoAbstrata
 )
+from garcom.barramento import Evento
 
 
 class UnidadeDeTrabalhoFake(UnidadeDeTrabalhoAbstrata):
@@ -36,6 +37,19 @@ class UnidadeDeTrabalhoFake(UnidadeDeTrabalhoAbstrata):
         self.repo_consulta = self.__repo_consulta
         self.repo_dominio = self.__repo_dominio
         return super().__enter__()
+
+    def coletar_novos_eventos(self) -> Iterator[Evento]:
+        
+        repos = []
+        if self.repo_dominio:
+            repos.append(self.repo_dominio)
+
+        for repo in repos:
+            for agregado in repo.agregados:
+                
+                while agregado.eventos:
+                    yield agregado.eventos.pop(0)
+
 
     def close(self) -> None:
         """Método implementado para testes."""
