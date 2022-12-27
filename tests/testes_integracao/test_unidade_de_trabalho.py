@@ -9,6 +9,10 @@ from garcom.camada_de_servicos.unidade_de_trabalho.udt import UnidadeDeTrabalho
 from garcom.contextos_de_negocio.estrutura_de_provas.dominio.agregados.exercicio import (  # noqa
     Exercicio,
 )
+from garcom.contextos_de_negocio.estrutura_de_provas.dominio.eventos.estrutura_de_provas import (
+    EnviarEmail
+)
+
 
 def inserir_exercicio(
     session: sessionmaker, 
@@ -152,3 +156,38 @@ def test_uow_pode_inserir_um_exercicio_no_banco_de_dados(
     assert exercicio_recuperado.dificuldade == dificuldade
     assert exercicio_recuperado.enunciado == enunciado
     assert exercicio_recuperado.id == exercicio_id
+
+
+def test_uow_pode_coletar_eventos_dos_agregados(session, session_factory):
+    
+    # criando um exercicio
+    materia = 'Física'
+    assunto = 'Quântica'
+    dificuldade = 'Média'
+    enunciado = 'Qual o primeiro esferico harmonico de um eletron?'
+    resposta = 'Esferico simples'
+
+    exercicio = Exercicio(
+        materia=materia,
+        assunto=assunto,
+        dificuldade=dificuldade,
+        enunciado=enunciado,
+        resposta=resposta
+    )
+
+    # Usando a unidade de trabalho para inserir no banco de dados
+    unidade = UnidadeDeTrabalho(session_factory)
+
+    with unidade(Dominio.exercicios) as uow:
+        try:
+            evento = EnviarEmail(mensagem='Olá Mundo!')
+            exercicio.adicionar_evento(evento)
+            uow.repo_dominio.adicionar(exercicio)
+            uow.commit()
+        
+        except IntegrityError:
+            uow.rollback()
+    
+    eventos = list(unidade.coletar_novos_eventos())
+
+    assert evento in eventos
