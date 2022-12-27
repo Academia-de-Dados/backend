@@ -65,6 +65,5 @@ class BarramentoDeMensagens:
         manipulador = self.manipuladores_de_comandos.get(type(comando))
         resultado = manipulador(comando, unidade_de_trabalho=self.unidade_de_trabalho)
         evento = list(self.unidade_de_trabalho.coletar_novos_eventos())
-        #breakpoint()
         self.fila.extend(evento)
         return resultado

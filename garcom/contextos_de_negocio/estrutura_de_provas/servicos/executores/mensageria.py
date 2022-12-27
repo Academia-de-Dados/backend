@@ -1,4 +1,4 @@
-from ...dominio.eventos.estrutura_de_provas import EnviarEmail,
+from ...dominio.eventos.estrutura_de_provas import EnviarEmail
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
     UnidadeDeTrabalhoAbstrata,
 )
