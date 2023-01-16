@@ -20,6 +20,8 @@ def adicionar_avaliacao(
     exercicios = set(
         consultar_exercicios_por_id(unidade_de_trabalho, comando.exercicios)
     )
+    if not exercicios:
+        raise Exception('Exercicíos não encontrados!')
 
     avaliacao = Avaliacao.criar_avaliacao(comando, exercicios)
     avaliacao_id = avaliacao.id
