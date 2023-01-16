@@ -9,7 +9,7 @@ class RepoFake(RepositorioAbstratoDominio):
     """Repositorio de Exercicios Fake."""
 
     def __init__(self):
-        super.__init__(None)
+        super().__init__(session=None)
         self._objetos: list[Type[Agregado]] = list()
 
     def _adicionar(self, objeto: Type[Agregado]) -> None:
@@ -26,6 +26,9 @@ class RepoFake(RepositorioAbstratoDominio):
                 if objeto_id == objeto.id
             ))
         )
+
+    def consultar_por_id(self, objeto_id: UUID):
+        return self._buscar_por_id(objeto_id)
 
     def consultar_todos(self):
         """Retorna todos os exericios."""
