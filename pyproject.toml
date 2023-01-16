@@ -11,7 +11,7 @@ packages = [
 
 [tool.poetry.dependencies]
 python = "^3.10"
-fastapi = "^0.75.2"
+fastapi = "^0.89.1"
 dataclass-type-validator = "^0.1.2"
 SQLAlchemy = "^1.4.35"
 psycopg2-binary = "^2.9.3"
@@ -39,6 +39,7 @@ mypy = { version = "^0.942", optional = true }
 pydotenv = "^0.0.7"
 SQLAlchemy-Utils = "^0.38.2"
 requests = "^2.28.1"
+httpx = "^0.23.3"
 
 [tool.poetry.dev-dependencies]
 
