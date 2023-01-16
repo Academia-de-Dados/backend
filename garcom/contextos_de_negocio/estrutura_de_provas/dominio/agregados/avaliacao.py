@@ -9,7 +9,7 @@ from ..agregados.exercicio import Exercicio
 from ..comandos.avaliacao import CriarAvaliacao
 
 
-@dataclass(kw_only=True)
+@dataclass
 class Avaliacao(Agregado):
 
     titulo: str
@@ -17,6 +17,8 @@ class Avaliacao(Agregado):
     tipo_de_avaliacao: TipoDeAvaliacao
     exercicios: set[Exercicio]
     id: Optional[AvaliacaoId] = None
+    
+    eventos = []
 
     def __post_init__(self):
         self.id = AvaliacaoId()
