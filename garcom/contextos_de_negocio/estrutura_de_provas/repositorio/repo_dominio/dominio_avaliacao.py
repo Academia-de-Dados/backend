@@ -21,5 +21,5 @@ class AvaliacaoRepoDominio(RepositorioAbstratoDominio):
     def _remover(self) -> None:
         pass
 
-    def __buscar_por_id(self, avaliacao_id: AvaliacaoId) -> None:
+    def _buscar_por_id(self, avaliacao_id: AvaliacaoId) -> None:
         pass
