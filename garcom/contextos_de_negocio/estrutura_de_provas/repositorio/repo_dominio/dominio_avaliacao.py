@@ -1,9 +1,9 @@
 from abc import abstractmethod
 
 from garcom.adaptadores.orm.repositorio import RepositorioAbstratoDominio
+from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
 
 from ...dominio.agregados.avaliacao import Avaliacao
-from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
 
 
 class AvaliacaoRepoDominio(RepositorioAbstratoDominio):

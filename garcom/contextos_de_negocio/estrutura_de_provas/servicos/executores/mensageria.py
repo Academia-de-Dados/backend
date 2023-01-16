@@ -1,7 +1,8 @@
-from ...dominio.eventos.estrutura_de_provas import EnviarEmail
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
     UnidadeDeTrabalhoAbstrata,
 )
+
+from ...dominio.eventos.estrutura_de_provas import EnviarEmail
 
 
 def enviar_email(
@@ -11,5 +12,5 @@ def enviar_email(
     Implementar envio de emails
     """
     ...
-    
+
     print(evento)

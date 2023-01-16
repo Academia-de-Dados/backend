@@ -1,14 +1,16 @@
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any, Type, TypeVar, Iterator
+from typing import Any, Iterator, Type, TypeVar
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from garcom.adaptadores.orm.repositorio import RepositorioAbstrato, RepositorioAbstratoDominio
-from garcom.config import get_postgres_uri
+from garcom.adaptadores.orm.repositorio import (
+    RepositorioAbstrato,
+    RepositorioAbstratoDominio,
+)
 from garcom.barramento import Evento
-
+from garcom.config import get_postgres_uri
 
 TypeUnidadeAbstrata = TypeVar(
     'TypeUnidadeAbstrata', bound='UnidadeDeTrabalhoAbstrata'  # noqa: F821
@@ -143,24 +145,23 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
         self.repo_consulta: RepositorioAbstrato = self.classe_consulta_repo(
             self.session
         )
-        self.repo_dominio: RepositorioAbstratoDominio = self.classe_dominio_repo(
-            self.session
+        self.repo_dominio: RepositorioAbstratoDominio = (
+            self.classe_dominio_repo(self.session)
         )
 
         return super().__enter__()
 
     def coletar_novos_eventos(self) -> Iterator[Evento]:
-        
+
         repos = []
         if self.repo_dominio:
             repos.append(self.repo_dominio)
 
         for repo in repos:
             for agregado in repo.agregados:
-                
+
                 while agregado.eventos:
                     yield agregado.eventos.pop(0)
-
 
     def close(self) -> None:
         """

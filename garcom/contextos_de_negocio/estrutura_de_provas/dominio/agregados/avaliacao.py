@@ -17,7 +17,7 @@ class Avaliacao(Agregado):
     tipo_de_avaliacao: TipoDeAvaliacao
     exercicios: set[Exercicio]
     id: Optional[AvaliacaoId] = None
-    
+
     eventos = []
 
     def __post_init__(self):

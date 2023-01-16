@@ -6,7 +6,7 @@ from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
 
 from ...dominio.agregados.exercicio import Exercicio
 from ...dominio.comandos.exercicio import CriarExercicio
-from ...dominio.eventos.estrutura_de_provas import ExercicioCriado, EnviarEmail
+from ...dominio.eventos.estrutura_de_provas import EnviarEmail, ExercicioCriado
 
 
 def adicionar_exercicio(

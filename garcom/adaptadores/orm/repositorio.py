@@ -1,7 +1,10 @@
 from abc import ABC, abstractmethod
 from uuid import UUID
+
 from sqlalchemy.orm.session import Session
+
 from garcom.contextos_de_negocio.agregado import Agregado
+
 
 class RepositorioAbstrato(ABC):
     """
@@ -20,10 +23,10 @@ class RepositorioAbstratoDominio(ABC):
     Repositorio abstrato de dominio.
     Classe utilizada para implementar os métodos
     que alteram o banco de dados.
-    
+
     O atributo 'agregados' é utilizado para adicionar as instancias
     dos agregados iniciados, para poder coletar os eventos emitidos
-    por eles. Apenas repositorio de dominio podem emitir eventos, 
+    por eles. Apenas repositorio de dominio podem emitir eventos,
     não usar no de consulta.
     """
 

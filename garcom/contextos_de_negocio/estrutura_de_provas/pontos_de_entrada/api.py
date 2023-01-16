@@ -6,6 +6,7 @@ from garcom.adaptadores.tipos_nao_primitivos.tipos import (
     AvaliacaoId,
     ExercicioId,
 )
+from garcom.barramento import BarramentoDeMensagens
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import UnidadeDeTrabalho
 from garcom.representacoes import (
     AvaliacaoModelConsulta,
@@ -14,20 +15,16 @@ from garcom.representacoes import (
     ExercicioModelDominio,
 )
 
+from ...barramento.estrutura_de_provas import (
+    MANIPULADORES_ESTRUTURA_DE_PROVAS_COMANDOS,
+    MANIPULADORES_ESTRUTURA_DE_PROVAS_EVENTOS,
+)
 from ...estrutura_de_provas.dominio.agregados.avaliacao import Avaliacao
 from ..dominio.agregados.exercicio import Exercicio
 from ..dominio.comandos.avaliacao import CriarAvaliacao
 from ..dominio.comandos.exercicio import CriarExercicio
 from ..servicos.visualizadores.avaliacao import consultar_avaliacoes
 from ..servicos.visualizadores.exercicios import consultar_exercicios
-
-from garcom.barramento import BarramentoDeMensagens
-from ...barramento.estrutura_de_provas import (
-    MANIPULADORES_ESTRUTURA_DE_PROVAS_COMANDOS,
-    MANIPULADORES_ESTRUTURA_DE_PROVAS_EVENTOS,
-)
-
-
 
 router_estrutura_de_provas = APIRouter()
 
@@ -75,13 +72,13 @@ def cadastrar_novo_exercicio(exercicio: ExercicioModelDominio) -> ExercicioId:
         imagem_enunciado=exercicio.imagem_enunciado,
         imagem_resposta=exercicio.imagem_resposta,
     )
-    
+
     barramento = BarramentoDeMensagens(
         unidade_de_trabalho=unidade_de_trabalho,
         manipuladores_de_eventos=MANIPULADORES_ESTRUTURA_DE_PROVAS_EVENTOS,
         manipuladores_de_comandos=MANIPULADORES_ESTRUTURA_DE_PROVAS_COMANDOS,
     )
-    
+
     return barramento.manipulador(mensagem=comando)
 
 

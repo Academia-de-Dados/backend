@@ -2,15 +2,17 @@ from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
-
 from garcom.adaptadores.tipos_nao_primitivos.exercicio import (
     Dificuldade,
     Materia,
 )
+from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
 from garcom.barramento import Evento
 from garcom.contextos_de_negocio.agregado import Agregado
-from garcom.contextos_de_negocio.estrutura_de_provas.dominio.comandos.exercicio import CriarExercicio
+from garcom.contextos_de_negocio.estrutura_de_provas.dominio.comandos.exercicio import (
+    CriarExercicio,
+)
+
 # from ..regras_de_negocio.exercicio import verificar_qual_o_tipo_enum_do_assunto # noqa
 
 

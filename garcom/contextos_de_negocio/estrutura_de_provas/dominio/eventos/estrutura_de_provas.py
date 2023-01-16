@@ -1,6 +1,11 @@
 from dataclasses import dataclass
+
+from garcom.adaptadores.tipos_nao_primitivos.tipos import (
+    AvaliacaoId,
+    ExercicioId,
+)
 from garcom.barramento import Evento
-from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId, AvaliacaoId
+
 
 @dataclass(frozen=True)
 class EnviarEmail(Evento):
