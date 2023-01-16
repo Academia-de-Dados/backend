@@ -50,7 +50,6 @@ def test_consultar_todos_exercicios_retorna_204_se_nao_existir_exercicios(
     resposta = cliente.get('/exercicios')
 
     assert resposta.status_code == 204
-    assert resposta.json() == []
 
 
 def test_consultar_todos_exercicios_retorna_200(
@@ -127,7 +126,6 @@ def test_consultar_avaliacao_retorna_204_caso_nao_tenha_nada(cliente: TestClient
     requisicao = cliente.get('/avaliacao')
     
     assert requisicao.status_code == 204
-    assert requisicao.json() == []
 
 
 def test_consultar_avaliacao_retorna_200(
