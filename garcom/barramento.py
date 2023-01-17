@@ -1,5 +1,5 @@
 from abc import ABC
-from typing import Union, Callable, Optional
+from typing import Callable, Optional, Union
 from uuid import UUID
 
 
