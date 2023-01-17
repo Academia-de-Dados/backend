@@ -24,7 +24,7 @@ def adicionar_exercicio(
 
     with unidade_de_trabalho(Dominio.exercicios) as uow:
         try:
-            exercicio.adicionar_evento(EnviarEmail(mensagem='Olá Mundo!'))
+            exercicio.adicionar_evento(EnviarEmail(mensagem='Evento executado!'))
             uow.repo_dominio.adicionar(exercicio)
             uow.commit()
         except Exception as e:

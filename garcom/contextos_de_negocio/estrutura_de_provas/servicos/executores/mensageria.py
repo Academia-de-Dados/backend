@@ -10,7 +10,14 @@ def enviar_email(
 ):
     """
     Implementar envio de emails
+    
+    Crio um arquivo em memoria e salvo, para poder testar se o evento é 
+    de fato executado.
     """
     ...
 
-    print(evento)
+    print(evento.mensagem)
+    
+    arquivo = open('teste_evento', 'w+')
+    arquivo.writelines(evento.mensagem)
+    arquivo.close()
