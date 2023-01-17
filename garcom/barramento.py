@@ -1,5 +1,6 @@
 from abc import ABC
-from typing import Union
+from typing import Union, Callable, Optional
+from uuid import UUID
 
 
 class Comando(ABC):
@@ -22,9 +23,9 @@ class BarramentoDeMensagens:
 
     def __init__(
         self,
-        unidade_de_trabalho,
-        manipuladores_de_eventos,
-        manipuladores_de_comandos,
+        unidade_de_trabalho: 'UnidadeDeTrabalho',
+        manipuladores_de_eventos: Optional[dict[str, Callable]],
+        manipuladores_de_comandos: Optional[dict[str, Callable]],
     ):
         self.unidade_de_trabalho = unidade_de_trabalho
         self.manipuladores_de_eventos = manipuladores_de_eventos
@@ -33,7 +34,7 @@ class BarramentoDeMensagens:
     class NaoEUmEventoOuComando(Exception):
         pass
 
-    def manipulador(self, mensagem: Mensagem):
+    def manipulador(self, mensagem: Mensagem) -> UUID:
 
         self.resultado_do_comando = None
         self.fila = [mensagem]
@@ -61,7 +62,7 @@ class BarramentoDeMensagens:
             evento = list(self.unidade_de_trabalho.coletar_novos_eventos())
             self.fila.extend(evento)
 
-    def manipulador_de_comandos(self, comando: Comando):
+    def manipulador_de_comandos(self, comando: Comando) -> UUID:
         manipulador = self.manipuladores_de_comandos.get(type(comando))
         resultado = manipulador(
             comando, unidade_de_trabalho=self.unidade_de_trabalho
