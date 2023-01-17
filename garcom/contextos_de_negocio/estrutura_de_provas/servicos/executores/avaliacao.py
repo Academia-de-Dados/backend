@@ -6,6 +6,7 @@ from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
 
 from ...dominio.agregados.avaliacao import Avaliacao
 from ...dominio.comandos.avaliacao import CriarAvaliacao
+from ...dominio.eventos.estrutura_de_provas import AvaliacaoCriada
 from ..visualizadores.exercicios import consultar_exercicios_por_id
 
 
@@ -20,15 +21,18 @@ def adicionar_avaliacao(
     exercicios = set(
         consultar_exercicios_por_id(unidade_de_trabalho, comando.exercicios)
     )
+    if not exercicios:
+        raise Exception('Exercicíos não encontrados!')
 
     avaliacao = Avaliacao.criar_avaliacao(comando, exercicios)
-
     avaliacao_id = avaliacao.id
 
     with unidade_de_trabalho(Dominio.avaliacao) as uow:
-        uow.repo_dominio.adicionar(avaliacao)
         try:
+            avaliacao.adicionar_evento(AvaliacaoCriada(avaliacao_id))
+            uow.repo_dominio.adicionar(avaliacao)
             uow.commit()
+
         except Exception as e:
             # Adicionar logs
             uow.rollback()

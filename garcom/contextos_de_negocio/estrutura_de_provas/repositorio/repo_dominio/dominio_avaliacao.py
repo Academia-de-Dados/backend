@@ -1,29 +1,12 @@
 from abc import abstractmethod
 
-from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
+from garcom.adaptadores.orm.repositorio import RepositorioAbstratoDominio
+from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
 
 from ...dominio.agregados.avaliacao import Avaliacao
 
 
-class AvaliacaoAbstratoDominio(RepositorioAbstrato):
-    """
-    Repositorio abstrato de dominio.
-
-    Implementa os métodos que alteram o banco de dados.
-    """
-
-    @abstractmethod
-    def adicionar(self) -> None:
-        """Adiciona uma nova avaliacao no banco."""
-        raise NotImplementedError
-
-    @abstractmethod
-    def remover(self) -> None:
-        """Remove uma avaliacao do banco."""
-        raise NotImplementedError
-
-
-class AvaliacaoRepoDominio(AvaliacaoAbstratoDominio):
+class AvaliacaoRepoDominio(RepositorioAbstratoDominio):
     """
     Repositorio concreto de dominio.
 
@@ -31,9 +14,12 @@ class AvaliacaoRepoDominio(AvaliacaoAbstratoDominio):
     métodos abstratos.
     """
 
-    def adicionar(self, avaliacao: Avaliacao) -> None:
+    def _adicionar(self, avaliacao: Avaliacao) -> None:
         """Adiciona uma avaliacao ao banco de dados."""
-        return self.session.add(avaliacao)
+        self.session.add(avaliacao)
 
-    def remover(self) -> None:
+    def _remover(self) -> None:
+        pass
+
+    def _buscar_por_id(self, avaliacao_id: AvaliacaoId) -> None:
         pass

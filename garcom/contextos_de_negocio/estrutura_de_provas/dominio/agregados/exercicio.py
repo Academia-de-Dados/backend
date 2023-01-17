@@ -1,15 +1,17 @@
-from dataclasses import asdict, dataclass
+from dataclasses import dataclass, field
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 
-from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
-
-from .....adaptadores.tipos_nao_primitivos.exercicio import (
+from garcom.adaptadores.tipos_nao_primitivos.exercicio import (
     Dificuldade,
     Materia,
 )
-from ....agregado import Agregado
-from ..comandos.exercicio import CriarExercicio
+from garcom.adaptadores.tipos_nao_primitivos.tipos import ExercicioId
+from garcom.barramento import Evento
+from garcom.contextos_de_negocio.agregado import Agregado
+from garcom.contextos_de_negocio.estrutura_de_provas.dominio.comandos.exercicio import (
+    CriarExercicio,
+)
 
 # from ..regras_de_negocio.exercicio import verificar_qual_o_tipo_enum_do_assunto # noqa
 
@@ -36,6 +38,8 @@ class Exercicio(Agregado):
     imagem_enunciado: Optional[str] = None
     data_lancamento: Optional[datetime] = None
 
+    eventos = []
+
     def __post_init__(self):
         self.id = ExercicioId()
 
@@ -55,8 +59,20 @@ class Exercicio(Agregado):
         return hash(self.id)
 
     def para_dicionario(self) -> Dict[str, Any]:
-
-        return asdict(self)
+        return {
+            'enunciado': self.enunciado,
+            'resposta': self.resposta,
+            'assunto': self.assunto,
+            'materia': self.materia,
+            'dificuldade': self.dificuldade,
+            'origem': self.origem,
+            'multipla_escolha': self.multipla_escolha,
+            'alternativas': self.alternativas,
+            'id': self.id,
+            'imagem_resposta': self.imagem_resposta,
+            'imagem_enunciado': self.imagem_enunciado,
+            'data_lancamento': self.data_lancamento,
+        }
 
     @classmethod
     def criar_novo(cls, criar_exercicio: CriarExercicio) -> 'Exercicio':

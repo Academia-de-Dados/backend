@@ -1,11 +1,15 @@
 from abc import ABC, abstractmethod
 from enum import Enum
-from typing import Any, Type, TypeVar
+from typing import Any, Iterator, Type, TypeVar
 
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
+from garcom.adaptadores.orm.repositorio import (
+    RepositorioAbstrato,
+    RepositorioAbstratoDominio,
+)
+from garcom.barramento import Evento
 from garcom.config import get_postgres_uri
 
 TypeUnidadeAbstrata = TypeVar(
@@ -24,9 +28,9 @@ class UnidadeDeTrabalhoAbstrata(ABC):
 
     comitado: bool
     repo_consulta: RepositorioAbstrato
-    repo_dominio: RepositorioAbstrato
+    repo_dominio: RepositorioAbstratoDominio
     classe_consulta_repo: Type[RepositorioAbstrato]
-    classe_dominio_repo: Type[RepositorioAbstrato]
+    classe_dominio_repo: Type[RepositorioAbstratoDominio]
 
     def __enter__(self: TypeUnidadeAbstrata) -> TypeUnidadeAbstrata:
         """
@@ -115,7 +119,7 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
     """
 
     repo_consulta: RepositorioAbstrato
-    repo_dominio: RepositorioAbstrato
+    repo_dominio: RepositorioAbstratoDominio
 
     def __init__(
         self, session_factory: sessionmaker = DEFAULT_SESSION_FACTORY
@@ -141,11 +145,23 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
         self.repo_consulta: RepositorioAbstrato = self.classe_consulta_repo(
             self.session
         )
-        self.repo_dominio: RepositorioAbstrato = self.classe_dominio_repo(
-            self.session
+        self.repo_dominio: RepositorioAbstratoDominio = (
+            self.classe_dominio_repo(self.session)
         )
 
         return super().__enter__()
+
+    def coletar_novos_eventos(self) -> Iterator[Evento]:
+
+        repos = []
+        if self.repo_dominio:
+            repos.append(self.repo_dominio)
+
+        for repo in repos:
+            for agregado in repo.agregados:
+
+                while agregado.eventos:
+                    yield agregado.eventos.pop(0)
 
     def close(self) -> None:
         """

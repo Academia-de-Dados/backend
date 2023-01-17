@@ -18,6 +18,8 @@ class Avaliacao(Agregado):
     exercicios: set[Exercicio]
     id: Optional[AvaliacaoId] = None
 
+    eventos = []
+
     def __post_init__(self):
         self.id = AvaliacaoId()
 

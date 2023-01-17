@@ -6,6 +6,7 @@ from garcom.adaptadores.tipos_nao_primitivos.tipos import (
     AvaliacaoId,
     ExercicioId,
 )
+from garcom.barramento import BarramentoDeMensagens
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import UnidadeDeTrabalho
 from garcom.representacoes import (
     AvaliacaoModelConsulta,
@@ -14,12 +15,14 @@ from garcom.representacoes import (
     ExercicioModelDominio,
 )
 
+from ...barramento.estrutura_de_provas import (
+    MANIPULADORES_ESTRUTURA_DE_PROVAS_COMANDOS,
+    MANIPULADORES_ESTRUTURA_DE_PROVAS_EVENTOS,
+)
 from ...estrutura_de_provas.dominio.agregados.avaliacao import Avaliacao
 from ..dominio.agregados.exercicio import Exercicio
 from ..dominio.comandos.avaliacao import CriarAvaliacao
 from ..dominio.comandos.exercicio import CriarExercicio
-from ..servicos.executores.avaliacao import adicionar_avaliacao
-from ..servicos.executores.exercicios import adicionar_exercicio
 from ..servicos.visualizadores.avaliacao import consultar_avaliacoes
 from ..servicos.visualizadores.exercicios import consultar_exercicios
 
@@ -29,7 +32,7 @@ router_estrutura_de_provas = APIRouter()
 @router_estrutura_de_provas.get(
     '/exercicios', response_model=List[ExercicioModelConsulta], status_code=200
 )
-def consultar_todos_exercicios(response: Response) -> List[Exercicio]:
+def consultar_todos_exercicios() -> List[Exercicio]:
     """
     Rota para consulta de exercicios.
 
@@ -40,7 +43,7 @@ def consultar_todos_exercicios(response: Response) -> List[Exercicio]:
     exercicios = consultar_exercicios(unidade_de_trabalho)
 
     if not exercicios:
-        response.status_code = 204
+        return Response(status_code=204)
 
     return exercicios
 
@@ -70,18 +73,24 @@ def cadastrar_novo_exercicio(exercicio: ExercicioModelDominio) -> ExercicioId:
         imagem_resposta=exercicio.imagem_resposta,
     )
 
-    return adicionar_exercicio(comando, unidade_de_trabalho)
+    barramento = BarramentoDeMensagens(
+        unidade_de_trabalho=unidade_de_trabalho,
+        manipuladores_de_eventos=MANIPULADORES_ESTRUTURA_DE_PROVAS_EVENTOS,
+        manipuladores_de_comandos=MANIPULADORES_ESTRUTURA_DE_PROVAS_COMANDOS,
+    )
+
+    return barramento.manipulador(mensagem=comando)
 
 
 @router_estrutura_de_provas.get(
     '/avaliacao', response_model=List[AvaliacaoModelConsulta], status_code=200
 )
-def consultar_todas_avaliacoes(response: Response) -> List[Avaliacao]:
+def consultar_todas_avaliacoes() -> List[Avaliacao]:
 
     unidade_de_trabalho = UnidadeDeTrabalho()
     avaliacoes = consultar_avaliacoes(unidade_de_trabalho)
     if not avaliacoes:
-        response.status_code = 204
+        return Response(status_code=204)
 
     return avaliacoes
 
@@ -99,4 +108,10 @@ def cadastrar_nova_avaliacao(avaliacao: AvaliacaoModelDominio) -> AvaliacaoId:
         exercicios=avaliacao.exercicios,
     )
 
-    return adicionar_avaliacao(comando, unidade_de_trabalho)
+    barramento = BarramentoDeMensagens(
+        unidade_de_trabalho=unidade_de_trabalho,
+        manipuladores_de_eventos=MANIPULADORES_ESTRUTURA_DE_PROVAS_EVENTOS,
+        manipuladores_de_comandos=MANIPULADORES_ESTRUTURA_DE_PROVAS_COMANDOS,
+    )
+
+    return barramento.manipulador(mensagem=comando)

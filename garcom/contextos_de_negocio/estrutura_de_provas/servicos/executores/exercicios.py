@@ -6,6 +6,7 @@ from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
 
 from ...dominio.agregados.exercicio import Exercicio
 from ...dominio.comandos.exercicio import CriarExercicio
+from ...dominio.eventos.estrutura_de_provas import EnviarEmail, ExercicioCriado
 
 
 def adicionar_exercicio(
@@ -22,11 +23,15 @@ def adicionar_exercicio(
     exercicio_id = exercicio.id
 
     with unidade_de_trabalho(Dominio.exercicios) as uow:
-        uow.repo_dominio.adicionar(exercicio)
         try:
+            exercicio.adicionar_evento(
+                EnviarEmail(mensagem='Evento executado!')
+            )
+            uow.repo_dominio.adicionar(exercicio)
             uow.commit()
         except Exception as e:
-            print(e)
+            # Adicionar logs
             uow.rollback()
+            raise e
 
     return exercicio_id
