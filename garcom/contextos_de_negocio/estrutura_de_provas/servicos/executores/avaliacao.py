@@ -29,7 +29,9 @@ def adicionar_avaliacao(
 
     with unidade_de_trabalho(Dominio.avaliacao) as uow:
         try:
-            avaliacao.adicionar_evento(AvaliacaoCriada(avaliacao_id))
+            avaliacao.adicionar_evento(
+                AvaliacaoCriada(avaliacao_id, 'Avaliação criada com sucesso!')
+            )
             uow.repo_dominio.adicionar(avaliacao)
             uow.commit()
 

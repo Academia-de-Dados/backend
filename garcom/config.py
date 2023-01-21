@@ -6,6 +6,7 @@ class Configuracoes(BaseSettings):
 
     database_uri: str
     database_tests: str
+    dsn_sentry: str
 
     class Config:
         """Classe que indica qual o arquivo .env."""
@@ -24,3 +25,7 @@ def get_postgres_uri() -> str:
 def get_postgres_tests() -> str:
     """Pega a URI do banco de tests."""
     return configs.database_tests
+
+
+def get_dsn_sentry() -> str:
+    return configs.dsn_sentry
