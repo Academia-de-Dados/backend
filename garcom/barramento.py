@@ -1,8 +1,8 @@
-import logging
+from loguru import logger
 from abc import ABC
 from typing import Callable, Optional, Union
 from uuid import UUID
-
+from garcom.aplicacao.sentry import loggers
 
 class Comando(ABC):
     pass
@@ -60,7 +60,7 @@ class BarramentoDeMensagens:
     def manipulador_de_eventos(self, evento: Evento):
         for manipulador in self.manipuladores_de_eventos.get(type(evento), []):
             try:
-                logging.debug(
+                loggers.debug(
                     f'Execuntando evento: {evento}, com executor: {manipulador}'
                 )
 
@@ -71,24 +71,24 @@ class BarramentoDeMensagens:
                 self.fila.extend(evento)
 
             except Exception as e:
-                logging.exception(f'Erro ao executar: {evento}, erro: {e}')
+                loggers.exception(f'Erro ao executar: {evento}, erro: {e}')
 
     def manipulador_de_comandos(self, comando: Comando) -> UUID:
         manipulador = self.manipuladores_de_comandos.get(type(comando))
         try:
-            logging.debug(
+            loggers.debug(
                 f'Execuntando comando: {comando}, com executor: {manipulador}'
             )
 
             resultado = manipulador(
                 comando, unidade_de_trabalho=self.unidade_de_trabalho
             )
-            logging.debug(f'Resultado comando: {resultado}')
+            loggers.info(f'Resultado comando: {resultado}')
 
             evento = list(self.unidade_de_trabalho.coletar_novos_eventos())
             self.fila.extend(evento)
 
-        except Exception as e:
-            logging.exception(f'Erro ao executar: {comando}, erro: {e}')
+            return resultado
 
-        return resultado
+        except Exception as e:
+            loggers.exception(f'Erro ao executar: {comando}, erro: {e}')
