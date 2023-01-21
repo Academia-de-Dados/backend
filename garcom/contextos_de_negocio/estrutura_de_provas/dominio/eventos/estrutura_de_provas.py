@@ -15,8 +15,10 @@ class EnviarEmail(Evento):
 @dataclass(frozen=True)
 class ExercicioCriado(Evento):
     exercicio_id: ExercicioId
+    mensagem: str
 
 
 @dataclass(frozen=True)
 class AvaliacaoCriada(Evento):
     avaliacao_id: AvaliacaoId
+    mensagem: str
