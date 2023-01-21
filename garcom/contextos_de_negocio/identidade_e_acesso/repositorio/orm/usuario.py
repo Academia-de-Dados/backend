@@ -1,11 +1,9 @@
-from sqlalchemy import (
-    Boolean,
-    DateTime,
-    String,
-)
-from garcom.adaptadores.orm.orm import DbColumn, DbTable, mapper, metadata
-from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import Usuario
+from sqlalchemy import Boolean, DateTime, String
 
+from garcom.adaptadores.orm.orm import DbColumn, DbTable, mapper, metadata
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
+    Usuario,
+)
 
 usuarios = DbTable(
     'usuarios',
@@ -14,7 +12,7 @@ usuarios = DbTable(
     DbColumn('nome', String(length=255), nullable=False),
     DbColumn('email', String(length=255), nullable=False, index=True),
     DbColumn('data_de_nascimento', DateTime, nullable=False),
-    DbColumn('ativo', Boolean, nullable=False)
+    DbColumn('ativo', Boolean, nullable=False),
 )
 
 
