@@ -5,7 +5,7 @@ from typing import Optional
 from dataclass_type_validator import dataclass_validate
 
 from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
-from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
+from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome, Senha
 from garcom.contextos_de_negocio.agregado import Agregado
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     CriarUsuario,
@@ -17,6 +17,7 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario im
 class Usuario(Agregado):
     nome: Nome
     email: Email
+    senha: Senha
     data_de_nascimento: datetime
     ativo: bool = True
     id: Optional[UsuarioId] = None
@@ -28,9 +29,13 @@ class Usuario(Agregado):
 
     @classmethod
     def cadrastar_novo_usuario(cls, comando: CriarUsuario) -> 'Usuario':
+        """
+        Adicionar conversão para hash
+        """
         return cls(
             nome=comando.nome,
             email=comando.email,
             ativo=comando.ativo,
             data_de_nascimento=comando.data_de_nascimento,
+            senha=comando.senha,
         )

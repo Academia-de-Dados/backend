@@ -9,6 +9,10 @@ class EmailInvalido(Exception):
     pass
 
 
+class SenhaInvalida(Exception):
+    pass
+
+
 class Nome(str):
     def __new__(cls, nome: str):
         if not isinstance(nome, str):
@@ -32,3 +36,33 @@ class Email(str):
             raise EmailInvalido('Formatado de email inválido!')
 
         return super().__new__(cls, email)
+
+
+class Senha(str):
+    def __new__(cls, senha: str):
+        if len(senha) < 8:
+            raise SenhaInvalida('Senha muito curta!')
+        
+        if not isinstance(senha, str):
+            raise SenhaInvalida(
+                'Senha deve conter pelo menos um caracter maiusculo e um numérico.'
+            )
+
+        caracteres_numericos = []
+        caracteres_maiusculos = []
+        for caracter in list(senha):
+            try:
+                int(caracter)
+                caracteres_numericos.append(caracter)
+            except ValueError:
+                maiusculo = caracter.upper()
+                if caracter == maiusculo:
+                    caracteres_maiusculos.append(caracter)
+        
+        if len(caracteres_numericos) == 0:
+            raise SenhaInvalida('Senha deve conter pelo menos um caracter númerico!')
+        
+        if len(caracteres_maiusculos) < 1:
+            raise SenhaInvalida('Senha deve conter pelo menos um caracter maiúsculo!')
+        
+        return super().__new__(cls, senha)
