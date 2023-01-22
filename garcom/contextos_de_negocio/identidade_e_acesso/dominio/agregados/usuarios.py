@@ -28,7 +28,7 @@ class Usuario(Agregado):
         self.id = UsuarioId()
 
     @classmethod
-    def cadrastar_novo_usuario(cls, comando: CriarUsuario) -> 'Usuario':
+    def cadrastar_novo_usuario(cls, comando: CriarUsuario) -> "Usuario":
         """
         Adicionar conversão para hash
         """

@@ -13,10 +13,10 @@ def remove_acentos_e_deixa_caixa_baixa(texto: str) -> str:
     """
     from unicodedata import combining, normalize
 
-    texto_normalizado = normalize('NFD', texto)
-    filtrar = ''.join(c for c in texto_normalizado if not combining(c))
+    texto_normalizado = normalize("NFD", texto)
+    filtrar = "".join(c for c in texto_normalizado if not combining(c))
 
-    return normalize('NFC', filtrar).lower().strip().replace(' ', '_')
+    return normalize("NFC", filtrar).lower().strip().replace(" ", "_")
 
 
 def verificar_qual_o_tipo_enum_do_assunto(assunto: str) -> Enum:
@@ -30,5 +30,5 @@ def verificar_qual_o_tipo_enum_do_assunto(assunto: str) -> Enum:
 
     else:
         raise AssuntoNaoEncontrado(
-            'O assunto passado não foi encontrado nos assuntos existentes!'
+            "O assunto passado não foi encontrado nos assuntos existentes!"
         )

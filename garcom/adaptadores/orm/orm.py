@@ -45,18 +45,13 @@ class DbTable(Table):
     """
 
     def _init(
-        cls,
-        *args: tuple[Any],
-        herda_do_public: bool = False,
-        **kwargs: dict[Any, Any]
+        cls, *args: tuple[Any], herda_do_public: bool = False, **kwargs: dict[Any, Any]
     ) -> None:
         super()._init(
             *args,
+            DbColumn("criado_em", DateTime, default=datetime.utcnow, nullable=False),
             DbColumn(
-                'criado_em', DateTime, default=datetime.utcnow, nullable=False
-            ),
-            DbColumn(
-                'ultima_modificacao',
+                "ultima_modificacao",
                 DateTime,
                 server_default=func.now(),
                 server_onupdate=func.now(),

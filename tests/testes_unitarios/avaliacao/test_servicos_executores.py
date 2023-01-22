@@ -1,21 +1,23 @@
 from garcom.contextos_de_negocio.estrutura_de_provas.dominio.agregados.avaliacao import (
-    Avaliacao
+    Avaliacao,
 )
 from garcom.contextos_de_negocio.estrutura_de_provas.dominio.comandos.avaliacao import (
-    CriarAvaliacao
+    CriarAvaliacao,
 )
 from garcom.contextos_de_negocio.estrutura_de_provas.dominio.comandos.exercicio import (
-    CriarExercicio
+    CriarExercicio,
 )
 from garcom.contextos_de_negocio.estrutura_de_provas.dominio.agregados.exercicio import (
-    Exercicio
+    Exercicio,
 )
 from garcom.adaptadores.tipos_nao_primitivos.exercicio import (
-    Dificuldade, Materia, AssuntosMatematica
+    Dificuldade,
+    Materia,
+    AssuntosMatematica,
 )
 from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
 from garcom.contextos_de_negocio.estrutura_de_provas.servicos.executores.avaliacao import (
-    adicionar_avaliacao
+    adicionar_avaliacao,
 )
 
 
@@ -24,10 +26,10 @@ def test_adicionar_avaliacao(mock_uow):
     # criando exercicios
     comando = CriarExercicio(
         materia=Materia.matematica,
-        assunto='Operações Básicas',
+        assunto="Operações Básicas",
         dificuldade=Dificuldade.facil,
-        enunciado='Quanto é dois mais dois?',
-        resposta='4'
+        enunciado="Quanto é dois mais dois?",
+        resposta="4",
     )
 
     exercicio = Exercicio.criar_novo(comando)
@@ -36,18 +38,16 @@ def test_adicionar_avaliacao(mock_uow):
 
     # adicionando avaliacao
     comando = CriarAvaliacao(
-        titulo = 'Avaliação de Matemática',
-        responsavel= 'Othon',
+        titulo="Avaliação de Matemática",
+        responsavel="Othon",
         tipo_de_avaliacao=TipoDeAvaliacao.avaliacao_ensino_medio,
-        exercicios={exercicio.id}
+        exercicios={exercicio.id},
     )
 
     avaliacao_id = adicionar_avaliacao(comando, mock_uow)
 
     # verificando se foi realmente adicionado
     with mock_uow:
-        avaliacoes = mock_uow.repo_consulta.consultar_todos_por_agregado(
-            Avaliacao
-        )
+        avaliacoes = mock_uow.repo_consulta.consultar_todos_por_agregado(Avaliacao)
 
     assert avaliacoes[0].id == avaliacao_id

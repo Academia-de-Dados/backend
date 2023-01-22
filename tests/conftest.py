@@ -7,7 +7,9 @@ from garcom.aplicacao.main import app
 from garcom.adaptadores.orm.orm import metadata
 from tests.mocks import UnidadeDeTrabalhoFake
 from tests.testes_unitarios.mocks import RepoFake
-from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.orm.orm import start_mappers
+from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.orm.orm import (
+    start_mappers,
+)
 
 
 @fixture
@@ -23,7 +25,7 @@ def cliente(session_factory) -> TestClient:
 def mock_uow():
     """
     Mock unidade de trabalho.
-    
+
     Cria uma unidade de trabalho fake com
     o repositorio fake.
     """
@@ -51,7 +53,7 @@ def session_factory(engine):
 def session(session_factory):
     """
     Instância a sessão.
-    
+
     Cria uma sessão consumivel e apaga as tabelas
     depois dela ser consumida.
     """

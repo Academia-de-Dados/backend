@@ -5,9 +5,7 @@ from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
 from ...dominio.eventos.estrutura_de_provas import EnviarEmail
 
 
-def enviar_email(
-    evento: EnviarEmail, unidade_de_trabalho: UnidadeDeTrabalhoAbstrata
-):
+def enviar_email(evento: EnviarEmail, unidade_de_trabalho: UnidadeDeTrabalhoAbstrata):
     """
     Implementar envio de emails
 
@@ -18,6 +16,6 @@ def enviar_email(
 
     print(evento.mensagem)
 
-    arquivo = open('teste_evento', 'w+')
+    arquivo = open("teste_evento", "w+")
     arquivo.writelines(evento.mensagem)
     arquivo.close()

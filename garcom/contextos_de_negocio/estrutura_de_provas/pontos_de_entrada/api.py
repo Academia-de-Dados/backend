@@ -26,11 +26,11 @@ from ..dominio.comandos.exercicio import CriarExercicio
 from ..servicos.visualizadores.avaliacao import consultar_avaliacoes
 from ..servicos.visualizadores.exercicios import consultar_exercicios
 
-router_estrutura_de_provas = APIRouter(tags=['Estrutura de Provas'])
+router_estrutura_de_provas = APIRouter(tags=["Estrutura de Provas"])
 
 
 @router_estrutura_de_provas.get(
-    '/exercicios', response_model=List[ExercicioModelConsulta], status_code=200
+    "/exercicios", response_model=List[ExercicioModelConsulta], status_code=200
 )
 def consultar_todos_exercicios() -> List[Exercicio]:
     """
@@ -49,7 +49,7 @@ def consultar_todos_exercicios() -> List[Exercicio]:
 
 
 @router_estrutura_de_provas.post(
-    '/exercicios', response_model=ExercicioId, status_code=201
+    "/exercicios", response_model=ExercicioId, status_code=201
 )
 def cadastrar_novo_exercicio(exercicio: ExercicioModelDominio) -> ExercicioId:
     """
@@ -83,7 +83,7 @@ def cadastrar_novo_exercicio(exercicio: ExercicioModelDominio) -> ExercicioId:
 
 
 @router_estrutura_de_provas.get(
-    '/avaliacao', response_model=List[AvaliacaoModelConsulta], status_code=200
+    "/avaliacao", response_model=List[AvaliacaoModelConsulta], status_code=200
 )
 def consultar_todas_avaliacoes() -> List[Avaliacao]:
 
@@ -96,7 +96,7 @@ def consultar_todas_avaliacoes() -> List[Avaliacao]:
 
 
 @router_estrutura_de_provas.post(
-    '/avaliacao', response_model=AvaliacaoId, status_code=201
+    "/avaliacao", response_model=AvaliacaoId, status_code=201
 )
 def cadastrar_nova_avaliacao(avaliacao: AvaliacaoModelDominio) -> AvaliacaoId:
 

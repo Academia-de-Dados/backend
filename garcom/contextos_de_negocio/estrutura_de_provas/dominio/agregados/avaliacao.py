@@ -23,7 +23,7 @@ class Avaliacao(Agregado):
     def __post_init__(self):
         self.id = AvaliacaoId()
 
-    def __eq__(self, other: 'Avaliacao') -> bool:
+    def __eq__(self, other: "Avaliacao") -> bool:
         """
         Método de igualdade.
 
@@ -51,12 +51,12 @@ class Avaliacao(Agregado):
         Implementado para representar a prova
         pelo titulo.
         """
-        return f'<Avaliação {self.titulo}, {self.responsavel}>'
+        return f"<Avaliação {self.titulo}, {self.responsavel}>"
 
     @classmethod
     def criar_avaliacao(
         cls, comando: CriarAvaliacao, exercicios: set[Exercicio]
-    ) -> 'Avaliacao':
+    ) -> "Avaliacao":
 
         return cls(
             titulo=comando.titulo,

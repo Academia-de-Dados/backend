@@ -1,7 +1,5 @@
 from typing import Any, Iterator
-from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
-    UnidadeDeTrabalhoAbstrata
-)
+from garcom.camada_de_servicos.unidade_de_trabalho.udt import UnidadeDeTrabalhoAbstrata
 from garcom.barramento import Evento
 
 
@@ -25,7 +23,7 @@ class UnidadeDeTrabalhoFake(UnidadeDeTrabalhoAbstrata):
         de chamada de função. Atribui aos atributos
         de consulta e dominio o tipo de repositório
         correspondente.
-        """       
+        """
         return self
 
     def __enter__(self):
@@ -39,17 +37,16 @@ class UnidadeDeTrabalhoFake(UnidadeDeTrabalhoAbstrata):
         return super().__enter__()
 
     def coletar_novos_eventos(self) -> Iterator[Evento]:
-        
+
         repos = []
         if self.repo_dominio:
             repos.append(self.repo_dominio)
 
         for repo in repos:
             for agregado in repo.agregados:
-                
+
                 while agregado.eventos:
                     yield agregado.eventos.pop(0)
-
 
     def close(self) -> None:
         """Método implementado para testes."""

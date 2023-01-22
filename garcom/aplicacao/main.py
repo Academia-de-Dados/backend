@@ -16,12 +16,12 @@ app = FastAPI()
 app.include_router(router_estrutura_de_provas)
 
 
-@app.get('/')
+@app.get("/")
 def rota_hellow():
-    return {'mensagem': 'Olá Pessoas!'}
+    return {"mensagem": "Olá Pessoas!"}
 
 
-@app.on_event('startup')
+@app.on_event("startup")
 def on_startup() -> None:
     """Inicializa o banco de dados."""
     init_database()

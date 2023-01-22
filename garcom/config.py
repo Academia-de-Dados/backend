@@ -11,7 +11,7 @@ class Configuracoes(BaseSettings):
     class Config:
         """Classe que indica qual o arquivo .env."""
 
-        env_file = '.env'
+        env_file = ".env"
 
 
 configs = Configuracoes()

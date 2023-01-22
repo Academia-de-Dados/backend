@@ -22,7 +22,7 @@ def adicionar_avaliacao(
         consultar_exercicios_por_id(unidade_de_trabalho, comando.exercicios)
     )
     if not exercicios:
-        raise Exception('Exercicíos não encontrados!')
+        raise Exception("Exercicíos não encontrados!")
 
     avaliacao = Avaliacao.criar_avaliacao(comando, exercicios)
     avaliacao_id = avaliacao.id
@@ -30,7 +30,7 @@ def adicionar_avaliacao(
     with unidade_de_trabalho(Dominio.avaliacao) as uow:
         try:
             avaliacao.adicionar_evento(
-                AvaliacaoCriada(avaliacao_id, 'Avaliação criada com sucesso!')
+                AvaliacaoCriada(avaliacao_id, "Avaliação criada com sucesso!")
             )
             uow.repo_dominio.adicionar(avaliacao)
             uow.commit()

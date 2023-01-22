@@ -45,14 +45,14 @@ class Exercicio(Agregado):
 
         if self.multipla_escolha and not self.alternativas:
             raise self.AlternativasSaoObrigatoriasEmQuestoesDeMultiplaEscolha(
-                'As alternativas devem ser fornecidas para questões de '
-                'multipla escolha.'
+                "As alternativas devem ser fornecidas para questões de "
+                "multipla escolha."
             )
 
     def __repr__(self):
         return (
-            f'Exercicio(enunciando={self.enunciado}, '
-            f'materia={self.materia.value}, assunto={self.assunto})'
+            f"Exercicio(enunciando={self.enunciado}, "
+            f"materia={self.materia.value}, assunto={self.assunto})"
         )
 
     def __hash__(self):
@@ -60,22 +60,22 @@ class Exercicio(Agregado):
 
     def para_dicionario(self) -> Dict[str, Any]:
         return {
-            'enunciado': self.enunciado,
-            'resposta': self.resposta,
-            'assunto': self.assunto,
-            'materia': self.materia,
-            'dificuldade': self.dificuldade,
-            'origem': self.origem,
-            'multipla_escolha': self.multipla_escolha,
-            'alternativas': self.alternativas,
-            'id': self.id,
-            'imagem_resposta': self.imagem_resposta,
-            'imagem_enunciado': self.imagem_enunciado,
-            'data_lancamento': self.data_lancamento,
+            "enunciado": self.enunciado,
+            "resposta": self.resposta,
+            "assunto": self.assunto,
+            "materia": self.materia,
+            "dificuldade": self.dificuldade,
+            "origem": self.origem,
+            "multipla_escolha": self.multipla_escolha,
+            "alternativas": self.alternativas,
+            "id": self.id,
+            "imagem_resposta": self.imagem_resposta,
+            "imagem_enunciado": self.imagem_enunciado,
+            "data_lancamento": self.data_lancamento,
         }
 
     @classmethod
-    def criar_novo(cls, criar_exercicio: CriarExercicio) -> 'Exercicio':
+    def criar_novo(cls, criar_exercicio: CriarExercicio) -> "Exercicio":
         """
         Método de criação do Agregado.
 
