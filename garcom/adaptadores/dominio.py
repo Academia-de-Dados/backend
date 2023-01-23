@@ -13,10 +13,10 @@ from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.repo_dominio.do
     ExercicioRepoDominio,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.repositorio.repo_dominio.usuario import (
-    UsuariosRepoDominio
+    UsuariosRepoDominio,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.repositorio.repo_consulta.usuario import (
-    UsuariosRepoConsulta
+    UsuariosRepoConsulta,
 )
 
 

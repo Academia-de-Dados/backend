@@ -20,7 +20,6 @@ class UsuariosAbstratoConsulta(RepositorioAbstrato):
 
 
 class UsuariosRepoConsulta(UsuariosAbstratoConsulta):
-    
     def consultar_todos(self) -> list[Usuario]:
         query = self.session.execute(select(Usuario))
         return query.scalars().all()

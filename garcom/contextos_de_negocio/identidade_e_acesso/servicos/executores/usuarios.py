@@ -12,16 +12,15 @@ from garcom.adaptadores.dominio import Dominio
 
 
 def cadastrar_usuario(
-    comando: CriarUsuario, 
-    unidade_de_trabalho: UnidadeDeTrabalhoAbstrata
+    comando: CriarUsuario, unidade_de_trabalho: UnidadeDeTrabalhoAbstrata
 ) -> UsuarioId:
-    
+
     usuario = Usuario.cadrastar_novo_usuario(comando)
     usuario_id = usuario.id
-    
+
     with unidade_de_trabalho(Dominio.usuarios) as uow:
         try:
-            #usuario.adicionar_evento()
+            # usuario.adicionar_evento()
             uow.repo_dominio.adicionar(usuario)
             uow.commit()
 
@@ -30,4 +29,3 @@ def cadastrar_usuario(
             raise e
 
     return usuario_id
-    

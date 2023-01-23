@@ -6,13 +6,11 @@ from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 
 
 class UsuariosRepoDominio(RepositorioAbstratoDominio):
-    
     def _adicionar(self, usuario: Usuario) -> None:
         self.session.add(usuario)
-    
-    
+
     def _remover(self) -> None:
         pass
-    
+
     def _buscar_por_id(self, usuario_id: UsuarioId) -> None:
         pass

@@ -34,11 +34,11 @@ class Usuario(Agregado):
         """
         if comando.senha != comando.senha_verifacao:
             raise cls.SenhasInformadasDevemSerIguais(
-                'As duas senhas precisam ser iguais!'
+                "As duas senhas precisam ser iguais!"
             )
-        
+
         senha = Senha(comando.senha)
-        
+
         return cls(
             nome=comando.nome,
             email=comando.email,
