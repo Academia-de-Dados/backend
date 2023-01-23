@@ -32,10 +32,20 @@ class Usuario(Agregado):
         """
         Adicionar conversão para hash
         """
+        if comando.senha != comando.senha_verifacao:
+            raise cls.SenhasInformadasDevemSerIguais(
+                'As duas senhas precisam ser iguais!'
+            )
+        
+        senha = Senha(comando.senha)
+        
         return cls(
             nome=comando.nome,
             email=comando.email,
             ativo=comando.ativo,
             data_de_nascimento=comando.data_de_nascimento,
-            senha=comando.senha,
+            senha=senha,
         )
+
+    class SenhasInformadasDevemSerIguais(Exception):
+        pass
