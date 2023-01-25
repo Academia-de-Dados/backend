@@ -27,6 +27,9 @@ class Usuario(Agregado):
     def __post_init__(self):
         self.id = UsuarioId()
 
+    def __hash__(self):
+        return hash(self.id)
+
     @classmethod
     def cadrastar_novo_usuario(cls, comando: CriarUsuario) -> "Usuario":
         """
@@ -42,7 +45,6 @@ class Usuario(Agregado):
         return cls(
             nome=comando.nome,
             email=comando.email,
-            ativo=comando.ativo,
             data_de_nascimento=comando.data_de_nascimento,
             senha=senha,
         )
