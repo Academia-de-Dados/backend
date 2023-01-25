@@ -7,6 +7,9 @@ from garcom.contextos_de_negocio.identidade_e_acesso.repositorio.orm.usuario imp
 from ..contextos_de_negocio.estrutura_de_provas.pontos_de_entrada.api import (
     router_estrutura_de_provas,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.api import (
+    router_usuarios
+)
 from ..contextos_de_negocio.estrutura_de_provas.repositorio.orm.orm import (
     init_database,
     start_mappers,
@@ -14,7 +17,7 @@ from ..contextos_de_negocio.estrutura_de_provas.repositorio.orm.orm import (
 
 app = FastAPI()
 app.include_router(router_estrutura_de_provas)
-
+app.include_router(router_usuarios)
 
 @app.get("/")
 def rota_hellow():
