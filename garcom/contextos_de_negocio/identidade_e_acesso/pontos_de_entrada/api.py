@@ -14,7 +14,7 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario im
     BuscarTodosUsuarios,
     BuscarUsuarioPorId,
 )
-from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome, Senha
+from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
     MANIPULADORES_IDENTIDADE_E_ACESSO_COMANDOS,
     MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
@@ -23,7 +23,7 @@ from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
 router_usuarios = APIRouter(prefix="/usuarios", tags=["Identidade e Acesso"])
 
 
-@router_usuarios.get(response_model=list[UsuarioConsulta], status_code=200)
+@router_usuarios.get("/", response_model=list[UsuarioConsulta], status_code=200)
 def consultar_usuarios():
     unidade_de_trabalho = UnidadeDeTrabalho()
 
@@ -51,7 +51,7 @@ def consultar_usuario_por_id(id: UsuarioId):
     return barramento.manipulador(mensagem=comando)
 
 
-@router_usuarios.post("/signup", response_model=UsuarioConsulta, status_code=200)
+@router_usuarios.post("/signup", response_model=UsuarioId, status_code=200)
 def cadastrar_usuario(usuario: UsuarioDominio):
     unidade_de_trabalho = UnidadeDeTrabalho()
 

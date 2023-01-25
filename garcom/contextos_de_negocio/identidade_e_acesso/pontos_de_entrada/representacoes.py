@@ -5,7 +5,6 @@ from datetime import datetime
 class UsuarioConsulta(MyBaseModel):
     nome: str
     email: str
-    senha: str
     data_de_nascimento: datetime
     ativo: bool
 
