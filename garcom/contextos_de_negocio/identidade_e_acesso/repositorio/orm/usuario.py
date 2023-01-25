@@ -10,6 +10,7 @@ usuarios = DbTable(
     metadata,
     DbColumn.uuid_primary_key("id"),
     DbColumn("nome", String(length=255), nullable=False),
+    DbColumn("senha", String(length=255), nullable=False),
     DbColumn("email", String(length=255), nullable=False, index=True),
     DbColumn("data_de_nascimento", DateTime, nullable=False),
     DbColumn("ativo", Boolean, nullable=False),
