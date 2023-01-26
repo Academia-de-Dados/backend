@@ -17,7 +17,7 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario im
 class Usuario(Agregado):
     nome: Nome
     email: Email
-    senha: Senha
+    senha: str
     data_de_nascimento: datetime
     ativo: bool = True
     id: Optional[UsuarioId] = None
@@ -31,22 +31,20 @@ class Usuario(Agregado):
         return hash(self.id)
 
     @classmethod
-    def cadrastar_novo_usuario(cls, comando: CriarUsuario) -> "Usuario":
+    def criar_usuario(cls, comando: CriarUsuario) -> "Usuario":
         """
         Adicionar conversão para hash
         """
-        if comando.senha != comando.senha_verifacao:
-            raise cls.SenhasInformadasDevemSerIguais(
-                "As duas senhas precisam ser iguais!"
-            )
-
-        senha = Senha(comando.senha)
+        #if comando.senha != comando.senha_verifacao:
+        #    raise cls.SenhasInformadasDevemSerIguais(
+        #        "As duas senhas precisam ser iguais!"
+        #    )
 
         return cls(
             nome=comando.nome,
             email=comando.email,
             data_de_nascimento=comando.data_de_nascimento,
-            senha=senha,
+            senha=comando.senha,
         )
 
     class SenhasInformadasDevemSerIguais(Exception):
