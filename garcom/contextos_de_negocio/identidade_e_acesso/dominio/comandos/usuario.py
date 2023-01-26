@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from datetime import datetime
 
-from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome, Senha
+from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 from garcom.barramento import Comando
 from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 
@@ -15,11 +15,22 @@ class CriarUsuario(Comando):
     data_de_nascimento: datetime
 
 
-@dataclass
+@dataclass(frozen=True)
 class BuscarTodosUsuarios(Comando):
     pass
 
 
-@dataclass
+@dataclass(frozen=True)
 class BuscarUsuarioPorId(Comando):
     usuario_id: UsuarioId
+
+
+@dataclass(frozen=True)
+class BuscarUsuarioPorEmail(Comando):
+    email: Email
+
+
+@dataclass(frozen=True)
+class LogarUsuario(Comando):
+    email: Email
+    senha: str
