@@ -2,7 +2,7 @@ from fastapi import APIRouter, Response
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
     Usuario,
 )
-from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.representacoes import (
+from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.modelos_pydantic.representacoes import (
     UsuarioConsulta,
     UsuarioDominio,
     UsuarioLogarApi,
