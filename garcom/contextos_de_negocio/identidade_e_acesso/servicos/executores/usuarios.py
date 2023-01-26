@@ -4,7 +4,7 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios 
 from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     CriarUsuario,
-    BuscarUsuarioPorEmail
+    BuscarUsuarioPorEmail,
 )
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
     UnidadeDeTrabalhoAbstrata,
@@ -15,12 +15,12 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.regras_de_negocio.e
 )
 from garcom.adaptadores.tipos_nao_primitivos.usuario import Senha
 from garcom.contextos_de_negocio.identidade_e_acesso.excecoes import (
-    SenhasDiferentes, EmailJaCadastrado
+    SenhasDiferentes,
+    EmailJaCadastrado,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.servicos.visualizadores.usuarios import (
-    consultar_usuario_por_email
+    consultar_usuario_por_email,
 )
-# TODO: fazer query por email para verificar se já existe usuario com esse email
 
 
 def cadastrar_usuario(
@@ -28,13 +28,10 @@ def cadastrar_usuario(
 ) -> UsuarioId:
 
     # verificar se usuario já existe
-    usuario = consultar_usuario_por_email(
-        BuscarUsuarioPorEmail(comando.email)
-    )
+    usuario = consultar_usuario_por_email(BuscarUsuarioPorEmail(comando.email))
     if usuario:
         raise EmailJaCadastrado(
-            status_code=400,
-            detail='Email já cadastrado no sistema!'
+            status_code=400, detail="Email já cadastrado no sistema!"
         )
 
     # verificar se usuario digitou a mesma senha duas vezes
@@ -42,10 +39,9 @@ def cadastrar_usuario(
     senha_verificacao = Senha(comando.senha_verifacao)
     if senha != senha_verificacao:
         raise SenhasDiferentes(
-            status_code=400,
-            detail='Senhas diferentes! Favor digite novamente.'
+            status_code=400, detail="Senhas diferentes! Favor digite novamente."
         )
-    
+
     comando.senha = gerar_senha_encriptografada(senha)
     comando.senha_verifacao = gerar_senha_encriptografada(senha_verificacao)
 
