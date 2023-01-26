@@ -5,17 +5,20 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios 
     Usuario,
 )
 from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
+from garcom.adaptadores.tipos_nao_primitivos.usuario import Email
 
 
 class UsuariosAbstratoConsulta(RepositorioAbstrato):
     @abstractmethod
     def consultar_todos(self) -> list[Usuario]:
-        """Retorna todos os exercicios do banco dados."""
         raise NotImplementedError
 
     @abstractmethod
     def consultar_por_id(self, id: UsuarioId) -> Usuario:
-        """Retorna o exericios corresponde ao id passado."""
+        raise NotImplementedError
+
+    @abstractmethod
+    def consultar_por_email(self, email: Email) -> Usuario:
         raise NotImplementedError
 
 
@@ -26,3 +29,6 @@ class UsuariosRepoConsulta(UsuariosAbstratoConsulta):
 
     def consultar_por_id(self, id: UsuarioId) -> Usuario:
         return self.session.query(Usuario).filter_by(id=id).first()
+    
+    def consultar_por_email(self, email: Email) -> Usuario:
+        return self.session.query(Usuario).filter_by(email=email).first()
