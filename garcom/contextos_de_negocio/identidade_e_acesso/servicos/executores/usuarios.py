@@ -10,10 +10,11 @@ from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
 )
 from garcom.adaptadores.dominio import Dominio
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.regras_de_negocio.encriptografia import (
-    gerar_senha_encriptografada, 
+    gerar_senha_encriptografada,
 )
 
-#TODO: fazer query por email para verificar se já existe usuario com esse email
+# TODO: fazer query por email para verificar se já existe usuario com esse email
+
 
 def cadastrar_usuario(
     comando: CriarUsuario, unidade_de_trabalho: UnidadeDeTrabalhoAbstrata
@@ -21,7 +22,7 @@ def cadastrar_usuario(
 
     comando.senha = gerar_senha_encriptografada(comando.senha)
     comando.senha_verifacao = gerar_senha_encriptografada(comando.senha_verifacao)
-    
+
     usuario = Usuario.criar_usuario(comando)
     usuario_id = usuario.id
 

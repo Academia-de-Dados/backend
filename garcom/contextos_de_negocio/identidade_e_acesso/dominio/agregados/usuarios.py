@@ -35,7 +35,7 @@ class Usuario(Agregado):
         """
         Adicionar conversão para hash
         """
-        #if comando.senha != comando.senha_verifacao:
+        # if comando.senha != comando.senha_verifacao:
         #    raise cls.SenhasInformadasDevemSerIguais(
         #        "As duas senhas precisam ser iguais!"
         #    )

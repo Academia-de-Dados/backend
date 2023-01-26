@@ -29,6 +29,6 @@ class UsuariosRepoConsulta(UsuariosAbstratoConsulta):
 
     def consultar_por_id(self, id: UsuarioId) -> Usuario:
         return self.session.query(Usuario).filter_by(id=id).first()
-    
+
     def consultar_por_email(self, email: Email) -> Usuario:
         return self.session.query(Usuario).filter_by(email=email).first()

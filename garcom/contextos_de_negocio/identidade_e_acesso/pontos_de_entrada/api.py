@@ -66,7 +66,7 @@ def logar_usuario(usuario: UsuarioLogarApi):
 
 @router_usuarios.get("/", response_model=list[UsuarioConsulta], status_code=200)
 def consultar_usuarios():
-    #TODO adicionar dependencia com token para buscar usuarios
+    # TODO adicionar dependencia com token para buscar usuarios
     unidade_de_trabalho = UnidadeDeTrabalho()
 
     comando = BuscarTodosUsuarios()
@@ -81,7 +81,7 @@ def consultar_usuarios():
 
 @router_usuarios.get("/{id}", response_model=UsuarioConsulta)
 def consultar_usuario_por_id(id: UsuarioId):
-    #TODO adicionar dependencia com token para buscar usuario
+    # TODO adicionar dependencia com token para buscar usuario
     unidade_de_trabalho = UnidadeDeTrabalho()
 
     comando = BuscarUsuarioPorId(usuario_id=id)
