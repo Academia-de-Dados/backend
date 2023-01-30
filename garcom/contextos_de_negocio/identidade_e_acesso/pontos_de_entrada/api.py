@@ -23,7 +23,7 @@ from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
     MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.autenticacao import (
-    pegar_usuario_ativo
+    pegar_usuario_ativo,
 )
 
 
@@ -83,7 +83,9 @@ def consultar_usuarios(usuario_atual: Usuario = Depends(pegar_usuario_ativo)):
 
 
 @router_usuarios.get("/{id}", response_model=UsuarioConsulta)
-def consultar_usuario_por_id(id: UsuarioId, usuario_atual: Usuario = Depends(pegar_usuario_ativo)):
+def consultar_usuario_por_id(
+    id: UsuarioId, usuario_atual: Usuario = Depends(pegar_usuario_ativo)
+):
     unidade_de_trabalho = UnidadeDeTrabalho()
 
     comando = BuscarUsuarioPorId(usuario_id=id)

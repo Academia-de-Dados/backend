@@ -2,7 +2,7 @@ from garcom.contextos_de_negocio.identidade_e_acesso.servicos.visualizadores.usu
     consultar_usuarios,
     consultar_usuario_por_id,
     login_de_usuario,
-    consultar_usuario_por_email
+    consultar_usuario_por_email,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.servicos.executores.usuarios import (
     cadastrar_usuario,

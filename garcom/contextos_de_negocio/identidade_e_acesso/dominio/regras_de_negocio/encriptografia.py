@@ -8,10 +8,10 @@ from garcom.config import (
     get_tempo_de_expiracao,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.token import (
-    InfoToken
+    InfoToken,
 )
 
-pwd_contexto = CryptContext(schemes=[get_tipo_de_criptografia()], deprecated='auto')
+pwd_contexto = CryptContext(schemes=[get_tipo_de_criptografia()], deprecated="auto")
 
 
 def verificar_senha(senha: str, senha_encriptada: str) -> bool:
@@ -44,7 +44,4 @@ def validar_token_de_acesso(token: str) -> InfoToken:
     """
     payload = jwt.decode(token, get_secret_key(), algorithms=[get_algorithm()])
 
-    return InfoToken(
-        sub=payload.get("sub"), 
-        tempo_de_expiracao=payload.get("exp")
-    )
+    return InfoToken(sub=payload.get("sub"), tempo_de_expiracao=payload.get("exp"))
