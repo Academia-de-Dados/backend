@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Response
+from fastapi import APIRouter, Depends
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
     Usuario,
 )
@@ -22,6 +22,10 @@ from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
     MANIPULADORES_IDENTIDADE_E_ACESSO_COMANDOS,
     MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.autenticacao import (
+    pegar_usuario_ativo
+)
+
 
 router_usuarios = APIRouter(prefix="/usuarios", tags=["Identidade e Acesso"])
 
@@ -65,8 +69,7 @@ def logar_usuario(usuario: UsuarioLogarApi):
 
 
 @router_usuarios.get("/", response_model=list[UsuarioConsulta], status_code=200)
-def consultar_usuarios():
-    # TODO adicionar dependencia com token para buscar usuarios
+def consultar_usuarios(usuario_atual: Usuario = Depends(pegar_usuario_ativo)):
     unidade_de_trabalho = UnidadeDeTrabalho()
 
     comando = BuscarTodosUsuarios()
@@ -80,8 +83,7 @@ def consultar_usuarios():
 
 
 @router_usuarios.get("/{id}", response_model=UsuarioConsulta)
-def consultar_usuario_por_id(id: UsuarioId):
-    # TODO adicionar dependencia com token para buscar usuario
+def consultar_usuario_por_id(id: UsuarioId, usuario_atual: Usuario = Depends(pegar_usuario_ativo)):
     unidade_de_trabalho = UnidadeDeTrabalho()
 
     comando = BuscarUsuarioPorId(usuario_id=id)
