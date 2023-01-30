@@ -34,6 +34,16 @@ Para ativar o ambiente virtual execute:
 ```sh
 poetry shell
 ```
+
+## Instalando o projeto
+
+Para instalar esse projeto no ambiente de desenvolvimento, use:
+
+```sh
+poetry install --all-extras
+```
+
+Para instalar apenas as dependências obrigatórias, remova o argumento --all-extras.
 ## PEP's
 
 * Tipagem: 
