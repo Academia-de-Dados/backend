@@ -5,7 +5,7 @@ from typing import Optional
 from dataclass_type_validator import dataclass_validate
 
 from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
-from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome, Senha
+from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 from garcom.contextos_de_negocio.agregado import Agregado
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     CriarUsuario,
@@ -35,17 +35,9 @@ class Usuario(Agregado):
         """
         Adicionar conversão para hash
         """
-        # if comando.senha != comando.senha_verifacao:
-        #    raise cls.SenhasInformadasDevemSerIguais(
-        #        "As duas senhas precisam ser iguais!"
-        #    )
-
         return cls(
             nome=comando.nome,
             email=comando.email,
             data_de_nascimento=comando.data_de_nascimento,
             senha=comando.senha,
         )
-
-    class SenhasInformadasDevemSerIguais(Exception):
-        pass
