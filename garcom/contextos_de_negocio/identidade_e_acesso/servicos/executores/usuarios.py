@@ -28,7 +28,7 @@ def cadastrar_usuario(
 ) -> UsuarioId:
 
     # verificar se usuario já existe
-    usuario = consultar_usuario_por_email(BuscarUsuarioPorEmail(comando.email))
+    usuario = consultar_usuario_por_email(BuscarUsuarioPorEmail(comando.email), unidade_de_trabalho)
     if usuario:
         raise EmailJaCadastrado(
             status_code=400, detail="Email já cadastrado no sistema!"
