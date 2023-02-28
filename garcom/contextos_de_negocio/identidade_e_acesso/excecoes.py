@@ -32,3 +32,10 @@ class TokenDeAcessoExpirado(HTTPException):
     status_code: int
     detail: str
     headers: dict[str, str]
+
+
+@dataclass
+class UsuarioNaoEncontrado(HTTPException):
+    status_code: int
+    detail: str
+    headers: dict[str, str]
