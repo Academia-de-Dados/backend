@@ -1,9 +1,6 @@
 from abc import ABC
 from typing import Callable, Optional, Union
 from uuid import UUID
-
-from loguru import logger
-
 from garcom.aplicacao.sentry import loggers
 
 
