@@ -35,7 +35,7 @@ def pegar_usuario_ativo(token: str = Depends(oauth2_scheme)):
     try:
         info_token = validar_token_de_acesso(token)
     except JWTError as exc:
-        if str(exc) == 'Signature has expired.':
+        if str(exc) == "Signature has expired.":
             raise TokenDeAcessoExpirado(
                 status_code=403,
                 detail="Token de acesso expirado! Faça login novamente.",

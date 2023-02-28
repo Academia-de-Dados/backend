@@ -21,7 +21,7 @@ def inserir_usuario(session: sessionmaker, comando: CriarUsuario):
             ativo=True,
             criado_em=datetime.now(),
             ultima_modificacao=datetime.now(),
-        )
+        ),
     )
-    
+
     return usuario_id
