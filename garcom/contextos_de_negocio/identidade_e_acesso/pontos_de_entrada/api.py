@@ -51,8 +51,8 @@ def cadastrar_usuario(usuario: UsuarioDominio):
     return barramento.manipulador(mensagem=comando)
 
 
-#@router_usuarios.post("/signin", response_model=UsuarioLogado)
-#def logar_usuario(usuario: UsuarioLogarApi):
+# @router_usuarios.post("/signin", response_model=UsuarioLogado)
+# def logar_usuario(usuario: UsuarioLogarApi):
 @router_usuarios.post("/signin", response_model=UsuarioLogado)
 def logar_usuario(usuario: OAuth2PasswordRequestForm = Depends()):
     unidade_de_trabalho = UnidadeDeTrabalho()
@@ -61,7 +61,7 @@ def logar_usuario(usuario: OAuth2PasswordRequestForm = Depends()):
         email=usuario.username,
         senha=usuario.password,
     )
-    
+
     barramento = BarramentoDeMensagens(
         unidade_de_trabalho=unidade_de_trabalho,
         manipuladores_de_eventos=MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
@@ -69,15 +69,15 @@ def logar_usuario(usuario: OAuth2PasswordRequestForm = Depends()):
     )
 
     dados_usuario = barramento.manipulador(mensagem=comando)
-    
+
     return dados_usuario
 
 
 @router_usuarios.get(
-    "/", 
-    response_model=list[UsuarioConsulta], 
+    "/",
+    response_model=list[UsuarioConsulta],
     status_code=200,
-    dependencies=[Depends(pegar_usuario_ativo)]
+    dependencies=[Depends(pegar_usuario_ativo)],
 )
 def consultar_usuarios():
     unidade_de_trabalho = UnidadeDeTrabalho()
@@ -93,9 +93,7 @@ def consultar_usuarios():
 
 
 @router_usuarios.get(
-    "/{id}", 
-    response_model=UsuarioConsulta,
-    dependencies=[Depends(pegar_usuario_ativo)]
+    "/{id}", response_model=UsuarioConsulta, dependencies=[Depends(pegar_usuario_ativo)]
 )
 def consultar_usuario_por_id(id: UsuarioId):
     unidade_de_trabalho = UnidadeDeTrabalho()

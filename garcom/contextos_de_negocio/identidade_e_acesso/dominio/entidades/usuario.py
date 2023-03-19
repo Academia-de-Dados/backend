@@ -19,4 +19,4 @@ class UsuarioLeitura:
 class UsuarioLogado:
     usuario: UsuarioLeitura
     access_token: str
-    token_type: str = 'Bearer'
+    token_type: str = "Bearer"

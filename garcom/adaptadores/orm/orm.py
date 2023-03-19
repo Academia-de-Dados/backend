@@ -71,9 +71,9 @@ def iniciar_mapeamento():
         start_mappers,
     )
     from garcom.contextos_de_negocio.identidade_e_acesso.repositorio.orm.usuario import (
-        start_mappers_usuario
+        start_mappers_usuario,
     )
-    
+
     start_mappers()
     start_mappers_usuario()
 
