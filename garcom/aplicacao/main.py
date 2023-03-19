@@ -24,5 +24,6 @@ def rota_hellow():
 @app.on_event("startup")
 def on_startup() -> None:
     """Inicializa o banco de dados."""
-    init_database()
+    
     iniciar_mapeamento()
+    init_database()
