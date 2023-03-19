@@ -82,5 +82,5 @@ def login_de_usuario(
 
     return UsuarioLogado(
         usuario=usuario,
-        token_de_acesso=token_de_acesso,
+        access_token=token_de_acesso,
     )

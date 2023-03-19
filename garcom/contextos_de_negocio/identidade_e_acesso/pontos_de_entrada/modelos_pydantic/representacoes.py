@@ -19,10 +19,12 @@ class UsuarioDominio(MyBaseModel):
 
 
 class UsuarioLogarApi(MyBaseModel):
-    email: Email
-    senha: str
-
+    #email: Email
+    #senha: str
+    username: str
+    password: str
 
 class UsuarioLogado(MyBaseModel):
     usuario: UsuarioConsulta
-    token_de_acesso: str
+    access_token: str
+    token_type: str

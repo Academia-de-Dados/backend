@@ -25,6 +25,7 @@ from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
 from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.autenticacao import (
     pegar_usuario_ativo,
 )
+from fastapi.security import OAuth2PasswordRequestForm
 
 
 router_usuarios = APIRouter(prefix="/usuarios", tags=["Identidade e Acesso"])
@@ -50,26 +51,35 @@ def cadastrar_usuario(usuario: UsuarioDominio):
     return barramento.manipulador(mensagem=comando)
 
 
+#@router_usuarios.post("/signin", response_model=UsuarioLogado)
+#def logar_usuario(usuario: UsuarioLogarApi):
 @router_usuarios.post("/signin", response_model=UsuarioLogado)
-def logar_usuario(usuario: UsuarioLogarApi):
+def logar_usuario(usuario: OAuth2PasswordRequestForm = Depends()):
     unidade_de_trabalho = UnidadeDeTrabalho()
 
     comando = LogarUsuario(
-        email=usuario.email,
-        senha=usuario.senha,
+        email=usuario.username,
+        senha=usuario.password,
     )
-
+    
     barramento = BarramentoDeMensagens(
         unidade_de_trabalho=unidade_de_trabalho,
         manipuladores_de_eventos=MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
         manipuladores_de_comandos=MANIPULADORES_IDENTIDADE_E_ACESSO_COMANDOS,
     )
 
-    return barramento.manipulador(mensagem=comando)
+    dados_usuario = barramento.manipulador(mensagem=comando)
+    
+    return dados_usuario
 
 
-@router_usuarios.get("/", response_model=list[UsuarioConsulta], status_code=200)
-def consultar_usuarios(usuario_atual: Usuario = Depends(pegar_usuario_ativo)):
+@router_usuarios.get(
+    "/", 
+    response_model=list[UsuarioConsulta], 
+    status_code=200,
+    dependencies=[Depends(pegar_usuario_ativo)]
+)
+def consultar_usuarios():
     unidade_de_trabalho = UnidadeDeTrabalho()
 
     comando = BuscarTodosUsuarios()
@@ -82,10 +92,12 @@ def consultar_usuarios(usuario_atual: Usuario = Depends(pegar_usuario_ativo)):
     return barramento.manipulador(mensagem=comando)
 
 
-@router_usuarios.get("/{id}", response_model=UsuarioConsulta)
-def consultar_usuario_por_id(
-    id: UsuarioId, usuario_atual: Usuario = Depends(pegar_usuario_ativo)
-):
+@router_usuarios.get(
+    "/{id}", 
+    response_model=UsuarioConsulta,
+    dependencies=[Depends(pegar_usuario_ativo)]
+)
+def consultar_usuario_por_id(id: UsuarioId):
     unidade_de_trabalho = UnidadeDeTrabalho()
 
     comando = BuscarUsuarioPorId(usuario_id=id)

@@ -18,4 +18,5 @@ class UsuarioLeitura:
 @dataclass(frozen=True)
 class UsuarioLogado:
     usuario: UsuarioLeitura
-    token_de_acesso: str
+    access_token: str
+    token_type: str = 'Bearer'
