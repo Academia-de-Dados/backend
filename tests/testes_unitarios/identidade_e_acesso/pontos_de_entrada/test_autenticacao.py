@@ -1,7 +1,6 @@
-from pytest import raises, mark
+from pytest import raises
 from freezegun import freeze_time
 from datetime import datetime
-from garcom.barramento import BarramentoDeMensagens
 from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.autenticacao import (
     pegar_usuario_ativo,
 )
@@ -12,11 +11,6 @@ from garcom.contextos_de_negocio.identidade_e_acesso.excecoes import (
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.regras_de_negocio.encriptografia import (
     criar_token_de_acesso,
-)
-from garcom.camada_de_servicos.unidade_de_trabalho.udt import UnidadeDeTrabalho
-from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
-    MANIPULADORES_IDENTIDADE_E_ACESSO_COMANDOS,
-    MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     CriarUsuario,
@@ -76,28 +70,23 @@ def test_pegar_usuario_ativo_retorna_excecao_caso_usuario_nao_exista():
     assert exc_info.value.status_code == 404
 
 
-@mark.skip(
-    reason="Está dando erro ao fazer a query pelo agregado Usuario, não sei resolver.",
-)
 def test_pegar_usuario_ativo_retorna_usuario_cadastrado(session):
 
     comando = CriarUsuario(
         nome=Nome("Teste Othon"),
         email=Email("othon@gmail.com"),
         senha="Testeautenticacao123",
-        senha_verifacao="Testeautenticacao123",
+        senha_verificacao="Testeautenticacao123",
         data_de_nascimento=datetime(1990, 1, 1),
     )
 
     id_usuario = inserir_usuario(session, comando)
 
     session.commit()
-    breakpoint()
+
     # criando token
     token = criar_token_de_acesso({"sub": "othon@gmail.com"})
 
     usuario = pegar_usuario_ativo(token)
 
-    breakpoint()
-
-    print("oi")
+    assert usuario.id == id_usuario
