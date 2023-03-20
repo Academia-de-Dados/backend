@@ -14,7 +14,7 @@ class UsuarioDominio(MyBaseModel):
     nome: str
     email: str
     senha: str
-    senha_verifacao: str
+    senha_verificacao: str
     data_de_nascimento: datetime
 
 

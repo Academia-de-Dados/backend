@@ -38,14 +38,14 @@ def cadastrar_usuario(
 
     # verificar se usuario digitou a mesma senha duas vezes
     senha = Senha(comando.senha)
-    senha_verificacao = Senha(comando.senha_verifacao)
+    senha_verificacao = Senha(comando.senha_verificacao)
     if senha != senha_verificacao:
         raise SenhasDiferentes(
             status_code=400, detail="Senhas diferentes! Favor digite novamente."
         )
 
     comando.senha = gerar_senha_encriptografada(senha)
-    comando.senha_verifacao = gerar_senha_encriptografada(senha_verificacao)
+    comando.senha_verificacao = gerar_senha_encriptografada(senha_verificacao)
 
     usuario = Usuario.criar_usuario(comando)
     usuario_id = usuario.id

@@ -39,7 +39,7 @@ def cadastrar_usuario(usuario: UsuarioDominio):
         nome=Nome(usuario.nome),
         email=Email(usuario.email),
         senha=usuario.senha,
-        senha_verifacao=usuario.senha_verifacao,
+        senha_verificacao=usuario.senha_verificacao,
         data_de_nascimento=usuario.data_de_nascimento,
     )
     barramento = BarramentoDeMensagens(

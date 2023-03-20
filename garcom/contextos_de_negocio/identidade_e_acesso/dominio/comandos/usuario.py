@@ -11,7 +11,7 @@ class CriarUsuario(Comando):
     nome: Nome
     email: Email
     senha: str
-    senha_verifacao: str
+    senha_verificacao: str
     data_de_nascimento: datetime
 
 
