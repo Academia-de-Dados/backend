@@ -62,3 +62,6 @@ def session(session_factory):
     for tabela in reversed(metadata.sorted_tables):
         session.execute(tabela.delete())
     session.commit()
+
+
+from tests.mocks_contextos.usuario import *
