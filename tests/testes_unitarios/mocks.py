@@ -20,12 +20,7 @@ class RepoFake(RepositorioAbstratoDominio):
 
     def _buscar_por_id(self, objeto_id: UUID):
         """Retorna o agregado que corresponde ao id passado."""
-        return (
-            next((
-                objeto for objeto in self._objetos 
-                if objeto_id == objeto.id
-            ))
-        )
+        return next((objeto for objeto in self._objetos if objeto_id == objeto.id))
 
     def consultar_por_id(self, objeto_id: UUID):
         return self._buscar_por_id(objeto_id)
@@ -36,7 +31,4 @@ class RepoFake(RepositorioAbstratoDominio):
 
     def consultar_todos_por_agregado(self, agregado: Type[Agregado]):
 
-        return [
-            objeto for objeto in self._objetos 
-            if isinstance(objeto, agregado)
-        ]
+        return [objeto for objeto in self._objetos if isinstance(objeto, agregado)]

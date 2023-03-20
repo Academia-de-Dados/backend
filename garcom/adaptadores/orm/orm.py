@@ -2,9 +2,11 @@ import uuid
 from datetime import datetime
 from typing import Any
 
-from sqlalchemy import Column, DateTime, Table, func
+from sqlalchemy import Column, DateTime, Table, create_engine, func
 from sqlalchemy.dialects.postgresql import UUID
 from sqlalchemy.orm import registry
+
+from garcom.config import get_postgres_uri
 
 mapper = registry()
 metadata = mapper.metadata
@@ -65,3 +67,28 @@ class DbTable(Table):
             ),
             **kwargs,
         )
+
+
+def iniciar_mapeamento():
+    """
+    Adicionar os start mappers aqui.
+    """
+    from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.orm.orm import (
+        start_mappers,
+    )
+    from garcom.contextos_de_negocio.identidade_e_acesso.repositorio.orm.usuario import (
+        start_mappers_usuario,
+    )
+
+    start_mappers()
+    start_mappers_usuario()
+
+
+def init_database() -> None:
+    """
+    Método para iniciar o banco de dados.
+
+    Utilize esse método para criar as tabelas no banco de dados.
+    """
+    metadata.bind = create_engine(get_postgres_uri())
+    metadata.create_all()

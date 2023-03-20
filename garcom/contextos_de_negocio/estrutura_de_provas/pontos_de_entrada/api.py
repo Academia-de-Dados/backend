@@ -26,7 +26,7 @@ from ..dominio.comandos.exercicio import CriarExercicio
 from ..servicos.visualizadores.avaliacao import consultar_avaliacoes
 from ..servicos.visualizadores.exercicios import consultar_exercicios
 
-router_estrutura_de_provas = APIRouter()
+router_estrutura_de_provas = APIRouter(tags=['Estrutura de Provas'])
 
 
 @router_estrutura_de_provas.get(

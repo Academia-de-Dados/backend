@@ -1,12 +1,17 @@
 from fastapi import FastAPI
 
+from garcom.adaptadores.orm.orm import iniciar_mapeamento, init_database
+from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.api import (
+    router_usuarios,
+)
+
 from ..contextos_de_negocio.estrutura_de_provas.pontos_de_entrada.api import (
     router_estrutura_de_provas,
 )
-from ..contextos_de_negocio.estrutura_de_provas.repositorio.orm import orm
 
 app = FastAPI()
 app.include_router(router_estrutura_de_provas)
+app.include_router(router_usuarios)
 
 
 @app.get('/')
@@ -17,5 +22,6 @@ def rota_hellow():
 @app.on_event('startup')
 def on_startup() -> None:
     """Inicializa o banco de dados."""
-    orm.init_database()
-    orm.start_mappers()
+
+    iniciar_mapeamento()
+    init_database()

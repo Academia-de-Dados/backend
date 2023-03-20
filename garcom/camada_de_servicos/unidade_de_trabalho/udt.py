@@ -15,7 +15,7 @@ from garcom.config import get_postgres_uri
 TypeUnidadeAbstrata = TypeVar(
     'TypeUnidadeAbstrata', bound='UnidadeDeTrabalhoAbstrata'  # noqa: F821
 )
-TypeUnidade = TypeVar('TypeUnidade', bound='UnidadeDeTrabalho')   # noqa: F821
+TypeUnidade = TypeVar('TypeUnidade', bound='UnidadeDeTrabalho')  # noqa: F821
 
 
 class UnidadeDeTrabalhoAbstrata(ABC):

@@ -1,17 +1,7 @@
-from sqlalchemy import (
-    ARRAY,
-    Boolean,
-    DateTime,
-    Enum,
-    ForeignKey,
-    String,
-    Text,
-    create_engine,
-)
+from sqlalchemy import ARRAY, Boolean, DateTime, Enum, ForeignKey, String, Text
 from sqlalchemy.orm import relationship
 
 from garcom.adaptadores.orm.orm import DbColumn, DbTable, mapper, metadata
-from garcom.config import get_postgres_uri
 
 from .....adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
 from .....adaptadores.tipos_nao_primitivos.exercicio import (
@@ -53,16 +43,6 @@ exercicios_prova = DbTable(
     DbColumn('id_avaliacao', ForeignKey('avaliacao.id'), primary_key=True),
     DbColumn('id_exercicio', ForeignKey('exercicio.id'), primary_key=True),
 )
-
-
-def init_database() -> None:
-    """
-    Método para iniciar o banco de dados.
-
-    Utilize esse método para criar as tabelas no banco de dados.
-    """
-    metadata.bind = create_engine(get_postgres_uri())
-    metadata.create_all()
 
 
 def start_mappers() -> None:

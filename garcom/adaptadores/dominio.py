@@ -12,6 +12,12 @@ from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.repo_dominio.do
 from garcom.contextos_de_negocio.estrutura_de_provas.repositorio.repo_dominio.dominio_exercicios import (  # noqa
     ExercicioRepoDominio,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.repositorio.repo_consulta.usuario import (
+    UsuariosRepoConsulta,
+)
+from garcom.contextos_de_negocio.identidade_e_acesso.repositorio.repo_dominio.usuario import (
+    UsuariosRepoDominio,
+)
 
 
 class Dominio(Enum):
@@ -25,3 +31,4 @@ class Dominio(Enum):
 
     exercicios = (ExercicioRepoConsulta, ExercicioRepoDominio)
     avaliacao = (AvaliacaoRepoConsulta, AvaliacaoRepoDominio)
+    usuarios = (UsuariosRepoConsulta, UsuariosRepoDominio)

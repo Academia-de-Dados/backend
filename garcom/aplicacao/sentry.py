@@ -1,4 +1,4 @@
-from logging import DEBUG
+from logging import DEBUG, ERROR
 
 from loguru import logger
 from sentry_sdk import init
@@ -17,4 +17,4 @@ init(
     traces_sample_rate=1.0,
 )
 
-loggers.add(EventHandler(level=DEBUG), format='{time} {level} {message}')
+loggers.add(EventHandler(level=ERROR), format='{time} {level} {message}')
