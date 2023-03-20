@@ -22,7 +22,6 @@ gunicorn = "^20.1.0"
 ## Extras
 # test
 pytest = { version =  "^7.1.2", optional = true }
-coverage = {extras = ["toml"], version = "^6.3.2", optional = true }
 ipdb = { version = "^0.13.9", optional = true }
 
 # dev
@@ -34,7 +33,6 @@ blue = { version = "^0.8.0", optional = true }
 isort = { version = "^5.10.1", optional = true }
 flake8 = { version = "^4.0.1", optional = true }
 xenon = { version = "^0.9.0", optional = true }
-pydocstyle = {extras = ["toml"], version = "^6.1.1", optional = true }
 mypy = { version = "^0.942", optional = true }
 pydotenv = "^0.0.7"
 SQLAlchemy-Utils = "^0.38.2"
@@ -46,13 +44,13 @@ python-jose = {extras = ["cryptography"], version = "^3.3.0"}
 passlib = {extras = ["bcrypt"], version = "^1.7.4"}
 python-multipart = "^0.0.5"
 freezegun = "^1.2.2"
+coverage = "^7.2.2"
 
 [tool.poetry.dev-dependencies]
 
 [tool.poetry.extras]
 test = [
     "pytest",
-    "coverage[toml]",
     "ipdb",
 ]
 
@@ -66,7 +64,6 @@ lint = [
     "isort",
     "flake8",
     "xenon",
-    "pydocstyle[toml]",
     "mypy",
 ]
 
@@ -74,15 +71,6 @@ lint = [
 multi_line_output = 3
 line_length = 79
 include_trailing_comma = true
-
-[tool.coverage.run]
-omit = [
-  "garcom/config.py"
-]
-
-[tool.pydocstyle]
-convention = "pep257"
-add-ignore = "D100,D104,D106,D107"
 
 [tool.mypy]
 python_version = "3.10"
