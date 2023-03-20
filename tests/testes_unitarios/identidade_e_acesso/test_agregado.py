@@ -18,7 +18,7 @@ def test_criar_agregado_usuario():
         email=Email("teste_identidade@gmail.com"),
         data_de_nascimento=datetime(1998, 3, 12),
         senha="Teste",
-        senha_verifacao="Teste",
+        senha_verificacao="Teste",
     )
 
     agregado = Usuario.criar_usuario(comando)
@@ -37,7 +37,7 @@ def test_criar_agregado_usuario_retorna_erro_caso_nome_seja_invalido():
             email=Email("teste_identidade@gmail.com"),
             data_de_nascimento=datetime(1998, 3, 12),
             senha="Teste",
-            senha_verifacao="Teste",
+            senha_verificacao="Teste",
         )
 
         Usuario.criar_usuario(comando)
@@ -53,7 +53,7 @@ def test_criar_agregado_usuario_retorna_erro_caso_email_seja_invalido():
             email=Email("teste_identidade"),
             data_de_nascimento=datetime(1998, 3, 12),
             senha="Teste",
-            senha_verifacao="Teste",
+            senha_verificacao="Teste",
         )
         Usuario.criar_usuario(comando)
 
