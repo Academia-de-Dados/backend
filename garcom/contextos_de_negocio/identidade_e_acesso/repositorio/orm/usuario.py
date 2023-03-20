@@ -6,14 +6,14 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios 
 )
 
 usuarios = DbTable(
-    "usuarios",
+    'usuarios',
     metadata,
-    DbColumn.uuid_primary_key("id"),
-    DbColumn("nome", String(length=255), nullable=False),
-    DbColumn("senha", String(length=255), nullable=False),
-    DbColumn("email", String(length=255), nullable=False, index=True),
-    DbColumn("data_de_nascimento", DateTime, nullable=False),
-    DbColumn("ativo", Boolean, nullable=False),
+    DbColumn.uuid_primary_key('id'),
+    DbColumn('nome', String(length=255), nullable=False),
+    DbColumn('senha', String(length=255), nullable=False),
+    DbColumn('email', String(length=255), nullable=False, index=True),
+    DbColumn('data_de_nascimento', DateTime, nullable=False),
+    DbColumn('ativo', Boolean, nullable=False),
 )
 
 

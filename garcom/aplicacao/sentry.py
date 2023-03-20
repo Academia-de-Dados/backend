@@ -17,4 +17,4 @@ init(
     traces_sample_rate=1.0,
 )
 
-loggers.add(EventHandler(level=ERROR), format="{time} {level} {message}")
+loggers.add(EventHandler(level=ERROR), format='{time} {level} {message}')

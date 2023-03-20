@@ -1,11 +1,12 @@
 import uuid
-from typing import Any
 from datetime import datetime
+from typing import Any
 
-from sqlalchemy import Column, DateTime, Table, func, create_engine
+from sqlalchemy import Column, DateTime, Table, create_engine, func
 from sqlalchemy.dialects.postgresql import UUID
-from garcom.config import get_postgres_uri
 from sqlalchemy.orm import registry
+
+from garcom.config import get_postgres_uri
 
 mapper = registry()
 metadata = mapper.metadata
@@ -46,13 +47,18 @@ class DbTable(Table):
     """
 
     def _init(
-        cls, *args: tuple[Any], herda_do_public: bool = False, **kwargs: dict[Any, Any]
+        cls,
+        *args: tuple[Any],
+        herda_do_public: bool = False,
+        **kwargs: dict[Any, Any]
     ) -> None:
         super()._init(
             *args,
-            DbColumn("criado_em", DateTime, default=datetime.utcnow, nullable=False),
             DbColumn(
-                "ultima_modificacao",
+                'criado_em', DateTime, default=datetime.utcnow, nullable=False
+            ),
+            DbColumn(
+                'ultima_modificacao',
                 DateTime,
                 server_default=func.now(),
                 server_onupdate=func.now(),

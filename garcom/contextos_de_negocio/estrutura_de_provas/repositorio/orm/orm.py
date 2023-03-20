@@ -1,12 +1,4 @@
-from sqlalchemy import (
-    ARRAY,
-    Boolean,
-    DateTime,
-    Enum,
-    ForeignKey,
-    String,
-    Text,
-)
+from sqlalchemy import ARRAY, Boolean, DateTime, Enum, ForeignKey, String, Text
 from sqlalchemy.orm import relationship
 
 from garcom.adaptadores.orm.orm import DbColumn, DbTable, mapper, metadata
@@ -20,36 +12,36 @@ from ...dominio.agregados.avaliacao import Avaliacao
 from ...dominio.agregados.exercicio import Exercicio
 
 exercicios = DbTable(
-    "exercicio",
+    'exercicio',
     metadata,
-    DbColumn.uuid_primary_key("id"),
-    DbColumn("materia", Enum(Materia), nullable=False, index=True),
-    DbColumn("assunto", String(length=255), nullable=False, index=True),
-    DbColumn("enunciado", Text, nullable=False),
-    DbColumn("multipla_escolha", Boolean, nullable=False),
-    DbColumn("dificuldade", Enum(Dificuldade), nullable=False),
-    DbColumn("resposta", Text, nullable=False),
-    DbColumn("alternativas", ARRAY(String), nullable=True),
-    DbColumn("origem", String(length=255), nullable=True),
-    DbColumn("data_lancamento", DateTime, nullable=True),
-    DbColumn("imagem_enunciado", String(length=255), nullable=True),
-    DbColumn("imagem_resposta", String(length=255), nullable=True),
+    DbColumn.uuid_primary_key('id'),
+    DbColumn('materia', Enum(Materia), nullable=False, index=True),
+    DbColumn('assunto', String(length=255), nullable=False, index=True),
+    DbColumn('enunciado', Text, nullable=False),
+    DbColumn('multipla_escolha', Boolean, nullable=False),
+    DbColumn('dificuldade', Enum(Dificuldade), nullable=False),
+    DbColumn('resposta', Text, nullable=False),
+    DbColumn('alternativas', ARRAY(String), nullable=True),
+    DbColumn('origem', String(length=255), nullable=True),
+    DbColumn('data_lancamento', DateTime, nullable=True),
+    DbColumn('imagem_enunciado', String(length=255), nullable=True),
+    DbColumn('imagem_resposta', String(length=255), nullable=True),
 )
 
 avaliacao = DbTable(
-    "avaliacao",
+    'avaliacao',
     metadata,
-    DbColumn.uuid_primary_key("id"),
-    DbColumn("titulo", String(length=255), nullable=False, index=True),
-    DbColumn("responsavel", String(length=255), nullable=False, index=True),
-    DbColumn("tipo_de_avaliacao", Enum(TipoDeAvaliacao), nullable=False),
+    DbColumn.uuid_primary_key('id'),
+    DbColumn('titulo', String(length=255), nullable=False, index=True),
+    DbColumn('responsavel', String(length=255), nullable=False, index=True),
+    DbColumn('tipo_de_avaliacao', Enum(TipoDeAvaliacao), nullable=False),
 )
 
 exercicios_prova = DbTable(
-    "exercicios_prova",
+    'exercicios_prova',
     metadata,
-    DbColumn("id_avaliacao", ForeignKey("avaliacao.id"), primary_key=True),
-    DbColumn("id_exercicio", ForeignKey("exercicio.id"), primary_key=True),
+    DbColumn('id_avaliacao', ForeignKey('avaliacao.id'), primary_key=True),
+    DbColumn('id_exercicio', ForeignKey('exercicio.id'), primary_key=True),
 )
 
 
@@ -65,10 +57,10 @@ def start_mappers() -> None:
         Avaliacao,
         avaliacao,
         properties={
-            "exercicios": relationship(
+            'exercicios': relationship(
                 Exercicio,
                 secondary=exercicios_prova,
-                lazy="subquery",
+                lazy='subquery',
                 collection_class=set,
             )
         },

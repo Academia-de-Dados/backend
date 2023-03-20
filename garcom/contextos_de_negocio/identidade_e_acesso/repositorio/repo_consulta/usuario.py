@@ -1,11 +1,13 @@
 from abc import abstractmethod
+
 from sqlalchemy.future import select
+
 from garcom.adaptadores.orm.repositorio import RepositorioAbstrato
+from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
+from garcom.adaptadores.tipos_nao_primitivos.usuario import Email
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
     Usuario,
 )
-from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
-from garcom.adaptadores.tipos_nao_primitivos.usuario import Email
 
 
 class UsuariosAbstratoConsulta(RepositorioAbstrato):

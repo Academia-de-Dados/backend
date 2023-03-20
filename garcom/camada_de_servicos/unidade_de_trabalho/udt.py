@@ -13,9 +13,9 @@ from garcom.barramento import Evento
 from garcom.config import get_postgres_uri
 
 TypeUnidadeAbstrata = TypeVar(
-    "TypeUnidadeAbstrata", bound="UnidadeDeTrabalhoAbstrata"  # noqa: F821
+    'TypeUnidadeAbstrata', bound='UnidadeDeTrabalhoAbstrata'  # noqa: F821
 )
-TypeUnidade = TypeVar("TypeUnidade", bound="UnidadeDeTrabalho")  # noqa: F821
+TypeUnidade = TypeVar('TypeUnidade', bound='UnidadeDeTrabalho')  # noqa: F821
 
 
 class UnidadeDeTrabalhoAbstrata(ABC):
@@ -51,7 +51,9 @@ class UnidadeDeTrabalhoAbstrata(ABC):
         """
         self.close()
 
-    def __call__(self: TypeUnidadeAbstrata, dominio: Enum) -> TypeUnidadeAbstrata:
+    def __call__(
+        self: TypeUnidadeAbstrata, dominio: Enum
+    ) -> TypeUnidadeAbstrata:
         """
         Método mágico dunder call.
 
@@ -62,7 +64,7 @@ class UnidadeDeTrabalhoAbstrata(ABC):
         """
         if not dominio:
             raise ValueError(
-                "O dominio deve ser passado para usar a unidade de trabalho"
+                'O dominio deve ser passado para usar a unidade de trabalho'
             )
 
         self.classe_consulta_repo = dominio.value[0]
@@ -103,7 +105,7 @@ class UnidadeDeTrabalhoAbstrata(ABC):
 
 
 DEFAULT_SESSION_FACTORY = sessionmaker(
-    bind=create_engine(get_postgres_uri(), isolation_level="REPEATABLE READ"),
+    bind=create_engine(get_postgres_uri(), isolation_level='REPEATABLE READ'),
     expire_on_commit=False,
 )
 
@@ -119,7 +121,9 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
     repo_consulta: RepositorioAbstrato
     repo_dominio: RepositorioAbstratoDominio
 
-    def __init__(self, session_factory: sessionmaker = DEFAULT_SESSION_FACTORY) -> None:
+    def __init__(
+        self, session_factory: sessionmaker = DEFAULT_SESSION_FACTORY
+    ) -> None:
         """
         Método dunder init.
 
@@ -141,8 +145,8 @@ class UnidadeDeTrabalho(UnidadeDeTrabalhoAbstrata):
         self.repo_consulta: RepositorioAbstrato = self.classe_consulta_repo(
             self.session
         )
-        self.repo_dominio: RepositorioAbstratoDominio = self.classe_dominio_repo(
-            self.session
+        self.repo_dominio: RepositorioAbstratoDominio = (
+            self.classe_dominio_repo(self.session)
         )
 
         return super().__enter__()

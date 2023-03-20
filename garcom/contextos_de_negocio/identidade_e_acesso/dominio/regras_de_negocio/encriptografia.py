@@ -1,17 +1,21 @@
+from datetime import datetime, timedelta
+
 from jose import jwt
 from passlib.context import CryptContext
-from datetime import datetime, timedelta
+
 from garcom.config import (
-    get_secret_key,
     get_algorithm,
-    get_tipo_de_criptografia,
+    get_secret_key,
     get_tempo_de_expiracao,
+    get_tipo_de_criptografia,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.token import (
     InfoToken,
 )
 
-pwd_contexto = CryptContext(schemes=[get_tipo_de_criptografia()], deprecated="auto")
+pwd_contexto = CryptContext(
+    schemes=[get_tipo_de_criptografia()], deprecated='auto'
+)
 
 
 def verificar_senha(senha: str, senha_encriptada: str) -> bool:
@@ -29,8 +33,10 @@ def criar_token_de_acesso(dado_de_acesso: dict[str, str]) -> str:
     """
 
     dados = dado_de_acesso.copy()
-    tempo_de_expiracao = datetime.utcnow() + timedelta(minutes=get_tempo_de_expiracao())
-    dados.update({"exp": tempo_de_expiracao})
+    tempo_de_expiracao = datetime.utcnow() + timedelta(
+        minutes=get_tempo_de_expiracao()
+    )
+    dados.update({'exp': tempo_de_expiracao})
 
     token_jwt = jwt.encode(dados, get_secret_key(), algorithm=get_algorithm())
 
@@ -44,4 +50,6 @@ def validar_token_de_acesso(token: str) -> InfoToken:
     """
     payload = jwt.decode(token, get_secret_key(), algorithms=[get_algorithm()])
 
-    return InfoToken(sub=payload.get("sub"), tempo_de_expiracao=payload.get("exp"))
+    return InfoToken(
+        sub=payload.get('sub'), tempo_de_expiracao=payload.get('exp')
+    )

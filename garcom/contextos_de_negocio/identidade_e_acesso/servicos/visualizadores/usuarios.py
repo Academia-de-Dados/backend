@@ -1,26 +1,28 @@
 from garcom.adaptadores.dominio import Dominio
-from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
-    Usuario,
-)
+from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import (
     UnidadeDeTrabalhoAbstrata,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
+    Usuario,
+)
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     BuscarTodosUsuarios,
-    BuscarUsuarioPorId,
     BuscarUsuarioPorEmail,
+    BuscarUsuarioPorId,
     LogarUsuario,
 )
-from garcom.contextos_de_negocio.identidade_e_acesso.dominio.regras_de_negocio.encriptografia import (
-    verificar_senha,
-    criar_token_de_acesso,
-)
-from garcom.contextos_de_negocio.identidade_e_acesso.excecoes import SenhaIncorreta
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.entidades.usuario import (
-    UsuarioLogado,
     UsuarioLeitura,
+    UsuarioLogado,
 )
-from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.regras_de_negocio.encriptografia import (
+    criar_token_de_acesso,
+    verificar_senha,
+)
+from garcom.contextos_de_negocio.identidade_e_acesso.excecoes import (
+    SenhaIncorreta,
+)
 
 
 def consultar_usuarios(
@@ -61,17 +63,23 @@ def login_de_usuario(
 
     comando_buscar_por_email = BuscarUsuarioPorEmail(email=email)
 
-    usuario = consultar_usuario_por_email(comando_buscar_por_email, unidade_de_trabalho)
+    usuario = consultar_usuario_por_email(
+        comando_buscar_por_email, unidade_de_trabalho
+    )
 
-    validar_senha = verificar_senha(senha=senha, senha_encriptada=usuario.senha)
+    validar_senha = verificar_senha(
+        senha=senha, senha_encriptada=usuario.senha
+    )
 
     if not validar_senha:
         raise SenhaIncorreta(
             status_code=400,
-            detail="Senha informada está incorreta, por favor digite a senha certa!",
+            detail='Senha informada está incorreta, por favor digite a senha certa!',
         )
 
-    token_de_acesso = criar_token_de_acesso(dado_de_acesso={"sub": usuario.email})
+    token_de_acesso = criar_token_de_acesso(
+        dado_de_acesso={'sub': usuario.email}
+    )
 
     usuario = UsuarioLeitura(
         nome=Nome(usuario.nome),

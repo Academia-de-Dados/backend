@@ -1,8 +1,8 @@
 from garcom.adaptadores.orm.repositorio import RepositorioAbstratoDominio
+from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
     Usuario,
 )
-from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 
 
 class UsuariosRepoDominio(RepositorioAbstratoDominio):

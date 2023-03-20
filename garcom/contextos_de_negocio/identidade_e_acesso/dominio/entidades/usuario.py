@@ -1,8 +1,10 @@
 from dataclasses import dataclass
 from datetime import datetime
-from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
-from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
+
 from dataclass_type_validator import dataclass_validate
+
+from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
+from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 
 
 @dataclass_validate
@@ -19,4 +21,4 @@ class UsuarioLeitura:
 class UsuarioLogado:
     usuario: UsuarioLeitura
     access_token: str
-    token_type: str = "Bearer"
+    token_type: str = 'Bearer'

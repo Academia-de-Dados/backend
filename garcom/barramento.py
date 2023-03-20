@@ -1,6 +1,7 @@
 from abc import ABC
 from typing import Callable, Optional, Union
 from uuid import UUID
+
 from garcom.aplicacao.sentry import loggers
 
 
@@ -24,7 +25,7 @@ class BarramentoDeMensagens:
 
     def __init__(
         self,
-        unidade_de_trabalho: "UnidadeDeTrabalho",
+        unidade_de_trabalho: 'UnidadeDeTrabalho',
         manipuladores_de_eventos: Optional[dict[str, Callable]],
         manipuladores_de_comandos: Optional[dict[str, Callable]],
     ):
@@ -46,10 +47,14 @@ class BarramentoDeMensagens:
                 self.manipulador_de_eventos(mensagem)
 
             elif isinstance(mensagem, Comando):
-                self.resultado_do_comando = self.manipulador_de_comandos(mensagem)
+                self.resultado_do_comando = self.manipulador_de_comandos(
+                    mensagem
+                )
 
             else:
-                raise self.NaoEUmEventoOuComando("O Objeto não é um evento ou comando.")
+                raise self.NaoEUmEventoOuComando(
+                    'O Objeto não é um evento ou comando.'
+                )
 
         return self.resultado_do_comando
 
@@ -57,27 +62,29 @@ class BarramentoDeMensagens:
         for manipulador in self.manipuladores_de_eventos.get(type(evento), []):
             try:
                 loggers.debug(
-                    f"Execuntando evento: {evento}, com executor: {manipulador}"
+                    f'Execuntando evento: {evento}, com executor: {manipulador}'
                 )
 
-                manipulador(evento, unidade_de_trabalho=self.unidade_de_trabalho)
+                manipulador(
+                    evento, unidade_de_trabalho=self.unidade_de_trabalho
+                )
                 evento = list(self.unidade_de_trabalho.coletar_novos_eventos())
                 self.fila.extend(evento)
 
             except Exception as e:
-                loggers.exception(f"Erro ao executar: {evento}, erro: {e}")
+                loggers.exception(f'Erro ao executar: {evento}, erro: {e}')
 
     def manipulador_de_comandos(self, comando: Comando) -> UUID:
         manipulador = self.manipuladores_de_comandos.get(type(comando))
         try:
             loggers.debug(
-                f"Execuntando comando: {comando}, com executor: {manipulador}"
+                f'Execuntando comando: {comando}, com executor: {manipulador}'
             )
 
             resultado = manipulador(
                 comando, unidade_de_trabalho=self.unidade_de_trabalho
             )
-            loggers.info(f"Resultado comando: {resultado}")
+            loggers.info(f'Resultado comando: {resultado}')
 
             evento = list(self.unidade_de_trabalho.coletar_novos_eventos())
             self.fila.extend(evento)
@@ -85,4 +92,4 @@ class BarramentoDeMensagens:
             return resultado
 
         except Exception as e:
-            loggers.exception(f"Erro ao executar: {comando}, erro: {e}")
+            loggers.exception(f'Erro ao executar: {comando}, erro: {e}')

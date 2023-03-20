@@ -1,5 +1,6 @@
-from fastapi import HTTPException
 from dataclasses import dataclass
+
+from fastapi import HTTPException
 
 
 @dataclass

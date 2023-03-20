@@ -1,9 +1,9 @@
 from dataclasses import dataclass
 from datetime import datetime
 
+from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 from garcom.barramento import Comando
-from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 
 
 @dataclass

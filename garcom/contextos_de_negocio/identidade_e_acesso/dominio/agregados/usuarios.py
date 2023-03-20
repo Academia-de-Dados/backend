@@ -31,7 +31,7 @@ class Usuario(Agregado):
         return hash(self.id)
 
     @classmethod
-    def criar_usuario(cls, comando: CriarUsuario) -> "Usuario":
+    def criar_usuario(cls, comando: CriarUsuario) -> 'Usuario':
         """
         Adicionar conversão para hash
         """

@@ -1,6 +1,7 @@
-from garcom.representacoes import MyBaseModel
 from datetime import datetime
+
 from garcom.adaptadores.tipos_nao_primitivos.usuario import Email
+from garcom.representacoes import MyBaseModel
 
 
 class UsuarioConsulta(MyBaseModel):

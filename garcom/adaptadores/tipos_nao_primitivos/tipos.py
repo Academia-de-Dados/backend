@@ -71,7 +71,7 @@ class SET(TypeDecorator):
             return list(value)
 
         raise TypeError(
-            f"Coleção de tipo inválido. Esperava {set[str]} e obteve {value}."
+            f'Coleção de tipo inválido. Esperava {set[str]} e obteve {value}.'
         )
 
     def process_result_value(self, value: list) -> Union[set, None]:
