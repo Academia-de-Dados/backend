@@ -10,6 +10,16 @@ on:
 
   workflow_dispatch:
 
+env:
+  DATABASE_TESTS: postgresql://postgres:$postgres@localhost:5432/postgres
+  SECRET_KEY: ${{ secrets.SECRET_KEY }}
+  ALGORITHM: ${{ secrets.ALGORITHM }}
+  TIPO_DE_CRIPTOGRAFIA: ${{ secrets.TIPO_DE_CRIPTOGRAFIA }}
+  TEMPO_DE_EXPIRACAO: ${{ secrets.TEMPO_DE_EXPIRACAO }}
+  POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+  POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+  POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+
 jobs:
   build:
 
@@ -50,16 +60,4 @@ jobs:
         run: make lint
 
       - name: Run Tests
-        env:
-          POSTGRES_HOST: localhost
-          POSTGRES_PORT: 5432
-          POSTGRES_USER: postgres
-          POSTGRES_PASSWORD: postgres
-          POSTGRES_DB: postgres
-          DATABASE_TESTS: postgresql://postgres:$postgres@localhost:5432/postgres
-          SECRET_KEY: ${{ secrets.SECRET_KEY }}
-          ALGORITHM: ${{ secrets.ALGORITHM }}
-          TIPO_DE_CRIPTOGRAFIA: ${{ secrets.TIPO_DE_CRIPTOGRAFIA }}
-          TEMPO_DE_EXPIRACAO: ${{ secrets.TEMPO_DE_EXPIRACAO }}
-
         run: make test
