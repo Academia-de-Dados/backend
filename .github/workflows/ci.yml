@@ -56,5 +56,10 @@ jobs:
           POSTGRES_USER: postgres
           POSTGRES_PASSWORD: postgres
           POSTGRES_DB: postgres
-          DATABASE_TESTS: postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@localhost:5432/${POSTGRES_DB}
+          DATABASE_TESTS: postgresql://postgres:$postgres@localhost:5432/postgres
+          SECRET_KEY: ${{ secrets.SECRET_KEY }}
+          ALGORITHM: ${{ secrets.ALGORITHM }}
+          TIPO_DE_CRIPTOGRAFIA: ${{ secrets.TIPO_DE_CRIPTOGRAFIA }}
+          TEMPO_DE_EXPIRACAO: ${{ secrets.TEMPO_DE_EXPIRACAO }}
+
         run: make test
