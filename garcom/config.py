@@ -18,7 +18,7 @@ class Configuracoes(BaseSettings):
         """Classe que indica qual o arquivo .env."""
 
         env_file = '.env'
-        env_file_encoding = "utf-8"
+        env_file_encoding = 'utf-8'
 
 
 configs = Configuracoes()
