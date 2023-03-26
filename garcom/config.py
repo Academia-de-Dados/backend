@@ -1,16 +1,17 @@
+from typing import Optional
 from pydantic import BaseSettings
 
 
 class Configuracoes(BaseSettings):
     """Classe de configuração pegar as envs."""
 
-    database_uri: str
-    database_tests: str
-    dsn_sentry: str
-    secret_key: str
-    algorithm: str
-    tipo_de_criptografia: str
-    tempo_de_expiracao: str
+    database_uri: Optional[str] = None
+    database_tests: Optional[str] = None
+    dsn_sentry: Optional[str] = None
+    secret_key: Optional[str] = None
+    algorithm: Optional[str] = None
+    tipo_de_criptografia: Optional[str] = None
+    tempo_de_expiracao: Optional[str] = None
 
     class Config:
         """Classe que indica qual o arquivo .env."""
