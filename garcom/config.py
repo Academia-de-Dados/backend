@@ -24,6 +24,7 @@ configs = Configuracoes()
 
 DATA_BASE = 'postgresql://postgres:$postgres@localhost:5432/$postgres'
 
+
 def get_postgres_uri() -> str:
     """Pega a uri do postgres."""
     return configs.database_uri or DATA_BASE
