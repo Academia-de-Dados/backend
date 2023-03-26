@@ -34,8 +34,8 @@ jobs:
       DATABASE_URI: postgresql://postgres:$postgres@localhost:5432/postgres
       DATABASE_TESTS: postgresql://postgres:$postgres@localhost:5432/postgres
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
-      ALGORITHM: ${{ secrets.ALGORITHM }}
-      TIPO_DE_CRIPTOGRAFIA: ${{ secrets.TIPO_DE_CRIPTOGRAFIA }}
+      ALGORITHM: ${{ vars.ALGORITHM }}
+      TIPO_DE_CRIPTOGRAFIA: ${{ vars.TIPO_DE_CRIPTOGRAFIA }}
       TEMPO_DE_EXPIRACAO: ${{ secrets.TEMPO_DE_EXPIRACAO }}
       POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
       POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
