@@ -1,39 +1,24 @@
 version: '3.5'
 services:
-  app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    volumes:
-      - '.:/app'
-    env_file: '.env'
-    ports:
-      - '8000:8000'
-    depends_on:
-#      - postgres
-      - postgres_test
-    network_mode: host
 
   postgres_test:
     image: 'postgres:14'
     container_name: postgres-test-integra
     env_file: '.env'
     environment:
-      - POSTGRES_DB=postgres_testes
-      - POSTGRES_USER=postgres_testes
-      - POSTGRES_PASSWORD=senha
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
     ports:
       - "5431:5432"
-    network_mode: host
 
-#  postgres:
-#    image: 'postgres:14'
-#    container_name: postgres-test-api
-#    env_file: '.env'
-#    environment:
-#      - POSTGRES_DB=postgres
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=senha
-#    ports:
-#      - "5432:5432"
-#    network_mode: host
+  postgres:
+    image: 'postgres:14'
+    container_name: postgres-test-api
+    env_file: '.env'
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
