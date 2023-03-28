@@ -1,12 +1,11 @@
 [tool.poetry]
-name = "backend"
+name = "garcom"
 version = "0.1.0"
 description = ""
 authors = [
   "OthonBreener <othonbrener123@gmail.com>",
   "taconi <igor.taconi@protonmail.com>",
 ]
-readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.10"
