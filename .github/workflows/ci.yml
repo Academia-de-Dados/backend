@@ -1,20 +1,51 @@
-name: Continuous Integration
+name: Python CI
 
 on:
   pull_request:
     branches:
       - main
   push:
+    branches:
+      - main
 
   workflow_dispatch:
 
 jobs:
-  ci:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Perform checkout
-        uses: actions/checkout@v2
+  build:
 
+    runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:14.7
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    env:
+      DATABASE_URI: postgresql://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
+      DATABASE_TESTS: postgresql://postgres:${{ secrets.POSTGRES_PASSWORD }}@localhost:5432/${{ secrets.POSTGRES_DB }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      ALGORITHM: ${{ secrets.ALGORITHM }}
+      TIPO_DE_CRIPTOGRAFIA: ${{ secrets.TIPO_DE_CRIPTOGRAFIA }}
+      TEMPO_DE_EXPIRACAO: ${{ secrets.TEMPO_DE_EXPIRACAO }}
+      POSTGRES_USER: ${{ secrets.POSTGRES_USER }}
+      POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+      POSTGRES_DB: ${{ secrets.POSTGRES_DB }}
+      DSN_SENTRY: ${{ secrets.DSN_SENTRY }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+        
       - name: Install Python 3.10.4
         uses: actions/setup-python@v2
         with:
@@ -23,8 +54,12 @@ jobs:
       - name: Install dependencies
         run: make install
 
+      - name: Wait for Postgres
+        run: |
+          until pg_isready -h localhost -p 5432 -U postgres; do echo "Waiting for Postgres..."; sleep 1; done
+
       - name: Run lint
         run: make lint
 
-      - name: Run tests
+      - name: Run Tests
         run: make test

@@ -1,6 +1,7 @@
 SRC_DIRS := garcom
 DC := docker-compose
-
+DATABASE_URI := postgresql://postgres:postgres@localhost:5432/postgres
+DATABASE_TESTS := postgresql://postgres:postgres@localhost:5432/postgres
 COVERAGE_FAIL_UNDER := 80
 
 .PRHONY: build up down up logs

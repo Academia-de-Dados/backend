@@ -1,3 +1,5 @@
+from typing import Optional
+
 from pydantic import BaseSettings
 
 
@@ -16,19 +18,22 @@ class Configuracoes(BaseSettings):
         """Classe que indica qual o arquivo .env."""
 
         env_file = '.env'
+        env_file_encoding = 'utf-8'
 
 
 configs = Configuracoes()
 
+DATA_BASE = 'postgresql://postgres:$postgres@localhost:5432/$postgres'
+
 
 def get_postgres_uri() -> str:
     """Pega a uri do postgres."""
-    return configs.database_uri
+    return configs.database_uri or DATA_BASE
 
 
 def get_postgres_tests() -> str:
     """Pega a URI do banco de tests."""
-    return configs.database_tests
+    return configs.database_tests or DATA_BASE
 
 
 def get_dsn_sentry() -> str:
