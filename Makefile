@@ -1,7 +1,5 @@
 SRC_DIRS := garcom
 DC := docker-compose
-DATABASE_URI := postgresql://postgres:postgres@localhost:5432/postgres
-DATABASE_TESTS := postgresql://postgres:postgres@localhost:5432/postgres
 COVERAGE_FAIL_UNDER := 80
 
 .PRHONY: build up down up logs
@@ -29,10 +27,8 @@ logs:  ## Mostra os logs do service api do docker-compose.
 .PRHONY: install format
 
 ## @ dev
-install:  ## Instala o código localmente (recomendo estar dentro de um ambiente virtual).
-	@ pip install -U pip
-	@ pip install poetry
-	@ pip install .[dev,test,lint]
+install:  ## Instala o código localmente.
+	@ poetry install --no-interaction --no-root --with lint --with test --with dev
 	@ pre-commit install
 	@ gitlint install-hook
 
@@ -42,29 +38,23 @@ format:  ## Formata o código automaticamente (isort e blue).
 	@ isort $(SRC_DIRS)
 
 
-.PRHONY: lint cc test
+.PRHONY: lint test
 ## @ CI
 lint:  ## Executa a checagem estático (isort, blue, flake8, pydocstyle e mypy).
-	# linters
 	@ isort --check --diff $(SRC_DIRS)
 	@ blue --check $(SRC_DIRS)
-	# @ mypy $(SRC_DIRS)
-
-## @ CI
-cc:  ## Verifica a complexidade ciclomática do código.
-	# cyclomatic complexity
-	@ radon cc $(SRC_DIRS) -s
-	@ xenon --max-absolute A --max-modules A --max-average A $(SRC_DIRS)
 
 ## @ CI
 test: ## Executa os teste e mostra a cobertura do código.
-	# testing and testing coverage
-	@ coverage run --source=$(SRC_DIRS) --module pytest
-	@ coverage html
-	@ coverage report --fail-under=$(COVERAGE_FAIL_UNDER) --show-missing
+	pytest \
+	  --cov-report=html \
+	  --cov-config=pyproject.toml \
+	  --cov=$(SRC_DIRS) \
+	  --cov-fail-under=$(COVERAGE_FAIL_UNDER) \
+	  -vv
 
 test-env:
-	docker-compose -f docker_compose_testes.yml up
+	@ $(DC) -f docker-compose-testes.yml up
 
 
 .PRHONY: run run-dev
