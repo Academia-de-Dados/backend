@@ -15,6 +15,7 @@ def test_cadastrar_usuario(cliente: TestClient, session: sessionmaker):
             "senha": "Cairon123",
             "senha_verificacao": "Cairon123",
             "data_de_nascimento": "1998-03-12T00:00:00.901Z",
+            "tipo_de_acesso": "aluno",
         },
     )
 
@@ -34,6 +35,7 @@ def test_logar_usuario(cliente: TestClient, session: sessionmaker):
             "senha": "Cairon123",
             "senha_verificacao": "Cairon123",
             "data_de_nascimento": "1998-03-12T00:00:00.901Z",
+            "tipo_de_acesso": "aluno",
         },
     )
 

@@ -4,6 +4,9 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios 
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     CriarUsuario,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
+    TipoDeAcesso
+)
 from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 from datetime import datetime
@@ -19,6 +22,7 @@ def test_criar_agregado_usuario():
         data_de_nascimento=datetime(1998, 3, 12),
         senha="Teste",
         senha_verificacao="Teste",
+        tipo_de_acesso=TipoDeAcesso.aluno,
     )
 
     agregado = Usuario.criar_usuario(comando)
@@ -38,6 +42,7 @@ def test_criar_agregado_usuario_retorna_erro_caso_nome_seja_invalido():
             data_de_nascimento=datetime(1998, 3, 12),
             senha="Teste",
             senha_verificacao="Teste",
+            tipo_de_acesso=TipoDeAcesso.aluno,
         )
 
         Usuario.criar_usuario(comando)
@@ -54,6 +59,7 @@ def test_criar_agregado_usuario_retorna_erro_caso_email_seja_invalido():
             data_de_nascimento=datetime(1998, 3, 12),
             senha="Teste",
             senha_verificacao="Teste",
+            tipo_de_acesso=TipoDeAcesso.aluno,
         )
         Usuario.criar_usuario(comando)
 

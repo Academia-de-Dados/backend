@@ -15,6 +15,9 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.regras_de_negocio.e
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     CriarUsuario,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
+    TipoDeAcesso
+)
 from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 from tests.testes_unitarios.identidade_e_acesso.mock_identidade_e_acesso import (
     inserir_usuario,
@@ -78,6 +81,7 @@ def test_pegar_usuario_ativo_retorna_usuario_cadastrado(session):
         senha="Testeautenticacao123",
         senha_verificacao="Testeautenticacao123",
         data_de_nascimento=datetime(1990, 1, 1),
+        tipo_de_acesso=TipoDeAcesso.aluno,
     )
 
     id_usuario = inserir_usuario(session, comando)
