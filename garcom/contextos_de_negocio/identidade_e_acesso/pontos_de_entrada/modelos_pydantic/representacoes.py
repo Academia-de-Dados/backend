@@ -1,10 +1,10 @@
 from datetime import datetime
 
 from garcom.adaptadores.tipos_nao_primitivos.usuario import Email
-from garcom.representacoes import MyBaseModel
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
-    TipoDeAcesso
+    TipoDeAcesso,
 )
+from garcom.representacoes import MyBaseModel
 
 
 class UsuarioConsulta(MyBaseModel):

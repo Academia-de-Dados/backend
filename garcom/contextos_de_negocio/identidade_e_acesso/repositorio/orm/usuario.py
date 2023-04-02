@@ -1,13 +1,12 @@
-from sqlalchemy import Boolean, DateTime, String, Enum
+from sqlalchemy import Boolean, DateTime, Enum, String
 
 from garcom.adaptadores.orm.orm import DbColumn, DbTable, mapper, metadata
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
     Usuario,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
-    TipoDeAcesso
+    TipoDeAcesso,
 )
-
 
 usuarios = DbTable(
     'usuarios',

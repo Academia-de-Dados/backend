@@ -11,7 +11,7 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario im
     CriarUsuario,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
-    TipoDeAcesso
+    TipoDeAcesso,
 )
 
 

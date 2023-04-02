@@ -5,7 +5,7 @@ from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 from garcom.adaptadores.tipos_nao_primitivos.usuario import Email, Nome
 from garcom.barramento import Comando
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
-    TipoDeAcesso
+    TipoDeAcesso,
 )
 
 
