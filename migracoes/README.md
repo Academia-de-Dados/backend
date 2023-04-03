@@ -7,7 +7,8 @@ A API de operações funciona para os comandos de DDL (Data Definition Language)
 * Deleção de tabelas (DROP TABLE)
 
 Essas operações devem ser feitas dentro das funções de upgrade() e downgrade(),
-geradas automaticamente no arquivo da versão da migração.
+geradas automaticamente no arquivo da versão da migração. Agradecimento ao Dunossauro 
+(Eduardo Mendes) pela live 211 de migrações.
 
 ## Criando primeira migração
 
@@ -44,3 +45,20 @@ gerar o comando:
 ```sh
 alembic revision --autogenerate -m "mensagem com descricao do que foi alterado no banco"
 ```
+
+## Migrações em batch
+
+Se você fizer uma migração online e um acesso for feito nesse meio tempo, a pessoa
+pode pegar um período instável do banco. Por que ele vai fazer as operações
+linha linha. Para fazer todas as modificações de uma vez, usamos as operações de
+batch:
+
+```python
+def upgrade() -> None:
+    with op.batch_alter_table('nome_da_tabela', schema=None) as batch_op:
+        batch_op.alter_column(...)
+```
+
+Caso o atributo 'render_as_batch' esteja como True nas configurações do arquivo
+.env, ele sempre vai executar em batchs e não é necessário adicionar isso na função
+de upgrade.

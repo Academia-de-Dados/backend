@@ -7,9 +7,7 @@ Create Date: 2023-04-02 09:04:47.639223
 """
 from alembic import op
 import sqlalchemy as sa
-from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
-    TipoDeAcesso
-)
+
 
 # revision identifiers, used by Alembic.
 revision = 'e00e769b7f32'
