@@ -34,3 +34,13 @@ ou:
 ```sh
 alembic downgrade head
 ```
+
+## Gerando migrações automaticas
+
+Para gerar migrações automaticamente é preciso adicionar no arquivo env.py dentro
+da pasta migracoes o metadata utilizado nos modelos do código. Depois disso, basta
+gerar o comando:
+
+```sh
+alembic revision --autogenerate -m "mensagem com descricao do que foi alterado no banco"
+```
