@@ -23,17 +23,15 @@ class Configuracoes(BaseSettings):
 
 configs = Configuracoes()
 
-DATA_BASE = 'postgresql://postgres:$postgres@localhost:5432/$postgres'
-
 
 def get_postgres_uri() -> str:
     """Pega a uri do postgres."""
-    return configs.database_uri or DATA_BASE
+    return configs.database_uri
 
 
 def get_postgres_tests() -> str:
     """Pega a URI do banco de tests."""
-    return configs.database_tests or DATA_BASE
+    return configs.database_tests
 
 
 def get_dsn_sentry() -> str:

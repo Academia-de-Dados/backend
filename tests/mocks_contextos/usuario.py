@@ -9,6 +9,7 @@ def mock_usuario_gen(cliente, session):
         senha: str = "SenhaTeste123",
         senha_verificacao: str = "SenhaTeste123",
         data_de_nascimento: str = "1998-03-12T00:00:00.901Z",
+        tipo_de_acesso: str = "aluno",
     ):
         usuario = {
             "nome": nome,
@@ -16,6 +17,7 @@ def mock_usuario_gen(cliente, session):
             "senha": senha,
             "senha_verificacao": senha_verificacao,
             "data_de_nascimento": data_de_nascimento,
+            "tipo_de_acesso": tipo_de_acesso,
         }
 
         resposta = cliente.post("/usuarios/signup", json=usuario)

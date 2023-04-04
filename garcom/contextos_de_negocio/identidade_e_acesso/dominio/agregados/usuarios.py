@@ -10,6 +10,9 @@ from garcom.contextos_de_negocio.agregado import Agregado
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     CriarUsuario,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
+    TipoDeAcesso,
+)
 
 
 @dataclass_validate
@@ -17,6 +20,7 @@ from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario im
 class Usuario(Agregado):
     nome: Nome
     email: Email
+    tipo_de_acesso: TipoDeAcesso
     senha: str
     data_de_nascimento: datetime
     ativo: bool = True
@@ -40,4 +44,5 @@ class Usuario(Agregado):
             email=comando.email,
             data_de_nascimento=comando.data_de_nascimento,
             senha=comando.senha,
+            tipo_de_acesso=comando.tipo_de_acesso,
         )

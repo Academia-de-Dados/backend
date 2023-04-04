@@ -9,9 +9,6 @@ from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
     MANIPULADORES_IDENTIDADE_E_ACESSO_COMANDOS,
     MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
 )
-from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
-    Usuario,
-)
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     BuscarTodosUsuarios,
     BuscarUsuarioPorId,
@@ -41,6 +38,7 @@ def cadastrar_usuario(usuario: UsuarioDominio):
         senha=usuario.senha,
         senha_verificacao=usuario.senha_verificacao,
         data_de_nascimento=usuario.data_de_nascimento,
+        tipo_de_acesso=usuario.tipo_de_acesso,
     )
     barramento = BarramentoDeMensagens(
         unidade_de_trabalho=unidade_de_trabalho,
