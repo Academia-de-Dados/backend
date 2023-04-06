@@ -4,7 +4,7 @@ from tests.testes_integracao.test_unidade_de_trabalho import (
     inserir_exercicio,
     inserir_avaliacao,
 )
-from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
+from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 
 
 def test_cadastrar_novo_exercicio_retorna_200(
@@ -74,13 +74,15 @@ def test_consultar_todos_exercicios_retorna_200(
 
 
 def test_cadastrar_avaliacao_retorna_422_caso_esteja_faltando_campo_obrigatorio(
-    cliente: TestClient,
+    cliente: TestClient, mock_usuario_gen
 ):
+    usuario_id = mock_usuario_gen()
+
     avaliacao_id = cliente.post(
         "/avaliacao",
         json={
             "titulo": "Prova de matematica",
-            "responsavel": "Othon",
+            "responsavel": usuario_id,
             "tipo_de_avaliacao": "avaliacao_ensino_medio",
         },
     )
@@ -88,7 +90,7 @@ def test_cadastrar_avaliacao_retorna_422_caso_esteja_faltando_campo_obrigatorio(
     assert avaliacao_id.status_code == 422
 
 
-def test_cadastrar_avaliacao_retorna_201(cliente: TestClient, session: sessionmaker):
+def test_cadastrar_avaliacao_retorna_201(cliente: TestClient, session: sessionmaker, mock_usuario_gen):
     # cadastrar exercicio
     exercicio_id = inserir_exercicio(
         session,
@@ -100,12 +102,14 @@ def test_cadastrar_avaliacao_retorna_201(cliente: TestClient, session: sessionma
     )
     session.commit()
 
+    usuario_id = mock_usuario_gen()
+    
     # cadastrar avaliacao
     requisicao = cliente.post(
         "/avaliacao",
         json={
             "titulo": "Prova de matematica",
-            "responsavel": "Othon",
+            "responsavel": usuario_id,
             "tipo_avaliacao": "Avaliação Ensino Médio",
             "exercicios": [str(exercicio_id)],
         },
@@ -126,7 +130,11 @@ def test_consultar_avaliacao_retorna_204_caso_nao_tenha_nada(cliente: TestClient
     assert requisicao.status_code == 204
 
 
-def test_consultar_avaliacao_retorna_200(cliente: TestClient, session: sessionmaker):
+def test_consultar_avaliacao_retorna_200(
+    cliente: TestClient, 
+    session: sessionmaker,
+    mock_usuario_gen
+):
 
     # cadastrando avaliacao
     exercicio_id = inserir_exercicio(
@@ -139,11 +147,13 @@ def test_consultar_avaliacao_retorna_200(cliente: TestClient, session: sessionma
     )
     session.commit()
 
+    usuario_id = mock_usuario_gen()
+
     avaliacao_id = cliente.post(
         "/avaliacao",
         json={
             "titulo": "Prova de matematica",
-            "responsavel": "Othon",
+            "responsavel": usuario_id,
             "tipo_avaliacao": "Avaliação Ensino Médio",
             "exercicios": [str(exercicio_id)],
         },

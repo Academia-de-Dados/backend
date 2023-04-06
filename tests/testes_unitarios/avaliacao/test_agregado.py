@@ -16,6 +16,7 @@ from garcom.adaptadores.tipos_nao_primitivos.exercicio import (
     AssuntosMatematica,
 )
 from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
+from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 
 
 def test_criar_avaliacao():
@@ -34,7 +35,7 @@ def test_criar_avaliacao():
     # criando avaliacao
     comando = CriarAvaliacao(
         titulo="Avaliação de Matemática",
-        responsavel="Othon",
+        responsavel=UsuarioId(),
         tipo_de_avaliacao=TipoDeAvaliacao.avaliacao_ensino_medio,
         exercicios={exercicio_id},
     )
