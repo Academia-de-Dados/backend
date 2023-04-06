@@ -2,7 +2,7 @@ from logging.config import fileConfig
 from garcom.adaptadores.orm.orm import metadata
 from sqlalchemy import engine_from_config
 from sqlalchemy import pool
-
+from garcom.config import get_postgres_uri
 from alembic import context
 
 # this is the Alembic Config object, which provides
@@ -18,6 +18,11 @@ if config.config_file_name is not None:
 # for 'autogenerate' support
 # from myapp import mymodel
 # target_metadata = mymodel.Base.metadata
+
+config.set_main_option(
+    'sqlalchemy.url', 
+    get_postgres_uri()
+)
 target_metadata = metadata
 
 # other values from the config, defined by the needs of env.py,
@@ -44,8 +49,8 @@ def run_migrations_offline() -> None:
         target_metadata=target_metadata,
         literal_binds=True,
         dialect_opts={"paramstyle": "named"},
-        compare_type=True,
-        render_as_batch=True,
+        #compare_type=True,
+        #render_as_batch=True,
     )
 
     with context.begin_transaction():
@@ -63,13 +68,14 @@ def run_migrations_online() -> None:
         config.get_section(config.config_ini_section, {}),
         prefix="sqlalchemy.",
         poolclass=pool.NullPool,
-        compare_type=True,
-        render_as_batch=True,
+        #compare_type=True,
+        #render_as_batch=True,
     )
 
     with connectable.connect() as connection:
         context.configure(
-            connection=connection, target_metadata=target_metadata
+            connection=connection, 
+            target_metadata=target_metadata
         )
 
         with context.begin_transaction():
