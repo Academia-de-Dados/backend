@@ -1,6 +1,6 @@
 from sqlalchemy import ARRAY, Boolean, DateTime, Enum, ForeignKey, String, Text
 from sqlalchemy.orm import relationship
-
+from sqlalchemy.dialects.postgresql import UUID
 from garcom.adaptadores.orm.orm import DbColumn, DbTable, mapper, metadata
 
 from .....adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
@@ -8,8 +8,8 @@ from .....adaptadores.tipos_nao_primitivos.exercicio import (
     Dificuldade,
     Materia,
 )
-from ...dominio.agregados.avaliacao import Avaliacao
-from ...dominio.agregados.exercicio import Exercicio
+from garcom.contextos_de_negocio.estrutura_de_provas.dominio.agregados.avaliacao import Avaliacao
+from garcom.contextos_de_negocio.estrutura_de_provas.dominio.agregados.exercicio import Exercicio
 
 exercicios = DbTable(
     'exercicio',
@@ -33,7 +33,7 @@ avaliacao = DbTable(
     metadata,
     DbColumn.uuid_primary_key('id'),
     DbColumn('titulo', String(length=255), nullable=False, index=True),
-    DbColumn('responsavel', String(length=255), nullable=False, index=True),
+    DbColumn('responsavel', UUID(as_uuid=True), ForeignKey('usuarios.id'), nullable=False, index=True),
     DbColumn('tipo_de_avaliacao', Enum(TipoDeAvaliacao), nullable=False),
 )
 
@@ -62,6 +62,6 @@ def start_mappers() -> None:
                 secondary=exercicios_prova,
                 lazy='subquery',
                 collection_class=set,
-            )
+            ),
         },
     )

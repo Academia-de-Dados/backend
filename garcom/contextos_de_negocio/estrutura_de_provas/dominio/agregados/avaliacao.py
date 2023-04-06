@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Optional
 
 from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
-from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId
+from garcom.adaptadores.tipos_nao_primitivos.tipos import AvaliacaoId, UsuarioId
 
 from ....agregado import Agregado
 from ..agregados.exercicio import Exercicio
@@ -13,7 +13,7 @@ from ..comandos.avaliacao import CriarAvaliacao
 class Avaliacao(Agregado):
 
     titulo: str
-    responsavel: str
+    responsavel: UsuarioId
     tipo_de_avaliacao: TipoDeAvaliacao
     exercicios: set[Exercicio]
     id: Optional[AvaliacaoId] = None
