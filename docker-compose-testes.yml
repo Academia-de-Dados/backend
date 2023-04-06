@@ -1,20 +1,9 @@
 version: '3.5'
 services:
 
-  postgres_test:
-    image: 'postgres:14'
-    container_name: postgres-test-integra
-    env_file: '.env'
-    environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=postgres
-    ports:
-      - "5431:5432"
-
   postgres:
     image: 'postgres:14'
-    container_name: postgres-test-api
+    container_name: postgres-api
     env_file: '.env'
     environment:
       - POSTGRES_DB=postgres
