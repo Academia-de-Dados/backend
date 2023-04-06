@@ -7,7 +7,7 @@ from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
 from garcom.adaptadores.tipos_nao_primitivos.tipos import (
     AvaliacaoId,
     ExercicioId,
-    UsuarioId
+    UsuarioId,
 )
 
 from .adaptadores.tipos_nao_primitivos.exercicio import Dificuldade, Materia

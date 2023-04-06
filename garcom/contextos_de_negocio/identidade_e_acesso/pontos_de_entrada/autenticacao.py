@@ -1,5 +1,6 @@
-from fastapi import Depends
 from typing import Annotated
+
+from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
 
@@ -10,8 +11,14 @@ from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
     MANIPULADORES_IDENTIDADE_E_ACESSO_COMANDOS,
     MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
+    Usuario,
+)
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     BuscarUsuarioPorEmail,
+)
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
+    TipoDeAcesso,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.regras_de_negocio.encriptografia import (
     validar_token_de_acesso,
@@ -21,13 +28,6 @@ from garcom.contextos_de_negocio.identidade_e_acesso.excecoes import (
     UsuarioNaoAutorizado,
     UsuarioNaoEncontrado,
 )
-from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
-    Usuario,
-)
-from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
-    TipoDeAcesso,
-)
-
 
 oauth2_scheme = OAuth2PasswordBearer(
     tokenUrl='usuarios/signin/', scheme_name='JWT'
@@ -90,7 +90,7 @@ def usuario_administrador(usuario: Usuario = Depends(pegar_usuario_ativo)):
             extra={'usuario': usuario.email},
         )
         raise exececao
-    
+
     return usuario
 
 
@@ -103,5 +103,5 @@ def usuario_professor(usuario: Usuario = Depends(pegar_usuario_ativo)):
             extra={'usuario': usuario.email},
         )
         raise exececao
-    
+
     return usuario
