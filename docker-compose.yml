@@ -9,7 +9,7 @@ services:
       - '.:/app'
     env_file: '.env'
     environment:
-      - DATABASE_URI=postgresql://postgres:$postgres@postgres:5432/postgres
+      - DATABASE_URI=postgresql://postgres:postgres@postgres:5432/postgres
     command: uvicorn garcom.aplicacao.main:app --reload --host 0.0.0.0
     ports:
       - '8000:8000'
