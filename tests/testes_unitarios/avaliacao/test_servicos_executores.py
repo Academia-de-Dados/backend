@@ -19,6 +19,7 @@ from garcom.adaptadores.tipos_nao_primitivos.avaliacao import TipoDeAvaliacao
 from garcom.contextos_de_negocio.estrutura_de_provas.servicos.executores.avaliacao import (
     adicionar_avaliacao,
 )
+from garcom.adaptadores.tipos_nao_primitivos.tipos import UsuarioId
 
 
 def test_adicionar_avaliacao(mock_uow):
@@ -39,7 +40,7 @@ def test_adicionar_avaliacao(mock_uow):
     # adicionando avaliacao
     comando = CriarAvaliacao(
         titulo="Avaliação de Matemática",
-        responsavel="Othon",
+        responsavel=UsuarioId(),
         tipo_de_avaliacao=TipoDeAvaliacao.avaliacao_ensino_medio,
         exercicios={exercicio.id},
     )

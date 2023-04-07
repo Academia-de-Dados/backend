@@ -1,3 +1,5 @@
+from typing import Annotated
+
 from fastapi import Depends
 from fastapi.security import OAuth2PasswordBearer
 from jose import JWTError
@@ -9,8 +11,14 @@ from garcom.contextos_de_negocio.barramento.identidade_e_acesso import (
     MANIPULADORES_IDENTIDADE_E_ACESSO_COMANDOS,
     MANIPULADORES_IDENTIDADE_E_ACESSO_EVENTOS,
 )
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
+    Usuario,
+)
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.comandos.usuario import (
     BuscarUsuarioPorEmail,
+)
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
+    TipoDeAcesso,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.regras_de_negocio.encriptografia import (
     validar_token_de_acesso,
@@ -32,7 +40,10 @@ exececao = UsuarioNaoAutorizado(
 )
 
 
-def pegar_usuario_ativo(token: str = Depends(oauth2_scheme)):
+Token = Annotated[str, Depends(oauth2_scheme)]
+
+
+def pegar_usuario_ativo(token: Token) -> Usuario:
 
     unidade_de_trabalho = UnidadeDeTrabalho()
     try:
@@ -66,5 +77,31 @@ def pegar_usuario_ativo(token: str = Depends(oauth2_scheme)):
             detail='Usuário não encontrado!',
             headers={'WWW-Authenticate': 'Bearer'},
         )
+
+    return usuario
+
+
+def usuario_administrador(usuario: Usuario = Depends(pegar_usuario_ativo)):
+
+    tipo_de_acesso = usuario.tipo_de_acesso
+    if tipo_de_acesso != TipoDeAcesso.administrador:
+        loggers.error(
+            'Usuário não autorizado a realizar esta ação!',
+            extra={'usuario': usuario.email},
+        )
+        raise exececao
+
+    return usuario
+
+
+def usuario_professor(usuario: Usuario = Depends(pegar_usuario_ativo)):
+
+    tipo_de_acesso = usuario.tipo_de_acesso
+    if tipo_de_acesso != TipoDeAcesso.professor:
+        loggers.error(
+            'Usuário não autorizado a realizar esta ação!',
+            extra={'usuario': usuario.email},
+        )
+        raise exececao
 
     return usuario
