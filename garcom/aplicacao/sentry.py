@@ -8,7 +8,7 @@ from garcom.config import get_dsn_sentry
 
 loggers = logger
 
-#if get_dsn_sentry():
+# if get_dsn_sentry():
 #    init(
 #        dsn=get_dsn_sentry(),
 #        integrations=[LoggingIntegration(level=ERROR, event_level=ERROR)],

@@ -2,18 +2,18 @@ from typing import Annotated
 
 from fastapi import Depends
 
-from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.autenticacao import (
-    pegar_usuario_ativo,
+from garcom.aplicacao.sentry import loggers
+from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
+    Usuario,
 )
 from garcom.contextos_de_negocio.identidade_e_acesso.dominio.objeto_de_valor.tipo_de_acesso import (
     TipoDeAcesso,
 )
-from garcom.contextos_de_negocio.identidade_e_acesso.dominio.agregados.usuarios import (
-    Usuario,
-)
-from garcom.aplicacao.sentry import loggers
 from garcom.contextos_de_negocio.identidade_e_acesso.excecoes import (
     UsuarioSemPermissaoNecessaria,
+)
+from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.autenticacao import (
+    pegar_usuario_ativo,
 )
 
 UsuarioAtivo = Annotated[Usuario, Depends(pegar_usuario_ativo)]

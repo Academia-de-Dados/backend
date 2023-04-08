@@ -1,6 +1,6 @@
 from typing import List
 
-from fastapi import APIRouter, Response, Depends
+from fastapi import APIRouter, Depends, Response
 
 from garcom.adaptadores.tipos_nao_primitivos.tipos import (
     AvaliacaoId,
@@ -8,6 +8,9 @@ from garcom.adaptadores.tipos_nao_primitivos.tipos import (
 )
 from garcom.barramento import BarramentoDeMensagens
 from garcom.camada_de_servicos.unidade_de_trabalho.udt import UnidadeDeTrabalho
+from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.permissoes import (
+    usuario_professor,
+)
 from garcom.representacoes import (
     AvaliacaoModelConsulta,
     AvaliacaoModelDominio,
@@ -25,10 +28,6 @@ from ..dominio.comandos.avaliacao import CriarAvaliacao
 from ..dominio.comandos.exercicio import CriarExercicio
 from ..servicos.visualizadores.avaliacao import consultar_avaliacoes
 from ..servicos.visualizadores.exercicios import consultar_exercicios
-
-from garcom.contextos_de_negocio.identidade_e_acesso.pontos_de_entrada.permissoes import (
-    usuario_professor
-)
 
 router_estrutura_de_provas = APIRouter(tags=['Estrutura de Provas'])
 
@@ -100,10 +99,10 @@ def consultar_todas_avaliacoes() -> List[Avaliacao]:
 
 
 @router_estrutura_de_provas.post(
-    '/avaliacao', 
-    response_model=AvaliacaoId, 
+    '/avaliacao',
+    response_model=AvaliacaoId,
     status_code=201,
-    dependencies=[Depends(usuario_professor)]
+    dependencies=[Depends(usuario_professor)],
 )
 def cadastrar_nova_avaliacao(avaliacao: AvaliacaoModelDominio) -> AvaliacaoId:
 
