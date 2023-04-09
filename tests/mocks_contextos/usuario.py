@@ -31,8 +31,9 @@ def mock_usuario_gen(cliente, session):
 
 @fixture(scope="function")
 def mock_gerar_token_autenticado(mock_usuario_gen, cliente, session):
-    def criar_mock():
-        id_usuario = mock_usuario_gen()
+    def criar_mock(usuario_id: str = None):
+        if not usuario_id:
+            usuario_id = mock_usuario_gen()
 
         dados = {
             "username": "usuarioteste@gmail.com",
@@ -48,6 +49,6 @@ def mock_gerar_token_autenticado(mock_usuario_gen, cliente, session):
 
         assert resposta.status_code == 200
 
-        return id_usuario, resposta.json()["access_token"]
+        return usuario_id, resposta.json()["access_token"]
 
     yield criar_mock

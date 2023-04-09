@@ -68,6 +68,9 @@ run:  ## Roda a aplicação.
 run-dev:  ## Roda a aplicação (não executar em produção).
 	@ uvicorn $(SRC_DIRS).aplicacao.main:app --reload
 
+run-compose:
+	@ $(DC) -f docker-compose.yml up
+
 
 .PRHONY: help
 help:
